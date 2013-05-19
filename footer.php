@@ -13,7 +13,7 @@
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
 		<div class="site-info">
-			<?php printf( __( '%1$s Theme made with %2$s on %3$s', 'designsimply' ), '<a href="http://designsimply.com/theme/" rel="designer">Design Simply</a>', '<a href="http://underscores.me/" rel="inspiration">Underscores.me</a>', '<a href="http://wordpress.org/" rel="generator">WordPress</a>' ); ?>
+			<?php printf( __( '%1$s was made with %2$s for %3$s', 'designsimply' ), '<a href="http://designsimply.com/theme/" rel="designer">Design Simply</a>', '<a href="http://underscores.me/" rel="inspiration">Underscores.me</a>', '<a href="http://wordpress.org/" rel="generator">WordPress</a>' ); ?>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon .site-footer -->
 </div><!-- #page .hfeed .site -->
