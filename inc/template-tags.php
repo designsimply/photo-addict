@@ -184,3 +184,50 @@ function designsimply_category_transient_flusher() {
 }
 add_action( 'edit_category', 'designsimply_category_transient_flusher' );
 add_action( 'save_post', 'designsimply_category_transient_flusher' );
+
+if ( ! function_exists( 'designsimply_tonesque_css' ) ) :
+/**
+ * Print Tonesque css for image posts
+ */
+function designsimply_tonesque_css() {
+	global $post;
+
+	if ( ! class_exists( 'Tonesque' ) )
+		include_once(  TEMPLATEPATH . '/inc/tonesque.php' );
+
+	$image_content = function_exists( 'get_the_post_format_image' ) ? get_the_post_format_image( 'full', $post ) : get_the_content();
+	$image_content = wp_attachment_is_image() ? wp_get_attachment_image( $post_id ) : $image_content;
+	$output        = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $image_content, $matches );
+	$first_image   = isset( $matches[1][0] ) ? $matches[1][0] : '';
+
+	if ( ! $first_image ) :
+		return;
+	else :
+		$tonesque = new Tonesque( $first_image );
+		$color = $tonesque->color();
+		$contrast = $tonesque->contrast();
+		$id = get_the_ID();
+		$postid = '.postid-' . $id;
+		echo '<style scoped>
+			' . $postid . ' {background-color: #' . $color . ';}
+			' . $postid . ' .entry-meta time {background-color: #' . $color . ';}
+			' . $postid . ',
+			' . $postid . ' a,
+			' . $postid . ' .site-header h1 a,
+			' . $postid . ' .entry-title,
+			' . $postid . ' .entry-title a {color: rgb(' . $contrast . ');}
+			' . $postid . ' a:hover,
+			' . $postid . ' .entry-title a:hover {color: rgba(' . $contrast . ', 0.7);}
+			' . $postid . ' .entry-format-badge {background-color: rgb(' . $contrast . ');}
+			' . $postid . ' .entry-format-badge:hover {background-color: rgba(' . $contrast . ', 0.7);}
+			' . $postid . ' a.entry-format-badge:before {color: #' . $color . ';}
+			' . $postid . ' .entry-meta span,
+			' . $postid . ' .entry-meta,
+			' . $postid . ' div.sharedaddy div.sd-block {border-color: rgba(' . $contrast . ', 0.1);}
+			' . $postid . ' .entry-content a {border-color: rgba(' . $contrast . ', 0.2);}
+			' . $postid . ' .entry-content a:hover {border-color: rgba(' . $contrast . ', 1); color: rgb(' . $contrast . ');}
+			' . $postid . ' .entry-meta span + span:before {color: rgba(' . $contrast . ', 0.2);}
+		</style>';
+	endif;
+}
+endif; // ends check for designsimply_tonesque_css()

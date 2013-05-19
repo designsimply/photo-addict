@@ -15,6 +15,7 @@ get_header();
 			<?php while ( have_posts() ) : the_post(); ?>
 
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+					<?php designsimply_tonesque_css(); // Print post-specific color css ?>
 					<header class="entry-header">
 						<h2 class="entry-title"><?php the_title(); ?></h2>
 

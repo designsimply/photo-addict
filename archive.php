@@ -14,7 +14,7 @@ get_header(); ?>
 			<div id="content" class="site-content" role="main">
 
 			<?php if ( have_posts() ) : ?>
-
+				<?php designsimply_tonesque_css(); // Print post-specific tonesque color styles ?>
 				<header class="page-header">
 					<h1 class="page-title">
 						<?php
