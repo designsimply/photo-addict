@@ -13,10 +13,7 @@
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
 		<div class="site-info">
-			<?php do_action( 'designsimply_credits' ); ?>
-			<a href="http://wordpress.org/" title="<?php esc_attr_e( 'A Semantic Personal Publishing Platform', 'designsimply' ); ?>" rel="generator"><?php printf( __( 'Proudly powered by %s', 'designsimply' ), 'WordPress' ); ?></a>
-			<span class="sep"> | </span>
-			<?php printf( __( 'Theme: %1$s by %2$s.', 'designsimply' ), 'designsimply', '<a href="http://underscores.me/" rel="designer">Underscores.me</a>' ); ?>
+			<?php printf( __( '%1$s Theme made with %2$s on %3$s', 'designsimply' ), '<a href="http://designsimply.com/theme/" rel="designer">Design Simply</a>', '<a href="http://underscores.me/" rel="inspiration">Underscores.me</a>', '<a href="http://wordpress.org/" rel="generator">WordPress</a>' ); ?>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon .site-footer -->
 </div><!-- #page .hfeed .site -->
