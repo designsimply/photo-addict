@@ -66,6 +66,7 @@
 				<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
 			<?php } ?>
 		</hgroup>
+	</header><!-- #masthead .site-header -->
 
 		<?php if ( ! is_single() && ! is_page() ) { ?>
 		<nav role="navigation" class="site-navigation main-navigation">
@@ -75,6 +76,5 @@
 			<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
 		</nav><!-- .site-navigation .main-navigation -->
 		<?php } ?>
-	</header><!-- #masthead .site-header -->
 
 	<div id="main" class="site-main">
