@@ -5,21 +5,45 @@
  * @package designsimply
  * @since designsimply 1.0
  */
-
+ 
 get_header();
 ?>
 
-		<div id="primary" class="content-area image-attachment">
-			<div id="content" class="site-content" role="main">
-
 			<?php while ( have_posts() ) : the_post(); ?>
+			<?php designsimply_tonesque_css(); // Print post-specific color css ?>
+			<header>
+			<h2><?php the_title(); ?></h2>
+			<p class="entry-meta">
+			<?php
+				$metadata = wp_get_attachment_metadata();
+				printf( __( '<a href="%1$s" title="%2$s" rel="gallery">%2$s</a>', 'designsimply' ),
+					get_permalink( $post->post_parent ),
+					get_the_title( $post->post_parent )
+				);
+			?>
+			<nav id="image-navigation" class="site-navigation">
+				<span class="previous-image"><?php previous_image_link( false, __( '<div class="genericon-button genericon-collapse"></div>', 'designsimply' ) ); ?></span>
+				<span class="next-image"><?php next_image_link( false, __( '<div class="genericon-button genericon-expand"></div>', 'designsimply' ) ); ?></span>
+			</nav><!-- #image-navigation -->
+			</p>
+			</header>
+			<div class="container">
+				<!--<a href="<?php echo $next_attachment_url; ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment">-->
+					<?php
+						$attachment_size = apply_filters( 'designsimply_attachment_size', array( 768, 768 ) ); // Filterable image size.
+						echo wp_get_attachment_image( $post->ID, $attachment_size );
+					?>
+				<!--</a>-->
+			</div>
 
-				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-					<?php designsimply_tonesque_css(); // Print post-specific color css ?>
-					<header class="entry-header">
-						<h2 class="entry-title"><?php the_title(); ?></h2>
+			<div class="byline">
+				<div class="genericon-22 genericon-image"></div> 
+				by <a href="/about/"><?php echo esc_html( get_the_author() ); ?></a> 
+				// <?php esc_html( the_date() ); ?> 
+				<?php edit_post_link( __( 'edit', 'designsimply' ) ); ?>
+			</div>
 
-						<div class="entry-meta">
+						<p class="entry-meta">
 							<?php
 								$metadata = wp_get_attachment_metadata();
 								printf( __( 'Published <span class="entry-date"><time class="entry-date" datetime="%1$s" pubdate>%2$s</time></span> at <a href="%3$s" title="Link to full-size image">%4$s &times; %5$s</a> in <a href="%6$s" title="Return to %7$s" rel="gallery">%7$s</a>', 'designsimply' ),
@@ -32,19 +56,11 @@ get_header();
 									get_the_title( $post->post_parent )
 								);
 							?>
-							<?php edit_post_link( __( 'Edit', 'designsimply' ), '<span class="sep"> | </span> <span class="edit-link">', '</span>' ); ?>
-						</div><!-- .entry-meta -->
+							<?php edit_post_link( __( 'edit', 'designsimply' ) ); ?>
+						</p><!-- .entry-meta -->
 
-						<nav id="image-navigation" class="site-navigation">
-							<span class="previous-image"><?php previous_image_link( false, __( '&larr; Previous', 'designsimply' ) ); ?></span>
-							<span class="next-image"><?php next_image_link( false, __( 'Next &rarr;', 'designsimply' ) ); ?></span>
-						</nav><!-- #image-navigation -->
-					</header><!-- .entry-header -->
 
-					<div class="entry-content">
 
-						<div class="entry-attachment">
-							<div class="attachment">
 								<?php
 									/**
 									 * Grab the IDs of all the image attachments in a gallery so we can get the URL of the next adjacent image in a gallery,
@@ -70,23 +86,15 @@ get_header();
 									}
 								?>
 
-								<a href="<?php echo $next_attachment_url; ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php
-									$attachment_size = apply_filters( 'designsimply_attachment_size', array( 1200, 1200 ) ); // Filterable image size.
-									echo wp_get_attachment_image( $post->ID, $attachment_size );
-								?></a>
-							</div><!-- .attachment -->
-
 							<?php if ( ! empty( $post->post_excerpt ) ) : ?>
 							<div class="entry-caption">
 								<?php the_excerpt(); ?>
 							</div><!-- .entry-caption -->
 							<?php endif; ?>
-						</div><!-- .entry-attachment -->
 
 						<?php the_content(); ?>
 						<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'designsimply' ), 'after' => '</div>' ) ); ?>
 
-					</div><!-- .entry-content -->
 
 					<footer class="entry-meta">
 						<?php if ( comments_open() && pings_open() ) : // Comments and trackbacks open ?>
@@ -100,13 +108,9 @@ get_header();
 						<?php endif; ?>
 						<?php edit_post_link( __( 'Edit', 'designsimply' ), ' <span class="edit-link">', '</span>' ); ?>
 					</footer><!-- .entry-meta -->
-				</article><!-- #post-<?php the_ID(); ?> -->
 
 				<?php comments_template(); ?>
 
 			<?php endwhile; // end of the loop. ?>
-
-			</div><!-- #content .site-content -->
-		</div><!-- #primary .content-area .image-attachment -->
 
 <?php get_footer(); ?>

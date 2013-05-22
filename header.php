@@ -47,6 +47,7 @@
 <link href='http://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/open-baskerville" rel="stylesheet" type="text/css"/> 
 <link rel="stylesheet" href="http://s0.wordpress.com/i/noticons/noticons.css">
+<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/genericons.css">
 
 
 <!--[if lt IE 9]>
@@ -57,24 +58,35 @@
 </head>
 
 <body <?php body_class(); ?>>
-<div id="page" class="hfeed site">
 	<?php do_action( 'before' ); ?>
-	<header id="masthead" class="site-header" role="banner">
-		<hgroup>
-			<h1 class="site-title"><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+	<header role="banner">
+		<div id="site-title">
+			<h1><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"
+				 class="rotate"
+				><?php bloginfo( 'name' ); ?></a></h1>
 			<?php if ( is_home() ) { ?>
-				<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
+				<h2><?php bloginfo( 'description' ); ?></h2>
 			<?php } ?>
-		</hgroup>
-	</header><!-- #masthead .site-header -->
+		</div>
 
-		<?php if ( ! is_single() && ! is_page() ) { ?>
-		<nav role="navigation" class="site-navigation main-navigation">
-			<h2 class="assistive-text"><?php _e( 'Menu', 'designsimply' ); ?></h2>
-			<div class="assistive-text skip-link"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'designsimply' ); ?>"><?php _e( 'Skip to content', 'designsimply' ); ?></a></div>
+		<a name="image"></a>
+		<div id="random-images">
+			<ul>
+			<?php
+				$all_images =& get_children( 'post_parent=&post_type=attachment&post_mime_type=image&numberposts=-1&poststatus=publish' );
+				$images = array_rand( $all_images, 22 );
 
-			<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
-		</nav><!-- .site-navigation .main-navigation -->
-		<?php } ?>
+				if ( ! empty($images) ) { 
+					for ( $i = 0; $i < 9; $i++ ) { 
+					$random = array_rand($all_images);
+					echo '<li><a href="' . get_permalink($random) . '#image">';
+					echo wp_get_attachment_image( $random, 'thumbnail' );
+					echo '</a></li> ';
+					} 
+				}
+			?>
+			</ul>
+        </div><!-- #random-images -->
+	</header>
 
-	<div id="main" class="site-main">
+	<div id="main">
