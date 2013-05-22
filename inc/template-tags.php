@@ -209,24 +209,29 @@ function designsimply_tonesque_css() {
 		$id = get_the_ID();
 		$postid = '.postid-' . $id;
 		echo '<style scoped>
-			' . $postid . ' {background-color: #' . $color . ';}
-			' . $postid . ' .entry-meta time {background-color: #' . $color . ';}
-			' . $postid . ',
-			' . $postid . ' a,
-			' . $postid . ' .site-header h1 a,
-			' . $postid . ' .entry-title,
-			' . $postid . ' .entry-title a {color: rgb(' . $contrast . ');}
-			' . $postid . ' a:hover,
-			' . $postid . ' .entry-title a:hover {color: rgba(' . $contrast . ', 0.7);}
-			' . $postid . ' .entry-format-badge {background-color: rgb(' . $contrast . ');}
-			' . $postid . ' .entry-format-badge:hover {background-color: rgba(' . $contrast . ', 0.7);}
-			' . $postid . ' a.entry-format-badge:before {color: #' . $color . ';}
-			' . $postid . ' .entry-meta span,
-			' . $postid . ' .entry-meta,
-			' . $postid . ' div.sharedaddy div.sd-block {border-color: rgba(' . $contrast . ', 0.1);}
-			' . $postid . ' .entry-content a {border-color: rgba(' . $contrast . ', 0.2);}
-			' . $postid . ' .entry-content a:hover {border-color: rgba(' . $contrast . ', 1); color: rgb(' . $contrast . ');}
-			' . $postid . ' .entry-meta span + span:before {color: rgba(' . $contrast . ', 0.2);}
+			.attachment .container { background-color: rgba(' . $contrast . ', 0.1); }
+			body {background-color: #' . $color . ';}
+			body .entry-meta time {background-color: #' . $color . ';}
+			body,
+			body a,
+			body a:visited,
+			body #site-title h1 a,
+			body .entry-title,
+			body .entry-title a {color: rgba(' . $contrast . ', 0.5);}
+			a:hover,
+			.entry-title a:hover {color: rgba(' . $contrast . ', 0.9);}
+			body #random-images ul { border-top: 1px dotted rgba(' . $contrast . ', 0.2); border-bottom: 1px dotted rgba(' . $contrast . ', 0.2);}
+			body .bio p {color: rgba(' . $contrast . ', 0.6);}
+			body .entry-format-badge {background-color: rgb(' . $contrast . ');}
+			#image-navigation span:before {background-color: rgba(' . $contrast . ', 0.4);}
+			body .entry-format-badge:hover {background-color: rgba(' . $contrast . ', 0.7);}
+			body a.entry-format-badge:before {color: #' . $color . ';}
+			body .entry-meta span,
+			body .entry-meta,
+			body div.sharedaddy div.sd-block {border-color: rgba(' . $contrast . ', 0.1);}
+			body .entry-content a {border-color: rgba(' . $contrast . ', 0.2);}
+			body .entry-content a:hover {border-color: rgba(' . $contrast . ', 1); color: rgb(' . $contrast . ');}
+			body .entry-meta span + span:before {color: rgba(' . $contrast . ', 0.2);}
 		</style>';
 	endif;
 }
