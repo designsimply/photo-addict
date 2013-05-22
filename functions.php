@@ -62,6 +62,7 @@ function designsimply_setup() {
 		'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video'
 	) );
 
+	/*
 	function swb_exclude_some_post_formats( $query ) {
 	
 		if( $query->is_main_query() && $query->is_home() ) {
@@ -76,6 +77,7 @@ function designsimply_setup() {
 	 
 	}
 	add_action( 'pre_get_posts', 'swb_exclude_some_post_formats' );
+	*/
 
 	/**
 	 * Enable support for Post Thumbnails
