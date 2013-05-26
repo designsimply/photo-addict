@@ -189,7 +189,7 @@ if ( ! function_exists( 'designsimply_tonesque_css' ) ) :
 /**
  * Print Tonesque css for image posts
  */
-function designsimply_tonesque_css() {
+function designsimply_tonesque_css( $my_color = '' ) {
 	global $post;
 
 	if ( ! class_exists( 'Tonesque' ) )
@@ -205,12 +205,13 @@ function designsimply_tonesque_css() {
 	else :
 		$tonesque = new Tonesque( $first_image );
 		$color = $tonesque->color();
+		if ( $my_color ) { $color = $my_color; }
 		$contrast = $tonesque->contrast();
 		$id = get_the_ID();
 		$postid = '.postid-' . $id;
-		echo '<style scoped>
-			.attachment .container { background-color: rgba(' . $contrast . ', 0.1); }
-			body {background-color: #' . $color . ';}
+		echo '<style>
+			/*.attachment .image-container { background: rgba(' . $contrast . ', 0.1); }*/
+			body {background: #' . $color . ';}
 			body .entry-meta time {background-color: #' . $color . ';}
 			body,
 			body a,
@@ -231,7 +232,11 @@ function designsimply_tonesque_css() {
 			body div.sharedaddy div.sd-block {border-color: rgba(' . $contrast . ', 0.1);}
 			body .entry-content a {border-color: rgba(' . $contrast . ', 0.2);}
 			body .entry-content a:hover {border-color: rgba(' . $contrast . ', 1); color: rgb(' . $contrast . ');}
+			body img {border: 2px solid rgba(' . $contrast . ', 0.1);}
 			body .entry-meta span + span:before {color: rgba(' . $contrast . ', 0.2);}
+			body input[type=text]:focus, body input[type=email]:focus, body textarea:focus { color: rgba(' . $contrast . ', 0.7); }
+			body input[type=text], body input[type=email], body textarea { color: rgba(' . $contrast . ', 0.5); border-color: rgba(' . $contrast . ', 0.8); }
+			body button, html body input[type="button"], body input[type="reset"], body input[type="submit"] { border: 1px solid rgba(' . $contrast . ', 0.8); border-color: rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.6), rgba(' . $contrast . ', 0.8); }
 		</style>';
 	endif;
 }
