@@ -65,10 +65,7 @@
 
 	<?php comment_form( array(
 		'comment_notes_before' => '',
-		'comment_notes_after' => sprintf(
-			'<p class="guidelines">%1$s</p>',
-			__( 'Basic <abbr title="Hypertext Markup Language">HTML</abbr> is allowed. Your email address will not be published.', 'designsimply' )
-			)
+		'comment_notes_after' => ''
 		)
 	); ?>
 
