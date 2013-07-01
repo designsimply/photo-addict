@@ -128,9 +128,10 @@ function designsimply_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
-	if ( is_singular() && wp_attachment_is_image() ) {
+	//if ( is_singular() && wp_attachment_is_image() ) {
+	//if ( is_singular() ) {
 		wp_enqueue_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20120202' );
-	}
+	//}
 
 	/* translators: If there are characters in your language that are not supported
 	   by Open Sans, translate this to 'off'. Do not translate into your own language. */
@@ -162,3 +163,43 @@ add_action( 'wp_enqueue_scripts', 'designsimply_scripts' );
  * Implement the Custom Header feature
  */
 //require( get_template_directory() . '/inc/custom-header.php' );
+
+add_action('wp_head', 'show_template');
+function show_template() {
+	global $template;
+	echo "<!-- >>>>>>>>>> $template <<<<<<<<<< -->
+	";
+}
+add_filter( 'got_rewrite', '__return_true' );
+
+add_filter('previous_image_link', 'designsimply_previous_image_link',10,3);
+/**
+ * Filter to add a link back to the parent on the last image attachment page
+ **/
+function designsimply_previous_image_link($val, $attr, $content = null)
+{
+	global $post;
+
+	if ( '' == $val ) :
+		$output = __( '<a class="post_parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate90"></div></a>', 'designsimply' );
+	else : 
+		$output = $val;
+	endif;
+	return $output;
+}
+
+add_filter('next_image_link', 'designsimply_next_image_link',10,3);
+/**
+ * Filter to add a link back to the parent on the last image attachment page
+ **/
+function designsimply_next_image_link($val, $attr, $content = null)
+{
+	global $post;
+
+	if ( '' == $val ) :
+		$output = __( '<a class="post_parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate270"></div></a>', 'designsimply' );
+	else : 
+		$output = $val;
+	endif;
+	return $output;
+}
