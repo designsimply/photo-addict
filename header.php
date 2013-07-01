@@ -16,20 +16,10 @@
 <meta name="description" content="<?php echo $site_description; ?>" />
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/genericons.css">
-<link rel="stylesheet" href="home.css">
-
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:300normal' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Lato:100normal,300normal,600normal,700normal,900normal' rel='stylesheet' type='text/css'>
-
-<link href='http://fonts.googleapis.com/css?family=Oswald:400,700' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Overlock:400,700,900' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Merriweather:400,700' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Gudea' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Raleway:100normal,200normal,300normal' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Forum' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
-
+<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/genericons.css">
+<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/open-sans.css">
+<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/lato.css">
+<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/overlock.css">
 </head>
 
 <!--[if lt IE 9]>
@@ -42,29 +32,36 @@
 <body <?php body_class(); ?>>
 <?php do_action( 'before' ); ?>
 
+	<div id="bg-container"></div>
+	<div id="wrapper">
+	<?php if ( is_home() ) : ?>
 	<header>
-		<?php if ( ! is_attachment() ) { ?>
 		<h1><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-		<?php } ?>
 		<em><?php bloginfo( 'description' ); ?></em>
 	</header>
+	<?php endif; ?>
 
+	<?php if ( is_home() || is_attachment() ) { ?>
 	<div id="random-images">
 		<?php
 			$all_images =& get_children( 'post_parent=&post_type=attachment&post_mime_type=image&numberposts=-1&poststatus=publish' );
 			$images = array_rand( $all_images, 22 );
 			designsimply_tonesque_css( wp_get_attachment_image_src( $images[0], 'thumbnail' )[0] );
 
-			if ( ! empty($images) ) { 
-				for ( $i = 0; $i < 9; $i++ ) { 
+			$image_num = 11;
+			//if ( is_home() ) { $image_num = 10; }
+
+			if ( ! empty($images) ) {
+				for ( $i = 0; $i < $image_num; $i++ ) {
 				$random = array_rand($all_images);
 				//echo ' <a href="' . get_permalink($random) . '#image">';
-				echo ' <a href="' . get_permalink($random) . '">';
+				echo ' <a href="' . get_permalink($random) . '"';
+				if ( $i==0 ) { echo ' class="first-random-image"'; }
+				echo '>';
 				echo wp_get_attachment_image( $random, 'thumbnail' );
 				echo '</a>';
-				} 
+				}
 			}
 		?>
 	</div><!-- #random-images -->
-
-	</header>
+	<?php } ?>
