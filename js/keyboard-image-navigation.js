@@ -7,7 +7,7 @@ jQuery( document ).ready( function( $ ) {
 		else if ( e.which == 39 ) {  // Right arrow key code
 			url = $( '.next a' ).attr( 'href' );
 		}
-		else if ( e.which == 18 ) {  // alt key code
+		else if ( e.which == 192 ) {  // Backslash key code
 			url = $( '.first-random-image' ).attr( 'href' );
 		}
 		else if ( e.which == 191 ) {  // Forward slash key code
@@ -16,5 +16,6 @@ jQuery( document ).ready( function( $ ) {
 		if ( url && ( !$( 'textarea, input' ).is( ':focus' ) ) ) {
 			window.location = url;
 		}
+		// Find key codes at http://www.scripttheweb.com/js/ref/javascript-key-codes/
 	} );
 } );
