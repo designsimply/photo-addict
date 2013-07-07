@@ -38,6 +38,8 @@ get_header(); ?>
 				<li><a href="<?php the_permalink() ?>"><?php echo $post->post_title; //echo substr( $post->post_title, 0, 37 ); ?></a></li>
 			<?php
 				endwhile;
+				else :
+					get_template_part( 'no-results', 'index' );
 				endif;
 			?>
 			</ul>
@@ -100,22 +102,9 @@ get_header(); ?>
 		</article>
 	</section><!-- .content -->
 
-		<?php //else : ?>
+	<section class="side" role="complimentary">
 
-			<?php //get_template_part( 'no-results', 'index' ); ?>
-
-		<?php //endif; ?>
-
-	<!--<section class="side" role="complimentary">
-		<aside class="bio">
-			<p><img class="alignleft gravatar" src="http://0.gravatar.com/avatar/198723e26f9350d9bbe8d4f35a8b0bb7?size=116" />
-				Sheri Bigelow is a Creativity Cultivator for Automattic. She has blended a love of photography, a degree in
-				Business & Chemistry, a geeky penchant for optimizing nginx, and adoration for WordPress to help the world
-				create beautiful websites they love at WordPress.com. She’s passionate about working with the extraordinary
-				collection of talent that is Automattic and can usually be found speaking at WordCamps, skiing the Rockies,
-				kayaking the Adirondacks, or exploring Saratoga Springs, NY.</p>
-		</aside>
-	</section> .side -->
+	</section> <!-- .side -->
 
 <?php get_sidebar(); ?>
-<?php //get_footer(); ?>
+<?php get_footer(); ?>
