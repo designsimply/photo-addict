@@ -122,16 +122,13 @@ add_action( 'widgets_init', 'designsimply_widgets_init' );
 function designsimply_scripts() {
 	wp_enqueue_style( 'style', get_stylesheet_uri() );
 
-	wp_enqueue_script( 'small-menu', get_template_directory_uri() . '/js/small-menu.js', array( 'jquery' ), '20120206', true );
+	//wp_enqueue_script( 'small-menu', get_template_directory_uri() . '/js/small-menu.js', array( 'jquery' ), '20120206', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
-	//if ( is_singular() && wp_attachment_is_image() ) {
-	//if ( is_singular() ) {
-		wp_enqueue_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20120202' );
-	//}
+	wp_enqueue_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20120202' );
 
 	/* translators: If there are characters in your language that are not supported
 	   by Open Sans, translate this to 'off'. Do not translate into your own language. */
@@ -181,7 +178,7 @@ function designsimply_previous_image_link($val, $attr, $content = null)
 	global $post;
 
 	if ( '' == $val ) :
-		$output = __( '<a class="post_parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate90"></div></a>', 'designsimply' );
+		$output = __( '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate90"></div></a>', 'designsimply' );
 	else : 
 		$output = $val;
 	endif;
@@ -197,9 +194,91 @@ function designsimply_next_image_link($val, $attr, $content = null)
 	global $post;
 
 	if ( '' == $val ) :
-		$output = __( '<a class="post_parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate270"></div></a>', 'designsimply' );
+		$output = __( '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate270"></div></a>', 'designsimply' );
 	else : 
 		$output = $val;
 	endif;
 	return $output;
 }
+
+/**
+ * Get a random image
+ */
+function get_random_image_src( $size = 'thumbnail' ) {
+	$args = array(
+		'post_type' => 'attachment',
+		'post_mime_type' =>'image',
+		'post_status' => 'inherit',
+		'posts_per_page' => 1,
+        'orderby' => 'rand'
+	);
+	$query_images = new WP_Query( $args );
+	//debugs
+	//echo $query_images->post->ID;
+	//echo '<img src="'.$query_images->post->guid.'">';
+	//echo '<pre>'; var_dump( $query_images ); echo '</pre>';
+	$random_image = wp_get_attachment_image_src ( $query_images->post->ID, $size);
+	return $random_image[0];
+}
+
+if ( ! function_exists( 'designsimply_tonesque_css' ) ) :
+/**
+ * Print Tonesque css for image posts
+ */
+function designsimply_tonesque_css( $my_color = '' ) {
+	global $post;
+
+	if ( ! class_exists( 'Tonesque' ) )
+		include_once(  TEMPLATEPATH . '/inc/tonesque.php' );
+
+	$image_content = function_exists( 'get_the_post_format_image' ) ? get_the_post_format_image( 'large', $post ) : get_the_content();
+	$image_content = wp_attachment_is_image() ? wp_get_attachment_image( $post_id, 'large' ) : $image_content;
+	$post_images   = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $image_content, $matches );
+	$first_image   = isset( $matches[1][0] ) ? $matches[1][0] : '';
+	//echo '<br>the first_image'.$first_image;
+	//echo '<br><pre>my_color'.$my_color.'</pre> asdf';
+	if ( substr( $my_color, 0, 4 ) == 'http' ) { $first_image = $my_color; }
+
+	if ( ! $first_image ) : // If there's no image, use a random attachment image
+		$first_image = get_random_image_src( 'thumbnail' );
+	endif;
+
+	$tonesque = new Tonesque( $first_image );
+	$color = $tonesque->color();
+	$contrast = $tonesque->contrast();
+	$id = get_the_ID();
+	$postid = '.postid-' . $id;
+	echo '<style>
+		#bg-container { 
+			position: fixed;
+			display: block;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: -1;
+			background: url(' . $first_image . ') center / 2000%;
+			opacity: .2;
+			-webkit-filter: blur(50px);
+			filter: blur(50px);
+		}
+		.home #bg-container, .attachment #bg-container { opacity: .4 }
+		#bg-container { filter:url(#blur50); } /* SVG blur for Firefox */
+		body #random-images a { border: 2px solid rgba(' . $contrast . ', 0.1); }
+		body {background: #' . $color . ';}
+		body,
+		body a,
+		body a:visited { color: rgba(' . $contrast . ', 0.7); }
+		body a:hover { color: rgba(' . $contrast . ', 1); }
+		body div.sharedaddy div.sd-block {border-color: rgba(' . $contrast . ', 0.1); }
+		body .the-content a { border-bottom: 1px solid rgba(' . $contrast . ', 0.4); }
+		body .the-content a:hover { border-color: rgba(' . $contrast . ', .9); color: rgba(' . $contrast . ', .9); }
+		body .the-content .gallery-item a,
+		body .the-content .gallery-item a:hover { border: none; }
+		body input[type=text]:focus, body input[type=email]:focus, body textarea:focus { color: rgba(' . $contrast . ', 0.7); }
+		body input[type=text], body input[type=email], body textarea { color: rgba(' . $contrast . ', 0.5); border-color: rgba(' . $contrast . ', 0.8); }
+		body button, html body input[type="button"], body input[type="reset"], body input[type="submit"] { border: 1px solid rgba(' . $contrast . ', 0.8); border-color: rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.6), rgba(' . $contrast . ', 0.8); }
+	</style>';
+}
+endif; // ends check for designsimply_tonesque_css()
+

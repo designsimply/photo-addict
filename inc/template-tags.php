@@ -132,7 +132,7 @@ if ( ! function_exists( 'designsimply_posted_by' ) ) :
  */
 function designsimply_posted_by() {
 	if ( is_single() ) {
-		printf( __( '<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>', 'designsimply' ),
+		printf( __( 'by <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>', 'designsimply' ),
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 			esc_attr( sprintf( __( 'See more by %s', 'designsimply' ), get_the_author() ) ),
 			esc_html( get_the_author() )
@@ -179,99 +179,3 @@ function designsimply_category_transient_flusher() {
 }
 add_action( 'edit_category', 'designsimply_category_transient_flusher' );
 add_action( 'save_post', 'designsimply_category_transient_flusher' );
-
-/**
- * Get a random image
- */
-function get_random_image_src( $size = 'thumbnail' ) {
-	$args = array(
-		'post_type' => 'attachment',
-		'post_mime_type' =>'image',
-		'post_status' => 'inherit',
-		'posts_per_page' => 1,
-        'orderby' => 'rand'
-	);
-	$query_images = new WP_Query( $args );
-	//debugs
-	//echo $query_images->post->ID;
-	//echo '<img src="'.$query_images->post->guid.'">';
-	//echo '<pre>'; var_dump( $query_images ); echo '</pre>';
-	$random_image = wp_get_attachment_image_src ( $query_images->post->ID, $size);
-	return $random_image[0];
-}
-
-if ( ! function_exists( 'designsimply_tonesque_css' ) ) :
-/**
- * Print Tonesque css for image posts
- */
-function designsimply_tonesque_css( $my_color = '' ) {
-	global $post;
-
-	if ( ! class_exists( 'Tonesque' ) )
-		include_once(  TEMPLATEPATH . '/inc/tonesque.php' );
-
-	$image_content = function_exists( 'get_the_post_format_image' ) ? get_the_post_format_image( 'large', $post ) : get_the_content();
-	$image_content = wp_attachment_is_image() ? wp_get_attachment_image( $post_id, 'large' ) : $image_content;
-	$output        = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $image_content, $matches );
-	$first_image   = isset( $matches[1][0] ) ? $matches[1][0] : '';
-	//echo '<br>the first_image'.$first_image;
-	//echo '<br><pre>my_color'.$my_color.'</pre> asdf';
-	if ( substr( $my_color, 0, 4 ) == 'http' ) { $first_image = $my_color; }
-
-	if ( ! $first_image ) :
-		//return;
-		// If there's no image, use a random attachment image
-		$first_image = get_random_image_src( 'thumbnail' );
-	endif;
-	//else :
-		$tonesque = new Tonesque( $first_image );
-		$color = $tonesque->color();
-		$contrast = $tonesque->contrast();
-		$id = get_the_ID();
-		$postid = '.postid-' . $id;
-		echo '<style>
-			#bg-container { 
-				position: fixed;
-				display: block;
-				width: 100%;
-				height: 100%;
-				top: 0;
-				left: 0;
-				z-index: -1;
-				background: url(' . $first_image . ') center / 2000%;
-				opacity: .2;
-				-webkit-filter: blur(50px);
-				filter: blur(50px);
-			}
-			.home #bg-container, .attachment #bg-container { opacity: .4 }
-			/*.attachment .image-container { background: rgba(' . $contrast . ', 0.1); }*/
-			body {background: #' . $color . ';}
-			/*body .entry-meta time {background-color: #' . $color . ';}*/
-			body,
-			body a,
-			body a:visited,
-			body #site-title h1 a,
-			body .entry-title,
-			body .entry-title a {color: rgba(' . $contrast . ', 0.7);}
-			a:hover,
-			.entry-title a:hover {color: rgba(' . $contrast . ', 0.9);}
-			body #random-images ul { border-top: 1px dotted rgba(' . $contrast . ', 0.2); border-bottom: 1px dotted rgba(' . $contrast . ', 0.2);}
-			body .bio p {color: rgba(' . $contrast . ', 0.6);}
-			body .entry-format-badge {background-color: rgb(' . $contrast . ');}
-			#image-navigation span:before {background-color: rgba(' . $contrast . ', 0.4);}
-			body .entry-format-badge:hover {background-color: rgba(' . $contrast . ', 0.7);}
-			body a.entry-format-badge:before {color: #' . $color . ';}
-			body .entry-meta span,
-			body .entry-meta,
-			body div.sharedaddy div.sd-block {border-color: rgba(' . $contrast . ', 0.1);}
-			body .entry-content a {border-color: rgba(' . $contrast . ', 0.2);}
-			body .entry-content a:hover {border-color: rgba(' . $contrast . ', 1); color: rgb(' . $contrast . ');}
-			/*body img {border: 2px solid rgba(' . $contrast . ', 0.1);}*/
-			body .entry-meta span + span:before {color: rgba(' . $contrast . ', 0.2);}
-			body input[type=text]:focus, body input[type=email]:focus, body textarea:focus { color: rgba(' . $contrast . ', 0.7); }
-			body input[type=text], body input[type=email], body textarea { color: rgba(' . $contrast . ', 0.5); border-color: rgba(' . $contrast . ', 0.8); }
-			body button, html body input[type="button"], body input[type="reset"], body input[type="submit"] { border: 1px solid rgba(' . $contrast . ', 0.8); border-color: rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.6), rgba(' . $contrast . ', 0.8); }
-		</style>';
-	//endif;
-}
-endif; // ends check for designsimply_tonesque_css()
