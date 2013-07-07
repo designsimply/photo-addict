@@ -16,7 +16,7 @@ get_header(); ?>
 <?php if ( have_posts() ) : ?>
 	<?php while ( have_posts() ) : the_post();
 		designsimply_tonesque_css(); ?>
-		<h2><a class="the_title" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" rel="bookmark"><?php the_title(); ?></a>
+		<h2><a class="the-title" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" rel="bookmark"><?php the_title(); ?></a>
 			<?php if ( is_attachment() ) : ?>
 				<span class="sep"> // </span>
 				<?php $metadata = wp_get_attachment_metadata();
@@ -40,7 +40,7 @@ get_header(); ?>
 				</nav>
 			<?php endif; ?>
 
-			<?php if ( is_search() ) : // Only display Excerpts for Search ?>
+			<?php if ( is_search() || is_archive() ) : // Only display excerpts for search and archives ?>
 				<div class="the_excerpt">
 					<?php the_excerpt(); ?>
 				</div><!-- .the_excerpt -->
@@ -59,21 +59,23 @@ get_header(); ?>
 				}
 				echo '</style>';
 				?>
-				<div class="the_excerpt">
+				<div class="the-excerpt">
 					<?php the_excerpt(); ?>
 				</div><!-- .the_excerpt -->
 			<?php else : ?>
-				<div class="the_content">
+				<div class="the-content">
 					<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'designsimply' ) ); ?>
 					<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'designsimply' ), 'after' => '</div>' ) ); ?>
 				</div><!-- .entry-content -->
 			<?php endif; ?>
 
+			<?php if ( !is_page() ) : ?>
 			<div class="meta">
-				by <?php designsimply_posted_by(); ?>
+				<?php designsimply_posted_by(); ?>
 				<span class="sep"> // </span>
 				<?php designsimply_posted_on(); ?>
 			</div><!-- .meta -->
+			<?php endif; ?>
 
 			<div class="site-title">
 				<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" class="post-parent" rel="home"><?php bloginfo( 'name' ); ?></a>
@@ -91,8 +93,9 @@ get_header(); ?>
 				<?php endif; // End if $tags_list ?>
 			<?php endif; // End if 'post' == get_post_type() ?>
 			<?php if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
-				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'designsimply' ), __( '1 Comment', 'designsimply' ), __( '% Comments', 'designsimply' ) ); ?>.</span>
-			<?php endif; ?>
+				<!--<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'designsimply' ), __( '1 Comment', 'designsimply' ), __( '% Comments', 'designsimply' ) ); ?>.</span>-->
+			<?php :wq
+			endif; ?>
 			<?php edit_post_link( __( 'Edit', 'designsimply' ), '<span class="edit-link">', '</span>' ); ?>
 
 		</article><!-- #post-<?php the_ID(); ?> -->
@@ -104,4 +107,5 @@ get_header(); ?>
 <?php endif; ?>
 
 <?php if ( ! is_attachment() ) : get_sidebar(); endif; ?>
-<?php //get_footer(); ?>
+
+<?php get_footer(); ?>
