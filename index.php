@@ -14,8 +14,7 @@
 get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
-	<?php while ( have_posts() ) : the_post();
-		designsimply_tonesque_css(); ?>
+	<?php while ( have_posts() ) : the_post(); ?>
 		<h2><a class="the-title" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" rel="bookmark"><?php the_title(); ?></a>
 			<?php if ( is_attachment() ) : ?>
 				<span class="sep"> // </span>
@@ -94,8 +93,7 @@ get_header(); ?>
 			<?php endif; // End if 'post' == get_post_type() ?>
 			<?php if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
 				<!--<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'designsimply' ), __( '1 Comment', 'designsimply' ), __( '% Comments', 'designsimply' ) ); ?>.</span>-->
-			<?php :wq
-			endif; ?>
+			<?php endif; ?>
 			<?php edit_post_link( __( 'Edit', 'designsimply' ), '<span class="edit-link">', '</span>' ); ?>
 
 		</article><!-- #post-<?php the_ID(); ?> -->
