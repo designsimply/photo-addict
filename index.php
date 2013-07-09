@@ -24,6 +24,7 @@ get_header(); ?>
 					get_the_title( $post->post_parent )
 				);
 			endif; ?>
+			<?php edit_post_link( __( '<div class="genericon-22 genericon-edit"></div>', 'designsimply' ), '', '' ); ?>
 		</h2>
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -94,7 +95,6 @@ get_header(); ?>
 			<?php if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
 				<!--<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'designsimply' ), __( '1 Comment', 'designsimply' ), __( '% Comments', 'designsimply' ) ); ?>.</span>-->
 			<?php endif; ?>
-			<?php edit_post_link( __( 'Edit', 'designsimply' ), '<span class="edit-link">', '</span>' ); ?>
 
 		</article><!-- #post-<?php the_ID(); ?> -->
 	<?php endwhile; ?>

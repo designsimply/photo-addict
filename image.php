@@ -2,17 +2,13 @@
 /**
  * The template file for displaying image attachments.
  *
- * The background effect for image attachments is setup in the
- * designsimply_tonesque_css() funtion.
- *
  * @package designsimply
  * @since designsimply 1.0
  */
 get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
-	<?php while ( have_posts() ) : the_post();
-		designsimply_tonesque_css(); ?>
+	<?php while ( have_posts() ) : the_post(); ?>
 		<h2><a class="the-title" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" rel="bookmark"><?php the_title(); ?></a>
 			<span class="sep"> // </span>
 			<?php $metadata = wp_get_attachment_metadata();
@@ -20,6 +16,7 @@ get_header(); ?>
 				get_permalink( $post->post_parent ),
 				get_the_title( $post->post_parent )
 			); ?>
+			<?php edit_post_link( __( '<div class="genericon-22 genericon-edit"></div>', 'designsimply' ), '', '' ); ?>
 		</h2>
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -49,7 +46,7 @@ get_header(); ?>
 				</div><!-- .the-content -->
 
 			<div class="meta">
-				<div class="genericon-22 genericon-image"></div> by <?php designsimply_posted_by(); ?>
+				<div class="genericon-22 genericon-image"></div> <?php designsimply_posted_by(); ?>
 				<span class="sep"> // </span>
 				<?php designsimply_posted_on(); ?>
 			</div><!-- .meta -->
@@ -70,7 +67,6 @@ get_header(); ?>
 			<?php //if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
 				<!--<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'designsimply' ), __( '1 Comment', 'designsimply' ), __( '% Comments', 'designsimply' ) ); ?>.</span>-->
 			<?php //endif; ?>
-			<?php edit_post_link( __( 'Edit', 'designsimply' ), '<span class="edit-link">', '</span>' ); ?>
 
 		</article><!-- #post-<?php the_ID(); ?> -->
 	<?php endwhile; ?>
