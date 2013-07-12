@@ -8,6 +8,8 @@
  * @since designsimply 1.0
  */
 ?>
+
+<?php if ( ( is_single() || is_page() ) && ! is_attachment() ) : ?>
 <nav role="navigation">
 	<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
 
@@ -28,9 +30,10 @@
 		'<a href="http://wordpress.org/" rel="generator">WordPress</a>'
 	); ?>
 </footer>
-
+<?php endif; ?>
 <?php wp_footer(); ?>
 
 </div><!-- #wrapper -->
+
 </body>
 </html>
