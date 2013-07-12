@@ -17,13 +17,10 @@
 
 	<?php // You can start editing here -- including this comment! ?>
 
-	<?php if ( have_comments() ) : ?>
-		<h2 class="comments-title">
-			<?php
-				printf( _n( 'One thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', get_comments_number(), 'designsimply' ),
-					number_format_i18n( get_comments_number() ), '<span>' . get_the_title() . '</span>' );
-			?>
-		</h2>
+	<?php if ( have_comments() ) : 
+		//if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
+		<span class="comments-link"><a href="#respond"><div class="genericon-22 genericon-reply"></div></a></span>
+		<span class="comments-link"><?php comments_popup_link( __( '<div class="genericon-22 genericon-chat"></div>', 'designsimply' ), __( '<div class="genericon-22 genericon-chat"></div> 1', 'designsimply' ), __( '<div class="genericon-22 genericon-reply"></div> %', 'designsimply' ) ); ?></span>
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
 		<nav role="navigation" id="comment-nav-above" class="site-navigation comment-navigation">
