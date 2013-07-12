@@ -230,10 +230,6 @@ function get_random_image_src( $size = 'thumbnail' ) {
         'orderby' => 'rand'
 	);
 	$query_images = new WP_Query( $args );
-	//debugs
-	//echo $query_images->post->ID;
-	//echo '<img src="'.$query_images->post->guid.'">';
-	//echo '<pre>'; var_dump( $query_images ); echo '</pre>';
 	$random_image = wp_get_attachment_image_src ( $query_images->post->ID, $size);
 	return $random_image[0];
 }
