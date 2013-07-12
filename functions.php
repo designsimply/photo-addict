@@ -55,11 +55,12 @@ function designsimply_setup() {
 	add_theme_support( 'automatic-feed-links' );
 
 	/*
-	 * Add support for all available post formats by default.
+	 * Add support for post formats.
+	 * Eventually: 'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video'
 	 * See http://codex.wordpress.org/Post_Formats
 	 */
 	add_theme_support( 'post-formats', array(
-		'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video'
+		'gallery', 'image', 'status'
 	) );
 
 	/*
@@ -90,11 +91,6 @@ function designsimply_setup() {
 	register_nav_menus( array(
 		'primary' => __( 'Primary Menu', 'designsimply' ),
 	) );
-
-	/**
-	 * Add support for the Aside Post Formats
-	 */
-	add_theme_support( 'post-formats', array( 'aside', ) );
 }
 endif; // designsimply_setup
 add_action( 'after_setup_theme', 'designsimply_setup' );
@@ -228,22 +224,51 @@ if ( ! function_exists( 'designsimply_tonesque_css' ) ) :
 function designsimply_tonesque_css( $my_color = '' ) {
 	global $post;
 
+	// Find a representative image to use for the background in this order:
+	// attachment page image, featured image, post format image, first attached image,
+	// inline image, or use a random image if no other image is found
+	switch (true) {
+	// Attachment page image
+	case is_attachment() :
+		$attachment_image = wp_get_attachment_image_src( $post->ID, 'large' );
+		$my_image = $attachment_image[0];
+		break;
+	// Featured image
+	case has_post_thumbnail() :
+		$attachment_image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' );
+		$my_image = $attachment_image[0];
+		break;
+	// Post format image
+	case empty( $image_content ) && has_post_format( $post->ID ) && function_exists( 'get_the_post_format_image' ) :
+		$my_image = get_the_post_format_image( 'large', $post );
+		break;
+	// First attached image
+	case $attachment_images = get_children( array('post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image') ) :
+		shuffle( $attachment_images );
+		$attachment_image = array_shift( $attachment_images );
+		$my_image = $attachment_image->guid;;
+		break;
+	// Scan content for images
+	default:
+		$image_content = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', get_the_content(), $matches );
+		$my_image = isset( $matches[1][0] ) ? $matches[1][0] : '';
+		break;
+	}
+	// If there's no image, use a random attachment image
+	if ( ! $my_image || is_home() )
+		$my_image = get_random_image_src( 'thumbnail' );
+
+	// Let me override the image with a color code if I want
+	if ( substr( $my_color, 0, 4 ) == 'http' )
+		$my_image = $my_color;
+
+	//echo '<img src="'.$my_image.'" style="width:75px;height:auto;" /> my_image = '.$my_image.';<br>'; // debug
+
+	// Fallback to local copy of tonesque if the plugin is not active
 	if ( ! class_exists( 'Tonesque' ) )
-		include_once(  TEMPLATEPATH . '/inc/tonesque.php' );
+		include_once(  TEMPLATEPATH . '/inc/tonesque/tonesque.php' );
 
-	$image_content = function_exists( 'get_the_post_format_image' ) ? get_the_post_format_image( 'large', $post ) : get_the_content();
-	$image_content = wp_attachment_is_image() ? wp_get_attachment_image( $post_id, 'large' ) : $image_content;
-	$post_images   = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $image_content, $matches );
-	$first_image   = isset( $matches[1][0] ) ? $matches[1][0] : '';
-	//echo '<br>the first_image'.$first_image;
-	//echo '<br><pre>my_color'.$my_color.'</pre> asdf';
-	if ( substr( $my_color, 0, 4 ) == 'http' ) { $first_image = $my_color; }
-
-	if ( ! $first_image ) : // If there's no image, use a random attachment image
-		$first_image = get_random_image_src( 'thumbnail' );
-	endif;
-
-	$tonesque = new Tonesque( $first_image );
+	$tonesque = new Tonesque( $my_image );
 	$color = $tonesque->color();
 	$contrast = $tonesque->contrast();
 	$id = get_the_ID();
@@ -256,13 +281,14 @@ function designsimply_tonesque_css( $my_color = '' ) {
 			height: 100%;
 			top: 0;
 			left: 0;
-			z-index: -1;
-			background: url(' . $first_image . ') center / 2000%;
+			z-index: -99;
+			background: url(' . $my_image . ') center / 2000%;
 			opacity: .2;
 			-webkit-filter: blur(50px);
 			filter: blur(50px);
 		}
-		.home #bg-container, .attachment #bg-container { opacity: .4 }
+		.home #bg-container { background-size: 1000%; opacity: .3; }
+		.attachment #bg-container { background-size: 800%; opacity: .4; }
 		#bg-container { filter:url(#blur50); } /* SVG blur for Firefox */
 		body #random-images a { border: 2px solid rgba(' . $contrast . ', 0.1); }
 		body {background: #' . $color . ';}
@@ -280,5 +306,4 @@ function designsimply_tonesque_css( $my_color = '' ) {
 		body button, html body input[type="button"], body input[type="reset"], body input[type="submit"] { border: 1px solid rgba(' . $contrast . ', 0.8); border-color: rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.6), rgba(' . $contrast . ', 0.8); }
 	</style>';
 }
-endif; // ends check for designsimply_tonesque_css()
-
+endif; // end check for designsimply_tonesque_css()
