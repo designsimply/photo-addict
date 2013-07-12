@@ -14,7 +14,7 @@
 get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
-	<?php while ( have_posts() ) : the_post(); ?>
+	<?php while ( have_posts() ) : the_post(); designsimply_tonesque_css(); ?>
 		<h2><a class="the-title" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" rel="bookmark"><?php the_title(); ?></a>
 			<?php if ( is_attachment() ) : ?>
 				<span class="sep"> // </span>
@@ -24,7 +24,6 @@ get_header(); ?>
 					get_the_title( $post->post_parent )
 				);
 			endif; ?>
-			<?php edit_post_link( __( '<div class="genericon-22 genericon-edit"></div>', 'designsimply' ), '', '' ); ?>
 		</h2>
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -74,6 +73,7 @@ get_header(); ?>
 				<?php designsimply_posted_by(); ?>
 				<span class="sep"> // </span>
 				<?php designsimply_posted_on(); ?>
+				<?php edit_post_link( __( '<div class="genericon-22 genericon-edit rotate270"></div>', 'designsimply' ), '', '' ); ?>
 			</div><!-- .meta -->
 			<?php endif; ?>
 
@@ -92,9 +92,12 @@ get_header(); ?>
 				</span>
 				<?php endif; // End if $tags_list ?>
 			<?php endif; // End if 'post' == get_post_type() ?>
-			<?php if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
-				<!--<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'designsimply' ), __( '1 Comment', 'designsimply' ), __( '% Comments', 'designsimply' ) ); ?>.</span>-->
-			<?php endif; ?>
+
+			<?php
+				// If comments are open or we have at least one comment, load up the comment template
+				if ( comments_open() || '0' != get_comments_number() )
+					//comments_template( '', true );
+			?>
 
 		</article><!-- #post-<?php the_ID(); ?> -->
 	<?php endwhile; ?>
