@@ -9,7 +9,7 @@ jQuery( document ).ready( function( $ ) {
 		}
 		else if ( e.which == 40 ) {  // Down arrow key code
 			if ( e.altKey ) { // Alt modifier key
-				url = $( 'a.first-random-image' ).attr( 'href' );
+				url = $( '.random-images a' ).attr( 'href' );
 			}
 		}
 		else if ( e.which == 38 ) {  // Up arrow key code
