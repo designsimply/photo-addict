@@ -41,6 +41,6 @@
 	<?php endif; ?>
 
 	<?php 
-		if ( method_exists( 'Random_Images_Plugin', 'random_images' ) && ( is_home() || is_attachment() ) )
+		if ( method_exists( 'Random_Images_Plugin', 'random_images' ) && ( is_attachment() ) )
 			echo Random_Images_Plugin::random_images( array( 'size' => 'thumbnail', 'total' => 9 ) );
 	?>
