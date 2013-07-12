@@ -12,7 +12,9 @@
  * @since designsimply 1.0
  */
 
-get_header(); ?>
+get_header();
+designsimply_tonesque_css(); ?>
+
 	<section class="content" role="main">
 		<article>
 			<h3>Writing</h3>
@@ -31,7 +33,7 @@ get_header(); ?>
 				) );
 				$query = new WP_Query( $args );
 
-				if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post(); designsimply_tonesque_css();
+				if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post();
 				$ids[] = get_the_ID(); ?>
 				<li><a href="<?php the_permalink() ?>"><?php echo $post->post_title; //echo substr( $post->post_title, 0, 37 ); ?></a></li>
 			<?php
