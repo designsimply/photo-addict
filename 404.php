@@ -28,15 +28,11 @@ designsimply_tonesque_css(); ?>
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<div class="the-content">
 
-					<?php get_search_form(); ?>
-
-					<?php the_widget( 'WP_Widget_Tag_Cloud' ); ?>
-
-					<?php the_widget( 'WP_Widget_Recent_Posts' ); ?>
-
 					<?php
-					/* translators: %1$s: smilie */
-					the_widget( 'WP_Widget_Archives' );
+						get_search_form();
+						the_widget( 'WP_Widget_Tag_Cloud', 'title= ' );
+						//the_widget( 'WP_Widget_Recent_Posts' );
+						//the_widget( 'WP_Widget_Archives' ); /* translators: %1$s: smilie */
 					?>
 
 					<?php //wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'designsimply' ), 'after' => '</div>' ) ); ?>
