@@ -293,6 +293,10 @@ body {
 .home #wrapper > section article {
   min-width: 30%;
 }
+
+.safari #wrapper > section article {
+  max-width: 30%;
+}
 } /*
 
 #wrapper {
