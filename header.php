@@ -37,31 +37,10 @@
 	<?php if ( is_home() ) : ?>
 	<header>
 		<h1><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-		<em><?php bloginfo( 'description' ); ?></em>
 	</header>
 	<?php endif; ?>
 
-	<?php if ( is_home() || is_attachment() ) { ?>
-	<div id="random-images">
-		<?php
-			$all_images =& get_children( 'post_parent=&post_type=attachment&post_mime_type=image&numberposts=-1&poststatus=publish' );
-			$images = array_rand( $all_images, 22 );
-			designsimply_tonesque_css( wp_get_attachment_image_src( $images[0], 'thumbnail' )[0] );
-
-			$image_num = 11;
-			//if ( is_home() ) { $image_num = 10; }
-
-			if ( ! empty($images) ) {
-				for ( $i = 0; $i < $image_num; $i++ ) {
-				$random = array_rand($all_images);
-				//echo ' <a href="' . get_permalink($random) . '#image">';
-				echo ' <a href="' . get_permalink($random) . '"';
-				if ( $i==0 ) { echo ' class="first-random-image"'; }
-				echo '>';
-				echo wp_get_attachment_image( $random, 'thumbnail' );
-				echo '</a>';
-				}
-			}
-		?>
-	</div><!-- #random-images -->
-	<?php } ?>
+	<?php 
+		if ( method_exists( 'Random_Images_Plugin', 'random_images' ) && ( is_home() || is_attachment() ) )
+			echo Random_Images_Plugin::random_images( array( 'size' => 'thumbnail', 'total' => 9 ) );
+	?>
