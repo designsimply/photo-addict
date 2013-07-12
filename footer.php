@@ -31,9 +31,15 @@
 	); ?>
 </footer>
 <?php endif; ?>
-<?php wp_footer(); ?>
+
+<svg height="0" xmlns="http://www.w3.org/2000/svg">
+  <filter id="blur50" x="-5%" y="-5%" width="110%" height="110%">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="50"/>
+  </filter>
+</svg>
 
 </div><!-- #wrapper -->
 
+<?php wp_footer(); ?>
 </body>
 </html>
