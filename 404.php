@@ -7,41 +7,45 @@
  */
 
 get_header(); ?>
+<?php
+/**
+ * The main template file.
+ *
+ * This is the most generic template file in a WordPress theme
+ * and one of the two required files for a theme (the other being style.css).
+ * It is used to display a page when nothing more specific matches a query.
+ * E.g., it puts together the home page when no home.php file exists.
+ * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package designsimply
+ * @since designsimply 1.0
+ */
+get_header();
+designsimply_tonesque_css(); ?>
 
-	<div id="primary" class="content-area">
-		<div id="content" class="site-content" role="main">
+		<h2><?php _e( 'Sad bunny! That page can&rsquo;t be found.', 'designsimply' ); ?></h2>
 
-			<article id="post-0" class="post error404 not-found">
-				<header class="entry-header">
-					<h1 class="entry-title"><?php _e( 'Oops! That page can&rsquo;t be found.', 'designsimply' ); ?></h1>
-				</header><!-- .entry-header -->
-
-				<div class="entry-content">
-					<p><?php _e( 'It looks like nothing was found at this location. Maybe try one of the links below or a search?', 'designsimply' ); ?></p>
+		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+				<div class="the-content">
 
 					<?php get_search_form(); ?>
 
-					<?php the_widget( 'WP_Widget_Recent_Posts' ); ?>
+					<?php the_widget( 'WP_Widget_Tag_Cloud' ); ?>
 
-					<div class="widget">
-						<h2 class="widgettitle"><?php _e( 'Most Used Categories', 'designsimply' ); ?></h2>
-						<ul>
-						<?php wp_list_categories( array( 'orderby' => 'count', 'order' => 'DESC', 'show_count' => 1, 'title_li' => '', 'number' => 10 ) ); ?>
-						</ul>
-					</div><!-- .widget -->
+					<?php the_widget( 'WP_Widget_Recent_Posts' ); ?>
 
 					<?php
 					/* translators: %1$s: smilie */
-					$archive_content = '<p>' . sprintf( __( 'Try looking in the monthly archives. %1$s', 'designsimply' ), convert_smilies( ':)' ) ) . '</p>';
-					the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content" );
+					the_widget( 'WP_Widget_Archives' );
 					?>
 
-					<?php the_widget( 'WP_Widget_Tag_Cloud' ); ?>
+					<?php //wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'designsimply' ), 'after' => '</div>' ) ); ?>
+				</div><!-- .the-content -->
 
-				</div><!-- .entry-content -->
-			</article><!-- #post-0 .post .error404 .not-found -->
+			<div class="site-title">
+				<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" class="post-parent" rel="home"><?php bloginfo( 'name' ); ?></a>
+			</div>
 
-		</div><!-- #content .site-content -->
-	</div><!-- #primary .content-area -->
+		</article><!-- #post-<?php the_ID(); ?> -->
 
 <?php get_footer(); ?>
