@@ -133,7 +133,7 @@ if ( ! function_exists( 'designsimply_posted_by' ) ) :
 function designsimply_posted_by() {
 	if ( is_single() ) {
 		printf( __( 'by <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>', 'designsimply' ),
-			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
+			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_login' ) ) ),
 			esc_attr( sprintf( __( 'See more by %s', 'designsimply' ), get_the_author() ) ),
 			esc_html( get_the_author() )
 		);
