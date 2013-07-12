@@ -24,11 +24,11 @@
 </nav>
 
 <footer>
-	<?php printf( __( '%1$s is an experimental flexbox layout theme made by %2$s for %3$s with &hearts;', 'designsimply' ),
-		'<a href="http://designsimply.com/theme/" rel="theme">Saratoga</a>',
-		'<a href="http://designsimply.com/theme/" rel="designer">Sheri Bigelow</a>',
+	<?php /*printf( __( '%1$s is an experimental flexbox layout theme made by %2$s for %3$s with &hearts;', 'designsimply' ),
+		'<a href="http://designsimply.com/theme/" rel="theme">Photo Addict</a>',
+		'<a href="http://designsimply.com/about/" rel="designer">Sheri Bigelow</a>',
 		'<a href="http://wordpress.org/" rel="generator">WordPress</a>'
-	); ?>
+	);*/ ?>
 </footer>
 <?php endif; ?>
 
