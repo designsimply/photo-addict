@@ -13,11 +13,9 @@
  */
 
 get_header(); ?>
-	<?php //designsimply_tonesque_css(); ?>
-
 	<section class="content" role="main">
 		<article>
-			<h2>Writing</h2>
+			<h3>Writing</h3>
 			<ul>
 			<?php
 				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
@@ -33,7 +31,7 @@ get_header(); ?>
 				) );
 				$query = new WP_Query( $args );
 
-				if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post();
+				if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post(); designsimply_tonesque_css();
 				$ids[] = get_the_ID(); ?>
 				<li><a href="<?php the_permalink() ?>"><?php echo $post->post_title; //echo substr( $post->post_title, 0, 37 ); ?></a></li>
 			<?php
@@ -48,7 +46,7 @@ get_header(); ?>
 		</article>
 
 		<article>
-			<h2>Speaking</h2>
+			<h3>Speaking</h3>
 			<?php
 				$args = array(
 					//'paged' => $paged,
@@ -63,9 +61,16 @@ get_header(); ?>
 				) );
 				$query = new WP_Query( $args );
 
-				if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post(); ?>
-					<a href="<?php the_permalink() ?>" class="post-format-status"><?php the_post_format_image( 'medium' ); ?><br><?php the_title(); ?></a>
-				<?php
+				if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post();
+
+					// Use the post format image if it exists, then fallback to the featured image
+					if ( function_exists( 'the_post_format_image' ) ) : ?>
+						<a href="<?php the_permalink() ?>" class="post-format-status"><?php the_post_format_image( 'medium' ); ?><br><?php the_title(); ?></a>
+					<?php elseif ( has_post_thumbnail() ) : ?>
+						<a href="<?php the_permalink() ?>" class="post-format-status"><?php the_post_thumbnail( 'medium' ); ?><br><?php the_title(); ?></a>
+					<?php else : ?>
+						<a href="<?php the_permalink() ?>" class="post-format-status"><?php the_title(); ?></a>						
+					<?php endif;
 				endwhile;
 				endif;
 			?>
@@ -73,12 +78,11 @@ get_header(); ?>
 		</article>
 
 		<article>
-			<h2>Photography</h2>
+			<h3>Photography</h3>
 			<div class="image-block">
-			<?php
-				$args = array(
+				<?php $args = array(
 					//'paged' => $paged,
-					'posts_per_page' => 8,
+					'posts_per_page' => 12,
 					'tax_query' => array(
 						array(
 							'taxonomy' => 'post_format',
@@ -89,15 +93,15 @@ get_header(); ?>
 				) );
 				$query = new WP_Query( $args );
 
+
 				if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post(); ?>
-
-					<a href="<?php the_permalink() ?>"><?php the_post_format_image( 'thumbnail' ); ?></a>
-
-			<?php
+					<?php if ( has_post_thumbnail() ) : ?>
+						<a href="<?php the_permalink() ?>"><?php the_post_thumbnail( 'thumbnail' ); ?></a>
+					<?php elseif ( function_exists( 'the_post_format_image' ) ) : ?>
+						<a href="<?php the_permalink() ?>"><?php the_post_format_image( 'thumbnail' ); ?></a>
+					<?php endif;
 				endwhile;
-				endif;
-			?>
-			<?php //designsimply_content_nav( 'nav-below' ); ?>
+				endif; ?>
 			</div>
 		</article>
 	</section><!-- .content -->
