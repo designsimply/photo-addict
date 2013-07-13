@@ -4,8 +4,8 @@
  *
  * Contains the closing of the id=main div and all content after
  *
- * @package designsimply
- * @since designsimply 1.0
+ * @package photo-addict
+ * @since photo-addict 1.0
  */
 ?>
 
@@ -24,7 +24,7 @@
 </nav>
 
 <footer>
-	<?php /*printf( __( '%1$s is an experimental flexbox layout theme made by %2$s for %3$s with &hearts;', 'designsimply' ),
+	<?php /*printf( __( '%1$s is an experimental flexbox layout theme made by %2$s for %3$s with &hearts;', 'photo-addict' ),
 		'<a href="http://designsimply.com/theme/" rel="theme">Photo Addict</a>',
 		'<a href="http://designsimply.com/about/" rel="designer">Sheri Bigelow</a>',
 		'<a href="http://wordpress.org/" rel="generator">WordPress</a>'

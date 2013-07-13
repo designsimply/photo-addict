@@ -4,17 +4,17 @@
  *
  * Eventually, some of the functionality here could be replaced by core features
  *
- * @package designsimply
- * @since designsimply 1.0
+ * @package photo-addict
+ * @since photo-addict 1.0
  */
 
-if ( ! function_exists( 'designsimply_content_nav' ) ) :
+if ( ! function_exists( 'photo_addict_content_nav' ) ) :
 /**
  * Display navigation to next/previous pages when applicable
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
-function designsimply_content_nav( $nav_id ) {
+function photo_addict_content_nav( $nav_id ) {
 	global $wp_query, $post;
 
 	// Don't print empty markup on single pages if there's nowhere to navigate.
@@ -36,41 +36,41 @@ function designsimply_content_nav( $nav_id ) {
 
 	?>
 	<nav role="navigation" id="<?php echo $nav_id; ?>" class="<?php echo $nav_class; ?>">
-		<h1 class="assistive-text"><?php _e( 'Post navigation', 'designsimply' ); ?></h1>
+		<h1 class="assistive-text"><?php _e( 'Post navigation', 'photo-addict' ); ?></h1>
 
 	<?php if ( is_single() ) : // navigation links for single posts ?>
-		<?php next_post_link( '<div class="nav-next">%link</div>', '<span class="meta-nav">' . _x( '%title', 'Down', 'designsimply' ) . '</span>' ); ?>
-		<?php previous_post_link( '<div class="nav-previous">%link</div>', '<span class="meta-nav">' . _x( '%title', 'Up', 'designsimply' ) . '</span>' ); ?>
+		<?php next_post_link( '<div class="nav-next">%link</div>', '<span class="meta-nav">' . _x( '%title', 'Down', 'photo-addict' ) . '</span>' ); ?>
+		<?php previous_post_link( '<div class="nav-previous">%link</div>', '<span class="meta-nav">' . _x( '%title', 'Up', 'photo-addict' ) . '</span>' ); ?>
 	<?php elseif ( $wp_query->max_num_pages > 1 && ( is_home() || is_archive() || is_search() ) ) : // navigation links for home, archive, and search pages ?>
 		<span class="next">
-			<?php next_posts_link( __( '<div class="genericon genericon-expand"></div>', 'designsimply' ) ); ?>
+			<?php next_posts_link( __( '<div class="genericon genericon-expand"></div>', 'photo-addict' ) ); ?>
 		</span>
 		<span class="previous">
-			<?php previous_posts_link( __( '<div class="genericon genericon-collapse"></div>', 'designsimply' ) ); ?>
+			<?php previous_posts_link( __( '<div class="genericon genericon-collapse"></div>', 'photo-addict' ) ); ?>
 		</span>
 	<?php endif; ?>
 
 	</nav><!-- #<?php echo $nav_id; ?> -->
 	<?php
 }
-endif; // designsimply_content_nav
+endif; // photo_addict_content_nav
 
-if ( ! function_exists( 'designsimply_comment' ) ) :
+if ( ! function_exists( 'photo_addict_comment' ) ) :
 /**
  * Template for comments and pingbacks.
  *
  * Used as a callback by wp_list_comments() for displaying the comments.
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
-function designsimply_comment( $comment, $args, $depth ) {
+function photo_addict_comment( $comment, $args, $depth ) {
 	$GLOBALS['comment'] = $comment;
 	switch ( $comment->comment_type ) :
 		case 'pingback' :
 		case 'trackback' :
 	?>
 	<li class="post pingback">
-		<p><?php _e( 'Mentioned in ', 'designsimply' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __( '<span class="tooltip">Edit</span>', 'designsimply' ), ' ' ); ?></p>
+		<p><?php _e( 'Mentioned in ', 'photo-addict' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __( '<span class="tooltip">Edit</span>', 'photo-addict' ), ' ' ); ?></p>
 	<?php
 			break;
 		default :
@@ -82,15 +82,15 @@ function designsimply_comment( $comment, $args, $depth ) {
 				<?php echo get_avatar( $comment, 40 ); ?>
 				<cite class="fn"><?php comment_author_link(); ?></cite>
 				<time pubdate datetime="<?php comment_time( 'c' ); ?>">
-					<a href="<?php echo esc_url( get_comment_link() ); ?>"><span class="tooltip"><?php printf( __( '%1$s at %2$s', 'designsimply' ), get_comment_date(), get_comment_time() ); ?></span></a>
+					<a href="<?php echo esc_url( get_comment_link() ); ?>"><span class="tooltip"><?php printf( __( '%1$s at %2$s', 'photo-addict' ), get_comment_date(), get_comment_time() ); ?></span></a>
 				</time>
-				<?php edit_comment_link( __( '<span class="tooltip">Edit</span>', 'designsimply' ), '', '' ); ?>
+				<?php edit_comment_link( __( '<span class="tooltip">Edit</span>', 'photo-addict' ), '', '' ); ?>
 				<?php comment_reply_link( array_merge( $args, array( 'depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<span class="tooltip">Reply</span>' ) ) ); ?>
 			</header><!-- .comment-author .vcard -->
 
 			<section class="comment post-content">
 				<?php if ( $comment->comment_approved == '0' ) { ?>
-					<p><?php _e( 'Your comment will be reviewed soon.', 'designsimply' ) ?></p>
+					<p><?php _e( 'Your comment will be reviewed soon.', 'photo-addict' ) ?></p>
 				<?php } ?>  
 
 				<?php comment_text(); ?>
@@ -106,16 +106,16 @@ function designsimply_comment( $comment, $args, $depth ) {
 			break;
 	endswitch;
 }
-endif; // ends check for designsimply_comment()
+endif; // ends check for photo_addict_comment()
 
-if ( ! function_exists( 'designsimply_posted_on' ) ) :
+if ( ! function_exists( 'photo_addict_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time.
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
-function designsimply_posted_on() {
-	printf( __( '<a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s" pubdate>%4$s</time></a>', 'designsimply' ),
+function photo_addict_posted_on() {
+	printf( __( '<a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s" pubdate>%4$s</time></a>', 'photo-addict' ),
 		esc_url( get_permalink() ),
 		esc_attr( get_the_time() ),
 		esc_attr( get_the_date( 'c' ) ),
@@ -124,17 +124,17 @@ function designsimply_posted_on() {
 }
 endif;
 
-if ( ! function_exists( 'designsimply_posted_by' ) ) :
+if ( ! function_exists( 'photo_addict_posted_by' ) ) :
 /**
  * Prints HTML with meta information for the current post author.
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
-function designsimply_posted_by() {
+function photo_addict_posted_by() {
 	if ( is_single() ) {
-		printf( __( 'by <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>', 'designsimply' ),
+		printf( __( 'by <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>', 'photo-addict' ),
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_login' ) ) ),
-			esc_attr( sprintf( __( 'See more by %s', 'designsimply' ), get_the_author() ) ),
+			esc_attr( sprintf( __( 'See more by %s', 'photo-addict' ), get_the_author() ) ),
 			esc_html( get_the_author() )
 		);
 	}
@@ -144,9 +144,9 @@ endif;
 /**
  * Returns true if a blog has more than 1 category
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
-function designsimply_categorized_blog() {
+function photo_addict_categorized_blog() {
 	if ( false === ( $all_the_cool_cats = get_transient( 'all_the_cool_cats' ) ) ) {
 		// Create an array of all the categories that are attached to posts
 		$all_the_cool_cats = get_categories( array(
@@ -160,22 +160,22 @@ function designsimply_categorized_blog() {
 	}
 
 	if ( '1' != $all_the_cool_cats ) {
-		// This blog has more than 1 category so designsimply_categorized_blog should return true
+		// This blog has more than 1 category so photo_addict_categorized_blog should return true
 		return true;
 	} else {
-		// This blog has only 1 category so designsimply_categorized_blog should return false
+		// This blog has only 1 category so photo_addict_categorized_blog should return false
 		return false;
 	}
 }
 
 /**
- * Flush out the transients used in designsimply_categorized_blog
+ * Flush out the transients used in photo_addict_categorized_blog
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
-function designsimply_category_transient_flusher() {
+function photo_addict_category_transient_flusher() {
 	// Like, beat it. Dig?
 	delete_transient( 'all_the_cool_cats' );
 }
-add_action( 'edit_category', 'designsimply_category_transient_flusher' );
-add_action( 'save_post', 'designsimply_category_transient_flusher' );
+add_action( 'edit_category', 'photo_addict_category_transient_flusher' );
+add_action( 'save_post', 'photo_addict_category_transient_flusher' );

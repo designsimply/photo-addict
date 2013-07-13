@@ -2,8 +2,8 @@
 /**
  * The template for displaying 404 pages (Not Found).
  *
- * @package designsimply
- * @since designsimply 1.0
+ * @package photo-addict
+ * @since photo-addict 1.0
  */
 
 get_header(); ?>
@@ -17,13 +17,13 @@ get_header(); ?>
  * E.g., it puts together the home page when no home.php file exists.
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
- * @package designsimply
- * @since designsimply 1.0
+ * @package photo-addict
+ * @since photo-addict 1.0
  */
 get_header();
-designsimply_tonesque_css(); ?>
+photo_addict_tonesque_css(); ?>
 
-		<h2><?php _e( 'Sad bunny! That page can&rsquo;t be found.', 'designsimply' ); ?></h2>
+		<h2><?php _e( 'Sad bunny! That page can&rsquo;t be found.', 'photo-addict' ); ?></h2>
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<div class="the-content">
@@ -35,7 +35,7 @@ designsimply_tonesque_css(); ?>
 						//the_widget( 'WP_Widget_Archives' ); /* translators: %1$s: smilie */
 					?>
 
-					<?php //wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'designsimply' ), 'after' => '</div>' ) ); ?>
+					<?php //wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'photo-addict' ), 'after' => '</div>' ) ); ?>
 				</div><!-- .the-content -->
 
 			<div class="site-title">

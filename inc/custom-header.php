@@ -13,8 +13,8 @@
 	<?php } // if ( ! empty( $header_image ) ) ?>
 
  *
- * @package designsimply
- * @since designsimply 1.0
+ * @package photo-addict
+ * @since photo-addict 1.0
  */
 
 /**
@@ -27,25 +27,25 @@
  *
  * @todo Rework this function to remove WordPress 3.4 support when WordPress 3.6 is released.
  *
- * @uses designsimply_header_style()
- * @uses designsimply_admin_header_style()
- * @uses designsimply_admin_header_image()
+ * @uses photo_addict_header_style()
+ * @uses photo_addict_admin_header_style()
+ * @uses photo_addict_admin_header_image()
  *
- * @package designsimply
+ * @package photo-addict
  */
-function designsimply_custom_header_setup() {
+function photo_addict_custom_header_setup() {
 	$args = array(
 		'default-image'          => '',
 		'default-text-color'     => '000',
 		'width'                  => 1000,
 		'height'                 => 250,
 		'flex-height'            => true,
-		'wp-head-callback'       => 'designsimply_header_style',
-		'admin-head-callback'    => 'designsimply_admin_header_style',
-		'admin-preview-callback' => 'designsimply_admin_header_image',
+		'wp-head-callback'       => 'photo_addict_header_style',
+		'admin-head-callback'    => 'photo_addict_admin_header_style',
+		'admin-preview-callback' => 'photo_addict_admin_header_image',
 	);
 
-	$args = apply_filters( 'designsimply_custom_header_args', $args );
+	$args = apply_filters( 'photo_addict_custom_header_args', $args );
 
 	if ( function_exists( 'wp_get_theme' ) ) {
 		add_theme_support( 'custom-header', $args );
@@ -58,7 +58,7 @@ function designsimply_custom_header_setup() {
 		add_custom_image_header( $args['wp-head-callback'], $args['admin-head-callback'], $args['admin-preview-callback'] );
 	}
 }
-add_action( 'after_setup_theme', 'designsimply_custom_header_setup' );
+add_action( 'after_setup_theme', 'photo_addict_custom_header_setup' );
 
 /**
  * Shiv for get_custom_header().
@@ -71,8 +71,8 @@ add_action( 'after_setup_theme', 'designsimply_custom_header_setup' );
  * @todo Remove this function when WordPress 3.6 is released.
  * @return stdClass All properties represent attributes of the curent header image.
  *
- * @package designsimply
- * @since designsimply 1.1
+ * @package photo-addict
+ * @since photo-addict 1.1
  */
 
 if ( ! function_exists( 'get_custom_header' ) ) {
@@ -86,15 +86,15 @@ if ( ! function_exists( 'get_custom_header' ) ) {
 	}
 }
 
-if ( ! function_exists( 'designsimply_header_style' ) ) :
+if ( ! function_exists( 'photo_addict_header_style' ) ) :
 /**
  * Styles the header image and text displayed on the blog
  *
- * @see designsimply_custom_header_setup().
+ * @see photo_addict_custom_header_setup().
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
-function designsimply_header_style() {
+function photo_addict_header_style() {
 
 	// If no custom options for text are set, let's bail
 	// get_header_textcolor() options: HEADER_TEXTCOLOR is default, hide text (returns 'blank') or any hex value
@@ -125,17 +125,17 @@ function designsimply_header_style() {
 	</style>
 	<?php
 }
-endif; // designsimply_header_style
+endif; // photo_addict_header_style
 
-if ( ! function_exists( 'designsimply_admin_header_style' ) ) :
+if ( ! function_exists( 'photo_addict_admin_header_style' ) ) :
 /**
  * Styles the header image displayed on the Appearance > Header admin panel.
  *
- * @see designsimply_custom_header_setup().
+ * @see photo_addict_custom_header_setup().
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
-function designsimply_admin_header_style() {
+function photo_addict_admin_header_style() {
 ?>
 	<style type="text/css">
 	.appearance_page_custom-header #headimg {
@@ -155,17 +155,17 @@ function designsimply_admin_header_style() {
 	</style>
 <?php
 }
-endif; // designsimply_admin_header_style
+endif; // photo_addict_admin_header_style
 
-if ( ! function_exists( 'designsimply_admin_header_image' ) ) :
+if ( ! function_exists( 'photo_addict_admin_header_image' ) ) :
 /**
  * Custom header image markup displayed on the Appearance > Header admin panel.
  *
- * @see designsimply_custom_header_setup().
+ * @see photo_addict_custom_header_setup().
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
-function designsimply_admin_header_image() { ?>
+function photo_addict_admin_header_image() { ?>
 	<div id="headimg">
 		<?php
 		if ( 'blank' == get_header_textcolor() || '' == get_header_textcolor() )
@@ -181,4 +181,4 @@ function designsimply_admin_header_image() { ?>
 		<?php endif; ?>
 	</div>
 <?php }
-endif; // designsimply_admin_header_image
+endif; // photo_addict_admin_header_image

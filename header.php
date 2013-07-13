@@ -9,7 +9,7 @@
 	if ( $site_description && ( is_home() || is_front_page() ) )
 		echo " - $site_description";
 	if ( $paged >= 2 || $page >= 2 )
-		echo ' - ' . sprintf( __( 'Page %s', 'designsimply' ), max( $paged, $page ) );
+		echo ' - ' . sprintf( __( 'Page %s', 'photo-addict' ), max( $paged, $page ) );
 	?></title>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width" />

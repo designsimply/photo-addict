@@ -2,17 +2,17 @@
 /**
  * The template file for displaying image attachments.
  *
- * @package designsimply
- * @since designsimply 1.0
+ * @package photo-addict
+ * @since photo-addict 1.0
  */
 get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
-	<?php while ( have_posts() ) : the_post(); designsimply_tonesque_css(); ?>
+	<?php while ( have_posts() ) : the_post(); photo_addict_tonesque_css(); ?>
 		<h2><a class="the-title" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" rel="bookmark"><?php the_title(); ?></a>
 			<span class="sep"> // </span>
 			<?php $metadata = wp_get_attachment_metadata();
-			printf( __( '<a class="post-parent" href="%1$s" title="%2$s" rel="gallery">%2$s</a>', 'designsimply' ),
+			printf( __( '<a class="post-parent" href="%1$s" title="%2$s" rel="gallery">%2$s</a>', 'photo-addict' ),
 				get_permalink( $post->post_parent ),
 				get_the_title( $post->post_parent )
 			); ?>
@@ -20,12 +20,12 @@ get_header(); ?>
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<nav>
-				<span class="next"><?php next_image_link( '%link', __( '<div class="genericon genericon-expand"></div>', 'designsimply' ) ); ?></span>
-				<span class="previous"><?php previous_image_link( '%link', __( '<div class="genericon genericon-collapse"></div>', 'designsimply' ) ); ?></span>
+				<span class="next"><?php next_image_link( '%link', __( '<div class="genericon genericon-expand"></div>', 'photo-addict' ) ); ?></span>
+				<span class="previous"><?php previous_image_link( '%link', __( '<div class="genericon genericon-collapse"></div>', 'photo-addict' ) ); ?></span>
 			</nav>
 
 			<?php
-				$attachment_size = apply_filters( 'designsimply_attachment_size', array( 640, 640 ) ); // Filterable image size.
+				$attachment_size = apply_filters( 'photo_addict_attachment_size', array( 640, 640 ) ); // Filterable image size.
 				//echo wp_get_attachment_image( $post->ID, $attachment_size );
 				echo wp_get_attachment_image( $post->ID, 'large' );
 				$image_attributes = wp_get_attachment_image_src( $post->ID, 'large' );
@@ -45,10 +45,10 @@ get_header(); ?>
 				</div><!-- .the-content -->
 
 			<div class="meta">
-				<div class="genericon-22 genericon-image"></div> <?php designsimply_posted_by(); ?>
+				<div class="genericon-22 genericon-image"></div> <?php photo_addict_posted_by(); ?>
 				<span class="sep"> // </span>
-				<?php designsimply_posted_on(); ?>
-				<?php edit_post_link( __( '<div class="genericon-22 genericon-edit"></div>', 'designsimply' ), '', '' ); ?>
+				<?php photo_addict_posted_on(); ?>
+				<?php edit_post_link( __( '<div class="genericon-22 genericon-edit"></div>', 'photo-addict' ), '', '' ); ?>
 			</div><!-- .meta -->
 
 			<div class="site-title">
@@ -57,15 +57,15 @@ get_header(); ?>
 
 			<?php
 				/* translators: used between list items, there is a space after the comma */
-				$tags_list = get_the_tag_list( '', __( ', ', 'designsimply' ),'.' );
+				$tags_list = get_the_tag_list( '', __( ', ', 'photo-addict' ),'.' );
 				if ( $tags_list ) :
 				?>
 				<span class="tags-links">
-					<?php printf( __( 'Tagged %1$s', 'designsimply' ), $tags_list ); ?>
+					<?php printf( __( 'Tagged %1$s', 'photo-addict' ), $tags_list ); ?>
 				</span>
 				<?php endif; // End if $tags_list ?>
 			<?php //if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
-				<!--<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'designsimply' ), __( '1 Comment', 'designsimply' ), __( '% Comments', 'designsimply' ) ); ?>.</span>-->
+				<!--<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'photo-addict' ), __( '1 Comment', 'photo-addict' ), __( '% Comments', 'photo-addict' ) ); ?>.</span>-->
 			<?php //endif; ?>
 
 		</article><!-- #post-<?php the_ID(); ?> -->

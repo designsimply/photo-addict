@@ -1,20 +1,20 @@
 <?php
 /**
- * designsimply functions and definitions
+ * photo-addict functions and definitions
  *
- * @package designsimply
- * @since designsimply 1.0
+ * @package photo-addict
+ * @since photo-addict 1.0
  */
 
 /**
  * Set the content width based on the theme's design and stylesheet.
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
 if ( ! isset( $content_width ) )
 	$content_width = 640; /* pixels */
 
-if ( ! function_exists( 'designsimply_setup' ) ) :
+if ( ! function_exists( 'photo_addict_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  *
@@ -22,9 +22,9 @@ if ( ! function_exists( 'designsimply_setup' ) ) :
  * before the init hook. The init hook is too late for some features, such as indicating
  * support post thumbnails.
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
-function designsimply_setup() {
+function photo_addict_setup() {
 
 	/**
 	 * Custom template tags for this theme.
@@ -44,10 +44,10 @@ function designsimply_setup() {
 	/**
 	 * Make theme available for translation
 	 * Translations can be filed in the /languages/ directory
-	 * If you're building a theme based on designsimply, use a find and replace
-	 * to change 'designsimply' to the name of your theme in all the template files
+	 * If you're building a theme based on photo-addict, use a find and replace
+	 * to change 'photo-addict' to the name of your theme in all the template files
 	 */
-	load_theme_textdomain( 'designsimply', get_template_directory() . '/languages' );
+	load_theme_textdomain( 'photo-addict', get_template_directory() . '/languages' );
 
 	/**
 	 * Add default posts and comments RSS feed links to head
@@ -89,20 +89,20 @@ function designsimply_setup() {
 	 * This theme uses wp_nav_menu() in one location.
 	 */
 	register_nav_menus( array(
-		'primary' => __( 'Primary Menu', 'designsimply' ),
+		'primary' => __( 'Primary Menu', 'photo-addict' ),
 	) );
 }
-endif; // designsimply_setup
-add_action( 'after_setup_theme', 'designsimply_setup' );
+endif; // photo_addict_setup
+add_action( 'after_setup_theme', 'photo_addict_setup' );
 
 /**
  * Register widgetized area and update sidebar with default widgets
  *
- * @since designsimply 1.0
+ * @since photo-addict 1.0
  */
-function designsimply_widgets_init() {
+function photo_addict_widgets_init() {
 	register_sidebar( array(
-		'name' => __( 'Sidebar', 'designsimply' ),
+		'name' => __( 'Sidebar', 'photo-addict' ),
 		'id' => 'sidebar-1',
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
@@ -110,12 +110,12 @@ function designsimply_widgets_init() {
 		'after_title' => '</h2>',
 	) );
 }
-add_action( 'widgets_init', 'designsimply_widgets_init' );
+add_action( 'widgets_init', 'photo_addict_widgets_init' );
 
 /**
  * Enqueue scripts and styles
  */
-function designsimply_scripts() {
+function photo_addict_scripts() {
 	wp_enqueue_style( 'style', get_stylesheet_uri() );
 
 	//wp_enqueue_script( 'small-menu', get_template_directory_uri() . '/js/small-menu.js', array( 'jquery' ), '20120206', true );
@@ -128,12 +128,12 @@ function designsimply_scripts() {
 
 	/* translators: If there are characters in your language that are not supported
 	   by Open Sans, translate this to 'off'. Do not translate into your own language. */
-	if ( 'off' !== _x( 'on', 'Open Sans font: on or off', 'designsimply' ) ) {
+	if ( 'off' !== _x( 'on', 'Open Sans font: on or off', 'photo-addict' ) ) {
 		$subsets = 'latin,latin-ext';
 
 		/* translators: To add an additional Open Sans character subset specific to your language, translate
 		   this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your own language. */
-		$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)', 'designsimply' );
+		$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)', 'photo-addict' );
 
 		if ( 'cyrillic' == $subset )
 			$subsets .= ',cyrillic,cyrillic-ext';
@@ -147,10 +147,10 @@ function designsimply_scripts() {
 			'family' => 'Open+Sans:400italic,700italic,400,700',
 			'subset' => $subsets,
 		);
-		wp_enqueue_style( 'designsimply-fonts', add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" ), array(), null );
+		wp_enqueue_style( 'photo-addict-fonts', add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" ), array(), null );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'designsimply_scripts' );
+add_action( 'wp_enqueue_scripts', 'photo_addict_scripts' );
 
 /**
  * Implement the Custom Header feature
@@ -188,30 +188,30 @@ function show_template() {
 }
 add_filter( 'got_rewrite', '__return_true' );
 
-add_filter('previous_image_link', 'designsimply_previous_image_link',10,3);
+add_filter('previous_image_link', 'photo_addict_previous_image_link',10,3);
 /**
  * Filter to add a link back to the parent on the last image attachment page
  **/
-function designsimply_previous_image_link($val, $attr, $content = null) {
+function photo_addict_previous_image_link($val, $attr, $content = null) {
 	global $post;
 
 	if ( '' == $val ) :
-		$output = __( '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate90"></div></a>', 'designsimply' );
+		$output = __( '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate90"></div></a>', 'photo-addict' );
 	else : 
 		$output = $val;
 	endif;
 	return $output;
 }
 
-add_filter('next_image_link', 'designsimply_next_image_link',10,3);
+add_filter('next_image_link', 'photo_addict_next_image_link',10,3);
 /**
  * Filter to add a link back to the parent on the last image attachment page
  **/
-function designsimply_next_image_link($val, $attr, $content = null) {
+function photo_addict_next_image_link($val, $attr, $content = null) {
 	global $post;
 
 	if ( '' == $val ) :
-		$output = __( '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate270"></div></a>', 'designsimply' );
+		$output = __( '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate270"></div></a>', 'photo-addict' );
 	else : 
 		$output = $val;
 	endif;
@@ -234,11 +234,11 @@ function get_random_image_src( $size = 'thumbnail' ) {
 	return $random_image[0];
 }
 
-if ( ! function_exists( 'designsimply_tonesque_css' ) ) :
+if ( ! function_exists( 'photo_addict_tonesque_css' ) ) :
 /**
  * Print Tonesque css for image posts
  */
-function designsimply_tonesque_css( $my_color = '' ) {
+function photo_addict_tonesque_css( $my_color = '' ) {
 	global $post;
 
 	// Find a representative image to use for the background in this order:
@@ -273,7 +273,7 @@ function designsimply_tonesque_css( $my_color = '' ) {
 	}
 	// If there's no image, use a random attachment image
 	if ( ! $my_image || is_home() )
-		$my_image = get_random_image_src( 'thumbnail' );
+		$my_image = get_random_image_src( 'medium' );
 
 	// Let me override the image with a color code if I want
 	if ( substr( $my_color, 0, 4 ) == 'http' )
@@ -327,4 +327,4 @@ function designsimply_tonesque_css( $my_color = '' ) {
 		:-ms-input-placeholder { color: rgba(' . $contrast . ', 0.7); }
 	</style>';
 }
-endif; // end check for designsimply_tonesque_css()
+endif; // end check for photo_addict_tonesque_css()

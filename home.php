@@ -8,12 +8,12 @@
  * E.g., it puts together the home page when no home.php file exists.
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
- * @package designsimply
- * @since designsimply 1.0
+ * @package photo-addict
+ * @since photo-addict 1.0
  */
 
 get_header();
-designsimply_tonesque_css(); ?>
+photo_addict_tonesque_css(); ?>
 
 	<section class="content" role="main">
 		<article>
@@ -43,7 +43,7 @@ designsimply_tonesque_css(); ?>
 				endif;
 			?>
 			</ul>
-			<?php designsimply_content_nav( 'nav-below' ); ?>
+			<?php photo_addict_content_nav( 'nav-below' ); ?>
 
 		</article>
 
@@ -76,7 +76,7 @@ designsimply_tonesque_css(); ?>
 				endwhile;
 				endif;
 			?>
-			<?php //designsimply_content_nav( 'nav-below' ); ?>
+			<?php //photo_addict_content_nav( 'nav-below' ); ?>
 		</article>
 
 		<article>
