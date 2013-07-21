@@ -276,7 +276,7 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 	case $attachment_images = get_children( array('post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image') ) :
 		shuffle( $attachment_images );
 		$attachment_image = array_shift( $attachment_images );
-		$my_image = $attachment_image->guid;;
+		$my_image = $attachment_image->guid;
 		break;
 	// Scan content for images
 	default:
