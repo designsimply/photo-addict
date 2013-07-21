@@ -284,8 +284,8 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 		$my_image = isset( $matches[1][0] ) ? $matches[1][0] : '';
 		break;
 	}
-	// If no image has been found yet, use a random attachment image
-	if ( ! $my_image || is_home() || is_single() )
+	// If there's no image, use a random attachment image
+	if ( ! $my_image || is_home() )
 		$my_image = get_random_image_src( 'medium' );
 
 	// Let me override the image with a color code if I want
