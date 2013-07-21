@@ -22,6 +22,13 @@ jQuery( document ).ready( function( $ ) {
 				}
 			}
 		}
+		else if ( e.which == 76 ) {  // l key code
+			if ( e.shiftKey ) { // Shift modifier key
+				if ( e.ctrlKey ) { // Control modifier key
+					window.location = keyboard_navigation_args.home_url + '/wp-login.php?redirect_to='+document.URL;
+				}
+			}
+		}
 		if ( url && ( !$( 'textarea, input' ).is( ':focus' ) ) ) {
 			window.location = url;
 		}
