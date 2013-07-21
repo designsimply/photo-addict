@@ -9,13 +9,17 @@ jQuery( document ).ready( function( $ ) {
 		}
 		else if ( e.which == 40 ) {  // Down arrow key code
 			if ( e.altKey ) { // Alt modifier key
-				url = $( '.random-images a' ).attr( 'href' );
-				if (!url) { url = $( '.random-image' ).attr( 'href' ); }
+				if ( e.ctrlKey ) { // Control modifier key
+					url = $( '.random-images a' ).attr( 'href' );
+					if (!url) { url = $( '.random-image' ).attr( 'href' ); }
+				}
 			}
 		}
 		else if ( e.which == 38 ) {  // Up arrow key code
 			if ( e.altKey ) { // Alt modifier key
-				url = $( 'a.post-parent' ).attr( 'href' );
+				if ( e.ctrlKey ) { // Control modifier key
+					url = $( 'a.post-parent' ).attr( 'href' );
+				}
 			}
 		}
 		if ( url && ( !$( 'textarea, input' ).is( ':focus' ) ) ) {
