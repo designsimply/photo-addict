@@ -10,6 +10,7 @@ jQuery( document ).ready( function( $ ) {
 		else if ( e.which == 40 ) {  // Down arrow key code
 			if ( e.altKey ) { // Alt modifier key
 				url = $( '.random-images a' ).attr( 'href' );
+				if (!url) { url = $( '.random-image' ).attr( 'href' ); }
 			}
 		}
 		else if ( e.which == 38 ) {  // Up arrow key code
@@ -23,3 +24,4 @@ jQuery( document ).ready( function( $ ) {
 		// Find key codes at http://www.scripttheweb.com/js/ref/javascript-key-codes/
 	} );
 } );
+

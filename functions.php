@@ -228,6 +228,7 @@ if ( method_exists( 'Random_Images_Plugin', 'random_images' ) )
  * Get a random image
  */
 function get_random_image_src( $size = 'thumbnail' ) {
+	$random_image = array();
 	$args = array(
 		'post_type' => 'attachment',
 		'post_mime_type' =>'image',
@@ -237,6 +238,11 @@ function get_random_image_src( $size = 'thumbnail' ) {
 	);
 	$query_images = new WP_Query( $args );
 	$random_image = wp_get_attachment_image_src ( $query_images->post->ID, $size);
+
+	if ( isset( $query_images->post->ID ) ) {
+		$random_image = wp_get_attachment_image_src ( $query_images->post->ID, $size);
+		echo '<a href="' . get_permalink( $query_images->post->ID ) . '" class="random-image" />';
+	}
 
 	return $random_image[0];
 }
@@ -278,8 +284,8 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 		$my_image = isset( $matches[1][0] ) ? $matches[1][0] : '';
 		break;
 	}
-	// If there's no image, use a random attachment image
-	if ( ! $my_image || is_home() )
+	// If no image has been found yet, use a random attachment image
+	if ( ! $my_image || is_home() || is_single() )
 		$my_image = get_random_image_src( 'medium' );
 
 	// Let me override the image with a color code if I want
