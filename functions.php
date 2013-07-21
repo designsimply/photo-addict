@@ -219,6 +219,12 @@ function photo_addict_next_image_link($val, $attr, $content = null) {
 }
 
 /**
+ * If the Random Images plugin is active, allow the random_images shortcode to work in text widgets
+ **/
+if ( method_exists( 'Random_Images_Plugin', 'random_images' ) )
+	add_filter('widget_text', 'Random_Images_Plugin::random_images');
+
+/**
  * Get a random image
  */
 function get_random_image_src( $size = 'thumbnail' ) {
@@ -231,6 +237,7 @@ function get_random_image_src( $size = 'thumbnail' ) {
 	);
 	$query_images = new WP_Query( $args );
 	$random_image = wp_get_attachment_image_src ( $query_images->post->ID, $size);
+
 	return $random_image[0];
 }
 
