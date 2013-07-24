@@ -12,15 +12,7 @@
 <?php if ( ( is_single() || is_page() ) && ! is_attachment() ) : ?>
 <nav role="navigation">
 	<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
-
-	<div class="social">
-		<ul>
-			<li><a href="https://twitter.com/designsimply"><div class="genericon genericon-twitter"></div>  <span>twitter</span></a></li>
-			<li><a href="http://dribbble.com/designsimply"><div class="genericon genericon-dribbble"></div> <span>dribbble</span></a></li>
-			<li><a href="https://github.com/designsimply"><div class="genericon genericon-github"></div> <span>github</span></a></li>
-			<li><a href="http://designsimply.com/feed/"><div class="genericon genericon-feed"></div>  <span>feed</span></a></li>
-		</ul>
-	</div>
+	<?php dynamic_sidebar( 'sidebar-2' ); ?>
 </nav>
 
 <footer>
