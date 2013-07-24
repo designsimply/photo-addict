@@ -12,8 +12,7 @@
  * @since photo-addict 1.0
  */
 
-get_header();
-photo_addict_tonesque_css(); ?>
+get_header(); ?>
 
 	<section class="content" role="main">
 		<article>
@@ -35,7 +34,14 @@ photo_addict_tonesque_css(); ?>
 
 				if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post();
 				$ids[] = get_the_ID(); ?>
-				<li><a href="<?php the_permalink() ?>"><?php echo $post->post_title; //echo substr( $post->post_title, 0, 37 ); ?></a></li>
+				<li><a href="<?php the_permalink() ?>" <?php post_class(); ?>>
+				<?php // If the post doesn't have a title, print the month and day
+				if ( empty( $post->post_title ) ) :
+					echo the_date('F jS');
+				else : 
+					echo $post->post_title;
+				endif; ?>
+				</a></li>
 			<?php
 				endwhile;
 				else :
@@ -47,70 +53,72 @@ photo_addict_tonesque_css(); ?>
 
 		</article>
 
+		<?php
+		$args = array(
+			'posts_per_page' => 1,
+			'tax_query' => array(
+				array(
+					'taxonomy' => 'post_format',
+					'field' => 'slug',
+					'terms' => 'post-format-status',
+					'operator' => 'IN'
+				)
+		) );
+		$query = new WP_Query( $args );
+
+		if ($query->have_posts()) : ?>
 		<article>
 			<h3>Speaking</h3>
-			<?php
-				$args = array(
-					//'paged' => $paged,
-					'posts_per_page' => 1,
-					'tax_query' => array(
-						array(
-							'taxonomy' => 'post_format',
-							'field' => 'slug',
-							'terms' => 'post-format-status',
-							'operator' => 'IN'
-						)
-				) );
-				$query = new WP_Query( $args );
-
-				if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post();
-
-					// Use the post format image if it exists, then fallback to the featured image
-					if ( function_exists( 'the_post_format_image' ) ) : ?>
-						<a href="<?php the_permalink() ?>" class="post-format-status"><?php the_post_format_image( 'medium' ); ?><br><?php the_title(); ?></a>
-					<?php elseif ( has_post_thumbnail() ) : ?>
-						<a href="<?php the_permalink() ?>" class="post-format-status"><?php the_post_thumbnail( 'medium' ); ?><br><?php the_title(); ?></a>
+			<?php while ($query->have_posts()) : $query->the_post();
+					// Look for an image associated with the post, fallback to the excerpt
+					$first_image = photo_addict_first_post_image_url( 'medium' );
+					if ( isset( $first_image ) ) : ?>
+						<a href="<?php the_permalink() ?>" class="post-format-status"><img src="<?php echo $first_image; ?>" /><br><?php the_title(); ?></a>
 					<?php else : ?>
-						<a href="<?php the_permalink() ?>" class="post-format-status"><?php the_title(); ?></a>						
+						<a href="<?php the_permalink() ?>" class="post-format-status"><?php the_title(); ?></a>
+						<p><?php the_excerpt(); ?></p>
 					<?php endif;
-				endwhile;
-				endif;
-			?>
-			<?php //photo_addict_content_nav( 'nav-below' ); ?>
+				endwhile; ?>
 		</article>
+		<?php endif; ?>
+		<?php //photo_addict_content_nav( 'nav-below' ); ?>
 
+		<?php $args = array(
+			//'paged' => $paged,
+			'posts_per_page' => 12,
+			'tax_query' => array(
+				array(
+					'taxonomy' => 'post_format',
+					'field' => 'slug',
+					'terms' => array( 'post-format-gallery' ),
+					'operator' => 'IN'
+				)
+		) );
+		$query = new WP_Query( $args );
+
+		if ($query->have_posts()) : ?>
 		<article>
 			<h3>Photography</h3>
 			<div class="image-block">
-				<?php $args = array(
-					//'paged' => $paged,
-					'posts_per_page' => 12,
-					'tax_query' => array(
-						array(
-							'taxonomy' => 'post_format',
-							'field' => 'slug',
-							'terms' => array( 'post-format-gallery' ),
-							'operator' => 'IN'
-						)
-				) );
-				$query = new WP_Query( $args );
-
-
-				if ($query->have_posts()) : while ($query->have_posts()) : $query->the_post(); ?>
+				<?php while ($query->have_posts()) : $query->the_post(); ?>
 					<?php if ( has_post_thumbnail() ) : ?>
 						<a href="<?php the_permalink() ?>"><?php the_post_thumbnail( 'thumbnail' ); ?></a>
 					<?php elseif ( function_exists( 'the_post_format_image' ) ) : ?>
 						<a href="<?php the_permalink() ?>"><?php the_post_format_image( 'thumbnail' ); ?></a>
+					<?php else : ?>
+						<?php // @todo check to see if a gallery is present and get first gallery image, fallback to any image after that ?>
 					<?php endif;
-				endwhile;
-				endif; ?>
+				endwhile; ?>
 			</div>
 		</article>
+		<?php endif; ?>
 	</section><!-- .content -->
 
 	<section class="side" role="complimentary">
 
 	</section> <!-- .side -->
 
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+<?php
+	photo_addict_tonesque_css();
+	get_footer();
+?>

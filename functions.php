@@ -109,6 +109,14 @@ function photo_addict_widgets_init() {
 		'before_title' => '<h2 class="widget-title">',
 		'after_title' => '</h2>',
 	) );
+	register_sidebar( array(
+		'name' => __( 'Below Footer', 'photo-addict' ),
+		'id' => 'sidebar-2',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget' => '</aside>',
+		'before_title' => '<h2 class="widget-title">',
+		'after_title' => '</h2>',
+	) );
 }
 add_action( 'widgets_init', 'photo_addict_widgets_init' );
 
@@ -118,13 +126,21 @@ add_action( 'widgets_init', 'photo_addict_widgets_init' );
 function photo_addict_scripts() {
 	wp_enqueue_style( 'style', get_stylesheet_uri() );
 
+	function photo_addict_add_editor_styles() {
+		add_editor_style( 'editor-style.css' );
+	}
+	add_action( 'init', 'photo_addict_add_editor_styles' );
+
 	//wp_enqueue_script( 'small-menu', get_template_directory_uri() . '/js/small-menu.js', array( 'jquery' ), '20120206', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
-	wp_enqueue_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20120202' );
+	$keyboard_navigation_args = array( 'home_url' => home_url() );
+	wp_register_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', __FILE__ );
+	wp_localize_script( 'keyboard-image-navigation', 'keyboard_navigation_args', $keyboard_navigation_args );
+	wp_enqueue_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20130721' );
 
 	/* translators: If there are characters in your language that are not supported
 	   by Open Sans, translate this to 'off'. Do not translate into your own language. */
@@ -155,7 +171,7 @@ add_action( 'wp_enqueue_scripts', 'photo_addict_scripts' );
 /**
  * Implement the Custom Header feature
  */
-//require( get_template_directory() . '/inc/custom-header.php' );
+require( get_template_directory() . '/inc/custom-header.php' );
 
 if ( ! function_exists( 'mv_browser_body_class' ) ) {
 /**
@@ -188,41 +204,41 @@ function show_template() {
 }
 add_filter( 'got_rewrite', '__return_true' );
 
-add_filter('previous_image_link', 'photo_addict_previous_image_link',10,3);
+add_filter('previous_image_link', 'photo_addict_previous_link',10,3);
+add_filter('next_post_link', 'photo_addict_previous_link',10,3);
 /**
  * Filter to add a link back to the parent on the last image attachment page
  **/
-function photo_addict_previous_image_link($val, $attr, $content = null) {
+function photo_addict_previous_link( $val, $attr, $content = null ) {
 	global $post;
+	$parent_link = '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="navigation"><div class="genericon genericon-expand rotate90"></div></a>';
 
-	if ( '' == $val ) :
-		$output = __( '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate90"></div></a>', 'photo-addict' );
-	else : 
-		$output = $val;
-	endif;
-	return $output;
+	if ( empty( $post->post_parent ) )
+		$parent_link = '<a class="post-parent" href="' . home_url() . '" title="' . esc_attr( get_bloginfo( 'name') ) . '" rel="home"><div class="genericon genericon-expand rotate90"></div></a>';
+
+	return ( empty( $val ) ) ? $parent_link : $val ;
 }
 
-add_filter('next_image_link', 'photo_addict_next_image_link',10,3);
+add_filter('next_image_link', 'photo_addict_next_link',10,3);
+add_filter('previous_post_link', 'photo_addict_next_link',10,3);
 /**
  * Filter to add a link back to the parent on the last image attachment page
  **/
-function photo_addict_next_image_link($val, $attr, $content = null) {
+function photo_addict_next_link( $val, $attr, $content = null ) {
 	global $post;
+	$parent_link = '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="navigation"><div class="genericon genericon-expand rotate270"></div></a>';
 
-	if ( '' == $val ) :
-		$output = __( '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="gallery"><div class="genericon genericon-expand rotate270"></div></a>', 'photo-addict' );
-	else : 
-		$output = $val;
-	endif;
-	return $output;
+	if ( empty( $post->post_parent ) )
+		$parent_link = '<a class="post-parent" href="' . home_url() . '" title="' . esc_attr( get_bloginfo( 'name') ) . '" rel="home"><div class="genericon genericon-expand rotate270"></div></a>';
+
+	return ( empty( $val ) ) ? $parent_link : $val ;
 }
 
 /**
  * If the Random Images plugin is active, allow the random_images shortcode to work in text widgets
  **/
-if ( method_exists( 'Random_Images_Plugin', 'random_images' ) )
-	add_filter('widget_text', 'Random_Images_Plugin::random_images');
+//if ( method_exists( 'Random_Images_Plugin', 'random_images' ) )
+//	add_filter('widget_text', 'Random_Images_Plugin::random_images');
 
 /**
  * Get a random image
@@ -237,15 +253,67 @@ function get_random_image_src( $size = 'thumbnail' ) {
         'orderby' => 'rand'
 	);
 	$query_images = new WP_Query( $args );
-	$random_image = wp_get_attachment_image_src ( $query_images->post->ID, $size);
+
+	if ( ! in_array( $size, array( 'thumbnail', 'medium', 'large', 'full' ) ) )
+		$size = 'thumbnail';
 
 	if ( isset( $query_images->post->ID ) ) {
 		$random_image = wp_get_attachment_image_src ( $query_images->post->ID, $size);
 		echo '<a href="' . get_permalink( $query_images->post->ID ) . '" class="random-image" />';
 	}
 
-	return $random_image[0];
+	if ( isset( $random_image[0] ) )
+		return $random_image[0];
 }
+
+if ( ! function_exists( 'photo_addict_first_post_image_url' ) ) :
+/**
+ * Find a representative image for the post in this order:
+ * attachment page image, featured image, post format image, first attached image, inline image
+ */
+function photo_addict_first_post_image_url( $size = 'thumbnail' ) {
+	global $post;
+
+	if ( empty( $id ) )
+		$id = $post->ID;
+
+	if ( ! in_array( $size, array( 'thumbnail', 'medium', 'large', 'full' ) ) )
+		$size = 'thumbnail';
+
+	switch (true) {
+	// Attachment page image
+	case is_attachment() :
+		$attachment_image = wp_get_attachment_image_src( $id, $size );
+		$my_image = $attachment_image[0];
+		break;
+	// Featured image
+	case has_post_thumbnail() :
+		$attachment_image = wp_get_attachment_image_src( get_post_thumbnail_id(), $size );
+		$my_image = $attachment_image[0];
+		break;
+	// Post format image
+	case empty( $image_content ) && has_post_format( $id ) && function_exists( 'get_the_post_format_image' ) :
+		$my_image = get_the_post_format_image( $size, $post );
+		break;
+	// First attached image
+	case $attachment_images = get_posts( array('post_parent' => $id, 'post_type' => 'attachment', 'posts_per_page' => 1, 'post_mime_type' => 'image') ) :
+		$attachment_image_obj = array_shift( $attachment_images );
+		//echo '$attachment_image is an ' . gettype( $attachment_image->ID );
+		//echo '<pre>'; var_dump($attachment_image); echo '</pre>';
+		$attachment_image = wp_get_attachment_image_src( $attachment_image_obj->ID, $size );
+		$my_image = $attachment_image[0];
+		break;
+	// Scan content for images
+	default:
+		$image_content = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', get_the_content(), $matches );
+		$my_image = isset( $matches[1][0] ) ? $matches[1][0] : '';
+		break;
+	}
+
+	if ( ! empty( $my_image ) )
+		return $my_image;
+}
+endif; // end photo_addict_first_post_image_url()
 
 if ( ! function_exists( 'photo_addict_tonesque_css' ) ) :
 /**
@@ -296,7 +364,7 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 
 	// Fallback to local copy of tonesque if the plugin is not active
 	if ( ! class_exists( 'Tonesque' ) )
-		include_once(  TEMPLATEPATH . '/inc/tonesque/tonesque.php' );
+		include_once(  get_template_directory() . '/inc/tonesque/tonesque.php' );
 
 	$tonesque = new Tonesque( $my_image );
 	$color = $tonesque->color();
@@ -325,9 +393,10 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 		body,
 		body a,
 		body a:visited { color: rgba(' . $contrast . ', 0.7); }
-		body a:hover { color: rgba(' . $contrast . ', 1); }
+		body a:hover, .home a.sticky:hover { color: rgba(' . $contrast . ', 1); }
+		body.home a.sticky { color: rgba(' . $contrast . ', 0.8); border-bottom: 1px dotted rgba(' . $contrast . ', 0.4); }
 		body div.sharedaddy div.sd-block {border-color: rgba(' . $contrast . ', 0.1); }
-		body .the-content a { border-bottom: 1px solid rgba(' . $contrast . ', 0.4); }
+		body .the-content a { border-bottom: 1px dotted rgba(' . $contrast . ', 0.4); }
 		body .the-content a:hover { border-color: rgba(' . $contrast . ', .9); color: rgba(' . $contrast . ', .9); }
 		body .the-content .gallery-item a,
 		body .the-content .gallery-item a:hover { border: none; }

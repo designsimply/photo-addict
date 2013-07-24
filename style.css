@@ -7,7 +7,7 @@ Description: A theme made for designsimply.com
 Version: 1.0
 License: GNU General Public License
 License URI: license.txt
-Tags:
+Tags: custom-header, custom-menu, editor-style, featured-images, fixed-width, one-column, photoblogging, post-formats, sticky-post
 min req v 2.5
 ----------------------------------------------- */
 
@@ -75,8 +75,8 @@ html {
 }
 
 body {
-  width: 64%;
-  margin: auto auto 2em;
+  width: 82%;
+  margin: auto auto 1em;
 }
 
 #wrapper > header h1 {
@@ -87,14 +87,18 @@ body {
   /*max-width: 300px;*/
 }
 
-.attachment #wrapper,
 article img {
   border-radius: 4px;
   height: auto;
   max-width: 100%;
 }
 
-article { 
+
+@media screen and (min-width: 64em) {
+body {
+  width: 64%;
+}
+article {
   position: relative;
 }
 
@@ -105,7 +109,7 @@ article .site-title {
   -ms-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  left: -260px;
+  left: -250px;
   top: 250px;
   width: 420px;
   text-align: right;
@@ -118,7 +122,7 @@ article .meta {
   -ms-transform: rotate(90deg);
   -o-transform: rotate(90deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  right: -250px;
+  right: -245px;
   top: 240px;
   width: 420px;
 }
@@ -134,23 +138,25 @@ article .meta {
 }
 
 .hentry > nav .previous {
-  left: -60px;
+  left: -50px;
 }
 
 .hentry > nav .next {
-  right: -55px;
+  right: -50px;
+}
+
+.attachment #wrapper {
+  min-width: 420px;
+}
 }
 
 #wrapper {
   max-width: 618px;
 }
 
-.attachment #wrapper {
-  min-width: 420px;
-}
-
 article.attachment img {
-  margin-top: .7em;
+  margin-top: 1em;
+  margin-bottom: -0.6em;
 }
 
 .attachment h2 {
@@ -158,7 +164,7 @@ article.attachment img {
 }
 
 /* Don't display captions in galleries */
-.gallery .wp-caption-text {
+.gallery-caption {
     display: none;
 }
 
@@ -197,6 +203,12 @@ nav[role="navigation"] ul li:last-child {
 #wrapper > footer {
   clear: both;
   overflow: hidden;
+}
+
+body .the-content .site-navigation a,
+.author article ul a,
+.author .gravatar {
+  border: none;
 }
 
 /* =Flexbox
@@ -240,15 +252,15 @@ body {
    align-items: center;
 
    -webkit-box-pack: center;
-   -moz-box-pack: center; 
-   -ms-flex-pack: center; 
+   -moz-box-pack: center;
+   -ms-flex-pack: center;
    -webkit-justify-content: center;
    justify-content: center;
 
    margin: auto;
    min-height: 100%;
    width: 100% /* for Firefox */
-} 
+}
 
 #wrapper > header,
 #wrapper > section {
@@ -297,23 +309,19 @@ body {
 .safari #wrapper > section article {
   max-width: 30%;
 }
-} /*
+}
 
+/*
 #wrapper {
   align-self: center;
   flex-direction: row-reverse;
 }
-
 
 #wrapper > header { -webkit-order: 2; }
 #wrapper > #random-images { -webkit-order: 1; }
 #wrapper > section.content { -webkit-order: 3; }
 #wrapper > section.side { -webkit-order: 5; }
 #wrapper > nav { -webkit-order: 6; }
-
-
-
-
 
 .home {
    display: -webkit-box;
@@ -330,7 +338,7 @@ body {
 
    min-height: 100%;
    width: 100%;
-} 
+}
 
 body { border: 5px solid red; }
 
@@ -383,6 +391,10 @@ body { border: 5px solid red; }
 
 /* =Random Images
 ----------------------------------------------- */
+.hidden {
+  display: none !important;
+}
+
 #wrapper > .random-images {
   display: -webkit-box;
   display: -moz-box;
@@ -404,15 +416,15 @@ body { border: 5px solid red; }
   padding-top: 32px;
 }
 
-.random-images a,
-.random-images a img { 
+#wrapper > .random-images a,
+#wrapper > .random-images a img {
   border-radius: 50%;
   width: 75px;
   height: 75px;
   display: block;
 }
 
-.random-images a {
+#wrapper > .random-images a {
   border: 2px solid rgba(0,0,0,.2);
 }
 
@@ -421,18 +433,7 @@ body { border: 5px solid red; }
   line-height: 1;
 }
 
-.image-block .random-images a,
-.the-content .random-images a {
-  float: left;
-}
-
-.the-content .random-images a:last-child:after {
-  content: ' ';
-  display: inline-block;
-  clear: both;
-}
-
-.random-images a img { 
+.random-images a img {
   -webkit-filter: grayscale(1) contrast(1.8);
   filter: grayscale(1) contrast(1.8);
 }
@@ -464,24 +465,6 @@ body { border: 5px solid red; }
 }
 
 @media screen and (min-width: 64em) {
-#wrapper {
-  padding-top: 100px;
-  padding-bottom: 45px;
-}
-
-.home #wrapper,
-.error404 #wrapper {
-  padding: 0;
-}
-
-.page #wrapper,
-.single #wrapper {
-  padding-top: 60px;
-}
-
-.attachment #wrapper {
-  padding: 100px 0 0 0;
-}
 
 .attachment #wrapper > .random-images {
   position: absolute;
@@ -490,12 +473,29 @@ body { border: 5px solid red; }
   width: 100%;
 }
 
-/*
-.home #wrapper > .random-images {
-  top: auto;
-  bottom: 0;
+body.random-images #wrapper {
+	padding-top: 100px;
+  text-align: left;
 }
-*/
+}
+
+/* =Images
+----------------------------------------------- */
+.wp-caption {
+  margin-bottom: 1em;
+  max-width: 96%;
+  padding: 9px;
+}
+.wp-caption.alignleft {
+  margin: 5px 10px 5px 0;
+}
+.wp-caption.alignright {
+  margin: 5px 0 5px 10px;
+}
+.wp-caption .wp-caption-text {
+  font-size: 0.75em;
+  margin: 0;
+  padding: 0;
 }
 
 /* =Forms
@@ -528,6 +528,7 @@ input[type="submit"] {
   -webkit-appearance: button; /* Corrects inability to style clickable 'input' types in iOS */
   padding: .9em 1em;
 }
+.bypostauthor,
 input[type="submit"] {
   background: rgba(255,255,255,.1);
   color: rgba(255,255,255,.8);
@@ -695,11 +696,11 @@ footer {display: none;}
 
 /* =Attachment Page
 ----------------------------------------------- */
-.attachment .the-content p:first-child {
+/*
+.attachment p:first-child {
   margin-top: 0.4em;
 }
 
-/*
 .attachment #wrapper > nav {
   display: none;
 }
@@ -865,7 +866,7 @@ pre {
   -ms-transform: rotate(270deg);
   -o-transform: rotate(270deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  }
+}
 /* Extra Genericon sizes and circle background */
 .genericon-22 {
   display: inline-block;
@@ -887,7 +888,7 @@ pre {
   display: inline-block;
   width: 32px;
   height: 32px;
-  -webkit-font6smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
   font-size: 32px;
   line-height: 1;
   font-family: 'Genericons';
@@ -943,6 +944,13 @@ pre {
 .gallery-item img {
   border: 2px solid rgba(0,0,0,.2) !important;
   margin: 4px;
+}
+.home a.sticky {
+  color: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.4);
+}
+.home a.sticky:hover {
+  color: rgba(0, 0, 0, 1);
 }
 /* =Galleries
 ----------------------------------------------- */
