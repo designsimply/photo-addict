@@ -6,8 +6,7 @@
  * @since photo-addict 1.0
  */
 ?>
-	<div :wqclass="widget-area" role="complementary">
+	<div class="widget-area" role="complementary">
 		<?php do_action( 'before_sidebar' ); ?>
-		<?php if ( ! dynamic_sidebar( 'sidebar-1' ) ) : ?>
-		<?php endif; // end sidebar widget area ?>
+		<?php dynamic_sidebar( 'sidebar-1' ); ?>
 	</div><!-- #secondary .widget-area -->
