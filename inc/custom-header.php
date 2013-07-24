@@ -1,17 +1,6 @@
 <?php
 /**
- * Sample implementation of the Custom Header feature
- * http://codex.wordpress.org/Custom_Headers
- *
- * You can add an optional custom header image to header.php like so ...
-
-	<?php $header_image = get_header_image();
-	if ( ! empty( $header_image ) ) { ?>
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home">
-			<img src="<?php header_image(); ?>" width="<?php echo get_custom_header()->width; ?>" height="<?php echo get_custom_header()->height; ?>" alt="" />
-		</a>
-	<?php } // if ( ! empty( $header_image ) ) ?>
-
+ * Implementation of the Custom Header feature
  *
  * @package photo-addict
  * @since photo-addict 1.0
@@ -19,13 +8,6 @@
 
 /**
  * Setup the WordPress core custom header feature.
- *
- * Use add_theme_support to register support for WordPress 3.4+
- * as well as provide backward compatibility for previous versions.
- * Use feature detection of wp_get_theme() which was introduced
- * in WordPress 3.4.
- *
- * @todo Rework this function to remove WordPress 3.4 support when WordPress 3.6 is released.
  *
  * @uses photo_addict_header_style()
  * @uses photo_addict_admin_header_style()
@@ -36,14 +18,14 @@
 function photo_addict_custom_header_setup() {
 	$args = array(
 		'default-image'          => '',
-		'default-text-color'     => '000',
-		'width'                  => 1000,
-		'height'                 => 250,
+		'width'                  => 618,
+		'height'                 => 150,
 		'flex-height'            => true,
 		'wp-head-callback'       => 'photo_addict_header_style',
 		'admin-head-callback'    => 'photo_addict_admin_header_style',
 		'admin-preview-callback' => 'photo_addict_admin_header_image',
 	);
+	define( 'NO_HEADER_TEXT', true );
 
 	$args = apply_filters( 'photo_addict_custom_header_args', $args );
 
@@ -51,11 +33,10 @@ function photo_addict_custom_header_setup() {
 		add_theme_support( 'custom-header', $args );
 	} else {
 		// Compat: Versions of WordPress prior to 3.4.
-		define( 'HEADER_TEXTCOLOR',    $args['default-text-color'] );
 		define( 'HEADER_IMAGE',        $args['default-image'] );
 		define( 'HEADER_IMAGE_WIDTH',  $args['width'] );
 		define( 'HEADER_IMAGE_HEIGHT', $args['height'] );
-		add_custom_image_header( $args['wp-head-callback'], $args['admin-head-callback'], $args['admin-preview-callback'] );
+		add_theme_support( 'custom-header', $args );
 	}
 }
 add_action( 'after_setup_theme', 'photo_addict_custom_header_setup' );
@@ -96,10 +77,6 @@ if ( ! function_exists( 'photo_addict_header_style' ) ) :
  */
 function photo_addict_header_style() {
 
-	// If no custom options for text are set, let's bail
-	// get_header_textcolor() options: HEADER_TEXTCOLOR is default, hide text (returns 'blank') or any hex value
-	if ( HEADER_TEXTCOLOR == get_header_textcolor() )
-		return;
 	// If we get this far, we have custom styles. Let's do this.
 	?>
 	<style type="text/css">
@@ -107,20 +84,16 @@ function photo_addict_header_style() {
 		// Has the text been hidden?
 		if ( 'blank' == get_header_textcolor() ) :
 	?>
-		.site-title,
-		.site-description {
+		.site-title {
 			position: absolute !important;
 			clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
 			clip: rect(1px, 1px, 1px, 1px);
 		}
-	<?php
-		// If the user has set a custom color for the text use that
-		else :
-	?>
-		.site-title a,
-		.site-description {
-			color: #<?php echo get_header_textcolor(); ?> !important;
-		}
+	<?php else: ?>
+		#wrapper > header a img {
+		margin-top: 1em;
+		border-radius: 3px;
+	}
 	<?php endif; ?>
 	</style>
 	<?php
@@ -141,17 +114,6 @@ function photo_addict_admin_header_style() {
 	.appearance_page_custom-header #headimg {
 		border: none;
 	}
-	#headimg h1,
-	#desc {
-	}
-	#headimg h1 {
-	}
-	#headimg h1 a {
-	}
-	#desc {
-	}
-	#headimg img {
-	}
 	</style>
 <?php
 }
@@ -167,14 +129,7 @@ if ( ! function_exists( 'photo_addict_admin_header_image' ) ) :
  */
 function photo_addict_admin_header_image() { ?>
 	<div id="headimg">
-		<?php
-		if ( 'blank' == get_header_textcolor() || '' == get_header_textcolor() )
-			$style = ' style="display:none;"';
-		else
-			$style = ' style="color:#' . get_header_textcolor() . ';"';
-		?>
-		<h1><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-		<div id="desc"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
+		<h1><a id="name" onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 		<?php $header_image = get_header_image();
 		if ( ! empty( $header_image ) ) : ?>
 			<img src="<?php echo esc_url( $header_image ); ?>" alt="" />
@@ -182,3 +137,4 @@ function photo_addict_admin_header_image() { ?>
 	</div>
 <?php }
 endif; // photo_addict_admin_header_image
+
