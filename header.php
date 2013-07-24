@@ -29,7 +29,13 @@
 <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
+<?php if ( method_exists( 'Random_Images_Plugin', 'random_images' ) && ( is_attachment() ) ) :
+	$random_images = Random_Images_Plugin::random_images( array( 'size' => 'thumbnail', 'total' => 9 ) ); ?>
+	<body <?php body_class('random-images'); ?>>
+<?php else : ?>
+	<body <?php body_class(); ?>>
+<?php endif; ?>
+
 <?php do_action( 'before' ); ?>
 
 	<div id="bg-container"></div>
@@ -40,7 +46,4 @@
 	</header>
 	<?php endif; ?>
 
-	<?php 
-		if ( method_exists( 'Random_Images_Plugin', 'random_images' ) && ( is_attachment() ) )
-			echo Random_Images_Plugin::random_images( array( 'size' => 'thumbnail', 'total' => 9 ) );
-	?>
+<?php if ( isset( $random_images ) ) { echo $random_images; } ?>
