@@ -9,7 +9,7 @@ get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
 	<?php while ( have_posts() ) : the_post(); photo_addict_tonesque_css(); ?>
-		<h2><a class="the-title" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" rel="bookmark"><?php the_title(); ?></a>
+		<h2><?php the_title(); ?>
 			<span class="sep"> // </span>
 			<?php $metadata = wp_get_attachment_metadata();
 			printf( __( '<a class="post-parent" href="%1$s" title="%2$s" rel="gallery">%2$s</a>', 'photo-addict' ),
@@ -25,24 +25,39 @@ get_header(); ?>
 			</nav>
 
 			<?php
-				$attachment_size = apply_filters( 'photo_addict_attachment_size', array( 640, 640 ) ); // Filterable image size.
-				//echo wp_get_attachment_image( $post->ID, $attachment_size );
-				echo wp_get_attachment_image( $post->ID, 'large' );
-				$image_attributes = wp_get_attachment_image_src( $post->ID, 'large' );
-				$image_width = max( $metadata['sizes']['large']['width'], $metadata['sizes']['medium']['width'], $metadata['sizes']['thumbnail']['width'] );
-				if ( ( ! $metadata['sizes']['large']['width'] > 0 || $metadata['width'] < $metadata['sizes']['large']['width'] ) && $metadata['width'] > $metadata['sizes']['medium']['width'] ) {
-					$image_width = $metadata['width'];
+				// Pull the size values available for the current image
+				$image_sizes = array('small', 'medium', 'large');
+
+				foreach ($image_sizes as $image_size) {
+					if ( isset( $metadata['sizes'][$image_size]['width'] ) )
+						$widths["$image_size"] = $metadata['sizes'][$image_size]['width'];
 				}
+
+				$widths['full'] = $metadata['width'];
+
+				// Sort and get the last value
+				sort( $widths );
+				$max_width = array_pop( $widths );
+
+				// Fallback to a set value if a max width cannot be found
+				if ( empty( $max_width ) || $max_width > 640 )
+					$max_width = 640;
+
+				$attachment_size = apply_filters( 'photo_addict_attachment_size', array( $max_width, $max_width ) ); // Filterable image size.
+				$attachment_image = wp_get_attachment_image_src( $post->ID, $attachment_size );
+
+				echo '<img src="' . $attachment_image[0] . '" width="' . $attachment_image[1] . '" height="' . $attachment_image[2] . '" />';
+
+				// Match the #wrapper width to the image width so the rotate site title and byline "drip" nicely around the image
 				echo '<style>';
-				if ( $image_width > 0 ) {
-					echo '.attachment #wrapper { width: ' . $image_width . 'px; }';
+				if ( $attachment_image[1] > 0 ) {
+					echo '.attachment #wrapper { width: ' . $attachment_image[1] . 'px; }';
 					echo '.target { filter:url(#svgBlur); }';
 				}
 				echo '</style>';
+
+				the_content();
 			?>
-				<div class="the-content">
-					<?php the_content(); ?>
-				</div><!-- .the-content -->
 
 			<div class="meta">
 				<div class="genericon-22 genericon-image"></div> <?php photo_addict_posted_by(); ?>
