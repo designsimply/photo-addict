@@ -51,7 +51,7 @@ get_header(); ?>
 				// Match the #wrapper width to the image width so the rotate site title and byline "drip" nicely around the image
 				echo '<style>';
 				if ( $attachment_image[1] > 0 ) {
-					echo '.attachment #wrapper { width: ' . $attachment_image[1] . 'px; }';
+					echo '.attachment #wrapper { width: ' . $attachment_image[1] . 'px; max-width: 100%; }';
 					echo '.target { filter:url(#svgBlur); }';
 				}
 				echo '</style>';
