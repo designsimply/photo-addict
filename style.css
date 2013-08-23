@@ -85,14 +85,16 @@ html {
 body {
   width: 82%;
   margin: auto auto 1em;
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
 }
 
 #wrapper > header h1 {
   margin-bottom: .3em;
 }
 
-.post-format-status img {
-  /*max-width: 300px;*/
+.widget-area {
+  padding-top: 1em;
 }
 
 article img {
@@ -153,7 +155,7 @@ article .meta {
   right: -50px;
 }
 
-.attachment #wrapper {
+article.attachment #wrapper {
   min-width: 420px;
 }
 }
@@ -434,7 +436,6 @@ body { border: 5px solid red; }
   border: 2px solid rgba(0,0,0,.2);
 }
 
-.gallery,
 .image-block {
   line-height: 1;
 }
@@ -538,7 +539,6 @@ input[type="submit"] {
   -webkit-appearance: button; /* Corrects inability to style clickable 'input' types in iOS */
   padding: .9em 1em;
 }
-.bypostauthor,
 input[type="submit"] {
   background: rgba(255,255,255,.1);
   color: rgba(255,255,255,.8);
