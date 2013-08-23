@@ -32,20 +32,8 @@ function photo_addict_setup() {
 	get_template_part( 'inc/template', 'tags' );
 
 	/**
-	 * Custom functions that act independently of the theme templates
-	 */
-	//require( get_template_directory() . '/inc/tweaks.php' );
-
-	/**
-	 * Custom Theme Options
-	 */
-	//require( get_template_directory() . '/inc/theme-options/theme-options.php' );
-
-	/**
 	 * Make theme available for translation
 	 * Translations can be filed in the /languages/ directory
-	 * If you're building a theme based on photo-addict, use a find and replace
-	 * to change 'photo-addict' to the name of your theme in all the template files
 	 */
 	load_theme_textdomain( 'photo-addict', get_template_directory() . '/languages' );
 
@@ -69,23 +57,6 @@ function photo_addict_setup() {
 	add_theme_support( 'custom-background', array(
 		'default-color' => 'f0ffff',
 	) );
-
-	/*
-	function swb_exclude_some_post_formats( $query ) {
-
-		if( $query->is_main_query() && $query->is_home() ) {
-			$tax_query = array( array(
-				'taxonomy' => 'post_format',
-				'field' => 'slug',
-				'terms' => array( 'post-format-status', 'post-format-image' , 'post-format-gallery' ),
-				'operator' => 'NOT IN',
-			) );
-			$query->set( 'tax_query', $tax_query );
-		}
-
-	}
-	add_action( 'pre_get_posts', 'swb_exclude_some_post_formats' );
-	*/
 
 	/**
 	 * Enable support for Post Thumbnails
@@ -245,12 +216,6 @@ function photo_addict_next_link( $val, $attr, $content = null ) {
 }
 
 /**
- * If the Random Images plugin is active, allow the random_images shortcode to work in text widgets
- **/
-//if ( method_exists( 'Random_Images_Plugin', 'random_images' ) )
-//	add_filter('widget_text', 'Random_Images_Plugin::random_images');
-
-/**
  * Get a random image
  */
 function get_random_image_src( $size = 'thumbnail' ) {
@@ -400,7 +365,7 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 		#bg-container { filter:url(#blur50); } /* SVG blur for Firefox */
 		body #random-images a { border: 2px solid rgba(' . $contrast . ', 0.1); }
 		body {background: #' . $color . ';}
-		body, body a, body a:visited, input[type="submit"] { color: rgba(' . $contrast . ', 0.7); }
+		body, body a, body a:visited { color: rgba(' . $contrast . ', 0.7); }
 		body a:hover, .home a.sticky:hover { color: rgba(' . $contrast . ', 1); }
 		body.home a.sticky { color: rgba(' . $contrast . ', 0.8); border-bottom: 1px dotted rgba(' . $contrast . ', 0.4); }
 		body div.sharedaddy div.sd-block {border-color: rgba(' . $contrast . ', 0.1); }
@@ -410,8 +375,8 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 		body .the-content .gallery-item a:hover { border: none; }
 		body blockquote { border-left: 2em solid rgba(' . $contrast . ', 0.1); }
 		body .bypostauthor { background: rgba(#' . $contrast . ',.2);  color: rgba(' . $contrast . ',.8); }
-		body input[type=text]:focus, body input[type=email]:focus, input[type=password]:focus, body textarea:focus { color: rgba(' . $contrast . ', 0.7); }
-		body input[type=text], body input[type=email], input[type=password], body textarea { color: rgba(' . $contrast . ', 0.5); border-color: rgba(' . $contrast . ', 0.8); }
+		body input[type="text"]:focus, body input[type="email"]:focus, body input[type="password"]:focus, body textarea:focus { color: rgba(' . $contrast . ', 0.7); }
+		body input[type="text"], body input[type="email"], body input[type="password"], body textarea { color: rgba(' . $contrast . ', 0.5); border-color: rgba(' . $contrast . ', 0.8); }
 		body button, html body input[type="button"], body input[type="reset"], body input[type="submit"] { border: 1px solid rgba(' . $contrast . ', 0.8); border-color: rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.6), rgba(' . $contrast . ', 0.8); }
 		::-webkit-input-placeholder { color: rgba(' . $contrast . ', 0.5); }
 		:-moz-placeholder { color: rgba(' . $contrast . ', 0.7); }
