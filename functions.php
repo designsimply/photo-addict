@@ -29,7 +29,7 @@ function photo_addict_setup() {
 	/**
 	 * Custom template tags for this theme.
 	 */
-	require( get_template_directory() . '/inc/template-tags.php' );
+	get_template_part( 'inc/template', 'tags' );
 
 	/**
 	 * Custom functions that act independently of the theme templates
@@ -65,9 +65,9 @@ function photo_addict_setup() {
 
 	/*
 	function swb_exclude_some_post_formats( $query ) {
-	
+
 		if( $query->is_main_query() && $query->is_home() ) {
-			$tax_query = array( array( 
+			$tax_query = array( array(
 				'taxonomy' => 'post_format',
 				'field' => 'slug',
 				'terms' => array( 'post-format-status', 'post-format-image' , 'post-format-gallery' ),
@@ -75,7 +75,7 @@ function photo_addict_setup() {
 			) );
 			$query->set( 'tax_query', $tax_query );
 		}
-	 
+
 	}
 	add_action( 'pre_get_posts', 'swb_exclude_some_post_formats' );
 	*/
@@ -137,9 +137,12 @@ function photo_addict_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
-	$keyboard_navigation_args = array( 'home_url' => home_url() );
-	wp_register_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', __FILE__ );
-	wp_localize_script( 'keyboard-image-navigation', 'keyboard_navigation_args', $keyboard_navigation_args );
+	// This was an attempt to pass in a var to the javascript file so I could use the home URL there,
+	// but it must not be loaded in the right order because it results in this error if I uncomment
+	// the next 3 lines: "Uncaught ReferenceError: jQuery is not defined"
+	//$keyboard_navigation_args = array( 'home_url' => home_url() );
+	//wp_register_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', __FILE__ );
+	//wp_localize_script( 'keyboard-image-navigation', 'keyboard_navigation_args', $keyboard_navigation_args );
 	wp_enqueue_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20130721' );
 
 	/* translators: If there are characters in your language that are not supported
@@ -372,7 +375,7 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 	$id = get_the_ID();
 	$postid = '.postid-' . $id;
 	echo '<style>
-		#bg-container { 
+		#bg-container {
 			position: fixed;
 			display: block;
 			width: 100%;
@@ -390,18 +393,18 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 		#bg-container { filter:url(#blur50); } /* SVG blur for Firefox */
 		body #random-images a { border: 2px solid rgba(' . $contrast . ', 0.1); }
 		body {background: #' . $color . ';}
-		body,
-		body a,
-		body a:visited { color: rgba(' . $contrast . ', 0.7); }
+		body, body a, body a:visited, input[type="submit"] { color: rgba(' . $contrast . ', 0.7); }
 		body a:hover, .home a.sticky:hover { color: rgba(' . $contrast . ', 1); }
 		body.home a.sticky { color: rgba(' . $contrast . ', 0.8); border-bottom: 1px dotted rgba(' . $contrast . ', 0.4); }
 		body div.sharedaddy div.sd-block {border-color: rgba(' . $contrast . ', 0.1); }
 		body .the-content a { border-bottom: 1px dotted rgba(' . $contrast . ', 0.4); }
-		body .the-content a:hover { border-color: rgba(' . $contrast . ', .9); color: rgba(' . $contrast . ', .9); }
+		body .the-content a:hover, [for="read_more"]:hover { border-color: rgba(' . $contrast . ', .9); color: rgba(' . $contrast . ', .9); }
 		body .the-content .gallery-item a,
 		body .the-content .gallery-item a:hover { border: none; }
-		body input[type=text]:focus, body input[type=email]:focus, body textarea:focus { color: rgba(' . $contrast . ', 0.7); }
-		body input[type=text], body input[type=email], body textarea { color: rgba(' . $contrast . ', 0.5); border-color: rgba(' . $contrast . ', 0.8); }
+		body blockquote { border-left: 2em solid rgba(' . $contrast . ', 0.1); }
+		body .bypostauthor { background: rgba(#' . $contrast . ',.2);  color: rgba(' . $contrast . ',.8); }
+		body input[type=text]:focus, body input[type=email]:focus, input[type=password]:focus, body textarea:focus { color: rgba(' . $contrast . ', 0.7); }
+		body input[type=text], body input[type=email], input[type=password], body textarea { color: rgba(' . $contrast . ', 0.5); border-color: rgba(' . $contrast . ', 0.8); }
 		body button, html body input[type="button"], body input[type="reset"], body input[type="submit"] { border: 1px solid rgba(' . $contrast . ', 0.8); border-color: rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.6), rgba(' . $contrast . ', 0.8); }
 		::-webkit-input-placeholder { color: rgba(' . $contrast . ', 0.5); }
 		:-moz-placeholder { color: rgba(' . $contrast . ', 0.7); }
