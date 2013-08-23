@@ -120,7 +120,7 @@ article .site-title {
   -o-transform: rotate(-90deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   left: -250px;
-  top: 250px;
+  top: 245px;
   width: 420px;
   text-align: right;
 }
@@ -240,6 +240,9 @@ html {
 /* =Flexbox
 ----------------------------------------------- */
 @media screen and (min-width: 64em) {
+html {
+  height: 100%;
+}
 html,
 body,
 #wrapper > header,
