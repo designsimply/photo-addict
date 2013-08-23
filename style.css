@@ -1058,6 +1058,13 @@ pre {
 .home a.sticky:hover {
   color: rgba(0, 0, 0, 1);
 }
+blockquote {
+  position: relative;
+  border-left: 2em solid rgba(255, 255, 255, 0.1);
+  padding-left: 0.5em;
+  margin: 0;
+}
+
 /* =Galleries
 ----------------------------------------------- */
 .gallery br { display: none; }
