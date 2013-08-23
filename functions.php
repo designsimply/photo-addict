@@ -64,6 +64,13 @@ function photo_addict_setup() {
 	) );
 
 	/*
+	* Add theme support for custom background color and image.
+	*/
+	add_theme_support( 'custom-background', array(
+		'default-color' => 'f0ffff',
+	) );
+
+	/*
 	function swb_exclude_some_post_formats( $query ) {
 
 		if( $query->is_main_query() && $query->is_home() ) {
