@@ -64,7 +64,7 @@ get_header(); ?>
 					<li><a href="<?php the_permalink() ?>" <?php post_class(); ?>>
 					<?php // If the post doesn't have a title, print the month and day
 					if ( empty( $post->post_title ) ) :
-						echo the_date('F jS');
+						echo the_date( get_option( 'date_format' ) );
 					else : 
 						echo $post->post_title;
 					endif; ?>
