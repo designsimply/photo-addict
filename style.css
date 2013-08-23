@@ -93,10 +93,6 @@ body {
   margin-bottom: .3em;
 }
 
-.widget-area {
-  padding-top: 1em;
-}
-
 article img {
   border-radius: 4px;
   height: auto;
@@ -636,8 +632,9 @@ textarea {
 }
 
 .comments-link {
-  font-size: 0.75em;
   display: block;
+  font-size: 0.75em;
+  padding-bottom: 0.5em;
   text-align: center;
 }
 
