@@ -3,21 +3,13 @@ Theme Name: Photo Addict
 Theme URI: http://designsimply.com/
 Author: Sheri Bigelow
 Author URI: http://designsimply.com/about/
-Description: A theme made for designsimply.com
+Description: Photo Addict is a mouthwatering blend of flexbox with handpicked morsels of color and spiced with random images. Made for the adventurous, this theme uses advanced CSS flexbox for layout, filters to blur images for backgrounds, and transforms to make the post titles and meta drip around the edges of the post. The navigation is minimal. Categories and tags may be set, but aren't displayed by the theme. Also, if you install the <a href="http://wordpress.org/plugins/random-images/">Random Images plugin</a>, the theme's attachment pages will adjust automagically. It works best if you add lots of images and galleries! All in all, it's minimal and unconventional.
 Version: 1.0
 License: GNU General Public License
 License URI: license.txt
 Tags: custom-header, custom-menu, editor-style, featured-images, fixed-width, one-column, photoblogging, post-formats, sticky-post
 min req v 2.5
 ----------------------------------------------- */
-
-.home section article {
-  padding-top: 1em;
-}
-.home section article ul {
-  margin-top: 0;
-}
-
 
 /* =Fonts
 ----------------------------------------------- */
@@ -702,7 +694,11 @@ pre {
   text-align: center;
 }
 /* Main box lists */
+.home section article {
+  padding-top: 1em;
+}
 .home section article ul {
+  margin-top: 0;
   padding-left: 0;
   list-style-type: none;
 }
@@ -757,9 +753,9 @@ blockquote {
   margin: 0 4px;
 }
 
-#wrapper .gallery-item {
-  margin: 0;
-  width: auto;
+.gallery-item {
+  margin: 0 !important;
+  width: auto !important;
   display: table-cell;
 }
 
@@ -770,48 +766,4 @@ blockquote {
 /* Don't display captions on galleries */
 .gallery-caption {
     display: none;
-}
-
-/* =Custom CSS
------------------------------------------------ */
-[rel="home"] {
-  text-transform: lowercase;
-  word-spacing: -.2em;
-}
-header em {
-  font-style: normal;
-}
-.social ul li a span {
-  display: none;
-}
-
-/* =Embellishments
------------------------------------------------ */
-@media screen and (min-width: 56em) {
-  .bio {
-    border-top: 1px dotted rgba(0,0,0, 0.3);
-    margin-top: 45px;
-  }
-  .bio p  {
-    margin-left: -90px;
-    padding: 4px 0 90px 58px;
-    background: url('images/flourish-for-gravatar.png') no-repeat;
-  }
-  body > nav {
-    margin-top: -90px;
-    text-align: center;
-  }
-  body > nav ul {
-    display: inline-block;
-    text-align: center;
-    padding: 0;
-    margin: .3em;
-  }
-  body > nav ul li {
-    float: left;
-  }
-  body > nav .social,
-  footer {
-    clear: left;
-  }
 }
