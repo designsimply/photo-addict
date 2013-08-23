@@ -70,37 +70,26 @@ function photo_addict_comment( $comment, $args, $depth ) {
 		case 'trackback' :
 	?>
 	<li class="post pingback">
-		<p><?php _e( 'Mentioned in ', 'photo-addict' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __( '<span class="tooltip">Edit</span>', 'photo-addict' ), ' ' ); ?></p>
+		<p><?php _e( 'Mentioned in ', 'photo-addict' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __( '<span class="genericon-22 genericon-edit"></span>', 'photo-addict' ), ' ' ); ?></p>
 	<?php
 			break;
 		default :
 	?>
-	<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
-		<article id="comment-<?php comment_ID(); ?>" class="comment">
+	<li id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
 
-			<header class="comment-author vcard">
-				<?php echo get_avatar( $comment, 40 ); ?>
-				<cite class="fn"><?php comment_author_link(); ?></cite>
-				<time pubdate datetime="<?php comment_time( 'c' ); ?>">
-					<a href="<?php echo esc_url( get_comment_link() ); ?>"><span class="tooltip"><?php printf( __( '%1$s at %2$s', 'photo-addict' ), get_comment_date(), get_comment_time() ); ?></span></a>
-				</time>
-				<?php edit_comment_link( __( '<span class="tooltip">Edit</span>', 'photo-addict' ), '', '' ); ?>
-				<?php comment_reply_link( array_merge( $args, array( 'depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<span class="tooltip">Reply</span>' ) ) ); ?>
-			</header><!-- .comment-author .vcard -->
+		<a href="<?php echo esc_url( get_comment_link() ); ?>"><?php echo get_avatar( $comment, 32, '', get_comment_date() . ' at ' . get_comment_time() ); ?></a>
+		<cite class="fn"><?php comment_author_link(); ?></cite>
 
-			<section class="comment post-content">
-				<?php if ( $comment->comment_approved == '0' ) { ?>
-					<p><?php _e( 'Your comment will be reviewed soon.', 'photo-addict' ) ?></p>
-				<?php } ?>  
+		<?php edit_comment_link( __( '<span class="genericon-22 genericon-edit"></span>', 'photo-addict' ), '', '' ); ?>
+		<?php comment_reply_link( array_merge( $args, array( 'depth' => $depth, 'max_depth' => $args['max_depth'], 'reply_text' => '<span class="genericon-22 genericon-reply"></span>' ) ) ); ?>
 
-				<?php comment_text(); ?>
-			</section><!-- .comment .post-content -->
+		<?php if ( $comment->comment_approved == '0' ) { ?>
+			<p><?php _e( 'Your comment will be reviewed soon.', 'photo-addict' ) ?></p>
+		<?php } ?>
 
-			<footer class="reply">
-				
-				
-			</footer><!-- .reply -->
-		</article><!-- #comment-## -->
+		<?php comment_text(); ?>
+
+		<span class="reply"></span><!-- .reply -->
 
 	<?php
 			break;

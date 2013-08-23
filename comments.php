@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying comments lists.
+ * The template for displaying comments and the comment form.
  *
  * @package photo-addict
  * @since photo-addict 1.0
@@ -14,13 +14,30 @@
 ?>
 
 <div id="comments" class="comments-area">
+	<?php $comments_total = get_comments_number(); ?>
 
-	<?php // You can start editing here -- including this comment! ?>
+	<input type="checkbox" id="read_more" role="button">
+	<label for="read_more" onclick="">
+	<span class="comments-link"><div class="genericon-22 genericon-chat"></div>
+		<?php if ( 0 == $comments_total ) {
+			echo 'Leave a Comment';
+		} elseif ( 1 == $comments_total ) {
+			echo '1 Comment';
+		} else {
+			echo $comments_total . ' Comments';
+		} ?></span>
+	<span class="comments-link"><div class="genericon-22 genericon-chat"></div>
+		<?php if ( 0 == $comments_total ) {
+			echo 'Hide Comment Form';
+		} else {
+			echo ' Hide Comments';
+		} ?></span>
+	</label>
 
-	<?php if ( have_comments() ) : 
+	<?php if ( have_comments() ) :
 		//if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
-		<span class="comments-link"><a href="#respond"><div class="genericon-22 genericon-reply"></div></a></span>
-		<span class="comments-link"><?php comments_popup_link( __( '<div class="genericon-22 genericon-chat"></div>', 'photo-addict' ), __( '<div class="genericon-22 genericon-chat"></div> 1', 'photo-addict' ), __( '<div class="genericon-22 genericon-reply"></div> %', 'photo-addict' ) ); ?></span>
+		<!--<span class="comments-link"><a href="#respond"><div class="genericon-22 genericon-reply"></div></a></span>-->
+		<?php //endif; ?>
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
 		<nav role="navigation" id="comment-nav-above" class="site-navigation comment-navigation">
@@ -30,17 +47,16 @@
 		</nav><!-- #comment-nav-before .site-navigation .comment-navigation -->
 		<?php endif; // check for comment navigation ?>
 
-		<ol class="commentlist">
+		<ul class="commentlist">
 			<?php
-				/* Loop through and list the comments. Tell wp_list_comments()
-				 * to use photo_addict_comment() to format the comments.
+				/* Use photo_addict_comment() to format the comments.
 				 * If you want to overload this in a child theme then you can
 				 * define photo_addict_comment() and that will be used instead.
-				 * See photo_addict_comment() in inc/template-tags.php for more.
+				 * See photo_addict_comment() in inc/template-tags.php
 				 */
-				wp_list_comments( array( 'callback' => 'photo_addict_comment' ) );
+				wp_list_comments( array( 'callback' => 'photo_addict_comment', 'format' => 'html5' ) );
 			?>
-		</ol><!-- .commentlist -->
+		</ul><!-- .commentlist -->
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
 		<nav role="navigation" id="comment-nav-below" class="site-navigation comment-navigation">
@@ -51,9 +67,7 @@
 		<?php endif; // check for comment navigation ?>
 
 		<?php
-		/* If there are no comments and comments are closed, let's leave a note.
-		 * But we only want the note on posts and pages that had comments in the first place.
-		 */
+		/* If there are existing comments but comments are closed, leave a note. */
 		if ( ! comments_open() && get_comments_number() ) : ?>
 		<p class="nocomments"><?php _e( 'Comments are closed.' , 'desigsnimply' ); ?></p>
 		<?php endif; ?>
@@ -62,7 +76,8 @@
 
 	<?php comment_form( array(
 		'comment_notes_before' => '',
-		'comment_notes_after' => ''
+		'comment_notes_after' => '',
+		'title_reply' => ''
 		)
 	); ?>
 

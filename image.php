@@ -9,7 +9,8 @@ get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
 	<?php while ( have_posts() ) : the_post(); photo_addict_tonesque_css(); ?>
-		<h2><?php the_title(); ?>
+
+		<h2 class="entry-header"><?php the_title(); ?>
 			<span class="sep"> // </span>
 			<?php $metadata = wp_get_attachment_metadata();
 			printf( __( '<a class="post-parent" href="%1$s" title="%2$s" rel="gallery">%2$s</a>', 'photo-addict' ),
@@ -33,11 +34,14 @@ get_header(); ?>
 						$widths["$image_size"] = $metadata['sizes'][$image_size]['width'];
 				}
 
-				$widths['full'] = $metadata['width'];
+				if ( isset( $metadata ) )
+					$widths['full'] = $metadata['width'];
 
 				// Sort and get the last value
-				sort( $widths );
-				$max_width = array_pop( $widths );
+				if ( isset( $widths ) ) {
+					sort( $widths );
+					$max_width = array_pop( $widths );
+				}
 
 				// Fallback to a set value if a max width cannot be found
 				if ( empty( $max_width ) || $max_width > 640 )
@@ -55,8 +59,13 @@ get_header(); ?>
 					echo '.target { filter:url(#svgBlur); }';
 				}
 				echo '</style>';
+			?>
 
-				the_content();
+			<?php the_content(); ?>
+
+			<?php // If comments are open or we have at least one comment, load up the comment template
+				if ( comments_open() || '0' != get_comments_number() )
+					comments_template( '', true );
 			?>
 
 			<div class="meta">
@@ -79,9 +88,6 @@ get_header(); ?>
 					<?php printf( __( 'Tagged %1$s', 'photo-addict' ), $tags_list ); ?>
 				</span>
 				<?php endif; // End if $tags_list ?>
-			<?php //if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
-				<!--<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'photo-addict' ), __( '1 Comment', 'photo-addict' ), __( '% Comments', 'photo-addict' ) ); ?>.</span>-->
-			<?php //endif; ?>
 
 		</article><!-- #post-<?php the_ID(); ?> -->
 	<?php endwhile; ?>
@@ -90,17 +96,5 @@ get_header(); ?>
 	<?php get_template_part( 'no-results', 'index' ); ?>
 
 <?php endif; ?>
-
-<!--
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-    <b class="target">elit, sed do eiusmod tempor incididunt
-    ut labore et dolore magna aliqua.</b> Ut enim ad minim veniam.</p>
-
-<svg height="0" xmlns="http://www.w3.org/2000/svg">
-  <filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%">
-    <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
-  </filter>
-</svg>
--->
 
 <?php get_footer(); ?>

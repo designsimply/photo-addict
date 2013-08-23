@@ -483,6 +483,7 @@ body.random-images #wrapper {
 	padding-top: 100px;
   text-align: left;
 }
+
 #wrapper {
   padding-top: 1.5em;
 }
@@ -601,16 +602,107 @@ textarea {
 }
 
 /* =Commments
------------------------------------------------ */
-.commentlist {
-  display: none;
-  visibility: hidden;
+-----------------------------------------------*/
+#commentform .comment-form-author,
+#commentform .comment-form-email,
+#commentform .comment-form-url {
+  display: table-row;
 }
 
-input[type=checkbox]:checked ~ .commentlist {
+#commentform .comment-form-author label,
+#commentform .comment-form-email label,
+#commentform .comment-form-url label {
+  display: table-cell;
+  width: 25%;
+  padding-bottom: 1.5em;
+}
+
+.comment {
+  margin-bottom: 0;
+}
+
+.comment ~ p {
+  margin-top: 0;
+}
+
+.comment.children li p:last-of-type {
+  margin-bottom: 0;
+}
+
+.comment .children {
+  padding-bottom: 1em;
+}
+
+
+/* =Show/hide comments
+----------------------------------------------- */
+#comments ul {
+  list-style-type: none;
+}
+
+.commentlist {
+  padding-left: 0;
+}
+
+.comment p:first-of-type {
+  margin-top: 0.2em;
+}
+
+.comments-link {
+  font-size: 0.75em;
+  display: block;
+  text-align: center;
+}
+
+.bypostauthor {
+  padding: 0.3em;
+  border-radius: 3px;
+  background: rgba(255,255,255,.2);
+  color: rgba(255,255,255,.8);
+}
+
+input[type=checkbox] {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+}
+
+input[type=checkbox]:checked ~ [for="read_more"] {
+  margin-top: 0;
+}
+
+[for="read_more"]:hover {
+    color: rgb(255,255,255);
+}
+input[type=checkbox] ~ .commentlist,
+input[type=checkbox] ~ #respond,
+[for="read_more"] span:last-of-type {
+    display: none;
+    visibility: hidden;
+}
+
+input[type=checkbox]:checked ~ .commentlist,
+input[type=checkbox]:checked ~ #respond {
+    display: block;
+    visibility: visible;
+    width: 100%;
+}
+
+input[type=checkbox]:checked ~ [for="read_more"] span:first-of-type {
+    display: none;
+    visibility: hidden;
+}
+
+input[type=checkbox]:checked ~ [for="read_more"] span:last-of-type {
     display: block;
     visibility: visible;
 }
+*/
 
 /* =Error page
 ----------------------------------------------- */

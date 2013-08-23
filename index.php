@@ -51,11 +51,9 @@ get_header(); ?>
 				<a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" class="post-parent" rel="home"><?php bloginfo( 'name' ); ?></a>
 			</div>
 
-			<?php
-				// If comments are open or we have at least one comment, load up the comment template
-				if ( comments_open() || '0' != get_comments_number() )
-					//comments_template( '', true );
-
+			<?php // If comments are open or we have at least one comment, load up the comment template
+			if ( comments_open() || '0' != get_comments_number() )
+				comments_template( '', true );
 			?>
 
 		</article><!-- #post-<?php the_ID(); ?> -->
