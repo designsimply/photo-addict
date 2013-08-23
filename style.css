@@ -164,24 +164,6 @@ article.attachment #wrapper {
   max-width: 618px;
 }
 
-article.attachment img {
-  margin-top: 1em;
-  margin-bottom: -0.6em;
-}
-
-.attachment h2 {
-  margin: .7em 0px 0px 0px;
-}
-
-/* Don't display captions in galleries */
-.gallery-caption {
-    display: none;
-}
-
-svg {
-  /*display: none;*/
-}
-
 /* =Menu
 ----------------------------------------------- */
 #wrapper > nav[role="navigation"] {
@@ -1038,19 +1020,6 @@ pre {
   text-align: center;
   line-height: 1.1;
 }
-.gallery {
-  display: -webkit-flex;
-  -webkit-justify-content: center;
-  -webkit-flex-flow: row wrap;
-}
-.gallery-item {
-  margin: 0 !important;
-  width: auto !important;
-}
-.gallery-item img {
-  border: 2px solid rgba(0,0,0,.2) !important;
-  margin: 4px;
-}
 .home a.sticky {
   color: rgba(0, 0, 0, 0.8);
   border-bottom: 1px dotted rgba(0, 0, 0, 0.4);
@@ -1067,9 +1036,34 @@ blockquote {
 
 /* =Galleries
 ----------------------------------------------- */
-.gallery br { display: none; }
-.gallery br:last-child { display: block; }
-.gallery { text-align: center; }
+/* Ignore columns for gallery shortcodes and tighten the spacing */
+.gallery br {
+  display: none;
+}
+
+.gallery br:last-child {
+  display: block;
+}
+
+.gallery-item img {
+  margin: 0 4px;
+}
+
+#wrapper .gallery-item {
+  margin: 0;
+  width: auto;
+  display: table-cell;
+}
+
+#wrapper .gallery-item img {
+  border: 2px solid rgba(0,0,0,.2);
+}
+
+/* Don't display captions on galleries */
+.gallery-caption {
+    display: none;
+}
+
 /*
 .gallery {
   margin-bottom: 20px;
@@ -1157,7 +1151,6 @@ blockquote {
   margin-right: 0;
 }
 */
-
 
 /* =Custom CSS
 ----------------------------------------------- */
