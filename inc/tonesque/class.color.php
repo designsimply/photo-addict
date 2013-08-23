@@ -400,7 +400,7 @@ class Color {
 
 		$rgb = array_map( array( &$this, 'toXyz_calc' ) , $rgb );
 
-		//Observer. = 2°, Illuminant = D65
+		//Observer = 2deg, Illuminant = D65
 		$xyz = array(
 			'x' => ($rgb['red'] * 0.4124) + ($rgb['green'] * 0.3576) + ($rgb['blue'] * 0.1805),
 			'y' => ($rgb['red'] * 0.2126) + ($rgb['green'] * 0.7152) + ($rgb['blue'] * 0.0722),
