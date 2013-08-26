@@ -234,7 +234,6 @@ function get_random_image_src( $size = 'thumbnail' ) {
 
 	if ( isset( $query_images->post->ID ) ) {
 		$random_image = wp_get_attachment_image_src ( $query_images->post->ID, $size);
-		echo '<a href="' . get_permalink( $query_images->post->ID ) . '" class="random-image" />';
 	}
 
 	if ( isset( $random_image[0] ) )
