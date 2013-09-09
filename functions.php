@@ -266,10 +266,6 @@ function photo_addict_first_post_image_url( $size = 'thumbnail' ) {
 		$attachment_image = wp_get_attachment_image_src( get_post_thumbnail_id(), $size );
 		$my_image = $attachment_image[0];
 		break;
-	// Post format image
-	case empty( $image_content ) && has_post_format( $id ) && function_exists( 'get_the_post_format_image' ) :
-		$my_image = get_the_post_format_image( $size, $post );
-		break;
 	// First attached image
 	case $attachment_images = get_posts( array('post_parent' => $id, 'post_type' => 'attachment', 'posts_per_page' => 1, 'post_mime_type' => 'image') ) :
 		$attachment_image_obj = array_shift( $attachment_images );
@@ -310,10 +306,6 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 	case has_post_thumbnail() :
 		$attachment_image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' );
 		$my_image = $attachment_image[0];
-		break;
-	// Post format image
-	case empty( $image_content ) && has_post_format( $post->ID ) && function_exists( 'get_the_post_format_image' ) :
-		$my_image = get_the_post_format_image( 'large', $post );
 		break;
 	// First attached image
 	case $attachment_images = get_children( array('post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image') ) :

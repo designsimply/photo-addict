@@ -33,8 +33,6 @@ get_header(); ?>
 				<?php while ($query->have_posts()) : $query->the_post(); ?>
 					<?php if ( has_post_thumbnail() ) : ?>
 						<a href="<?php the_permalink() ?>"><?php the_post_thumbnail( 'thumbnail' ); ?></a>
-					<?php elseif ( function_exists( 'the_post_format_image' ) ) : ?>
-						<a href="<?php the_permalink() ?>"><?php the_post_format_image( 'thumbnail' ); ?></a>
 					<?php else : ?>
 						<?php // @todo check to see if a gallery is present and get first gallery image, fallback to any image after that ?>
 					<?php endif;
