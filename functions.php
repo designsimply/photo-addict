@@ -152,7 +152,7 @@ add_action( 'wp_enqueue_scripts', 'photo_addict_scripts' );
 /**
  * Implement the Custom Header feature
  */
-require( get_template_directory() . '/inc/custom-header.php' );
+get_template_part( 'inc/custom', 'header' );
 
 if ( ! function_exists( 'mv_browser_body_class' ) ) {
 /**
@@ -331,7 +331,7 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 
 	// Fallback to local copy of tonesque if the plugin is not active
 	if ( ! class_exists( 'Tonesque' ) )
-		include_once(  get_template_directory() . '/inc/tonesque/tonesque.php' );
+		get_template_part( 'inc/tonesque/tonesque', '' );
 
 	$tonesque = new Tonesque( $my_image );
 	$color = $tonesque->color();
