@@ -47,6 +47,8 @@ get_header(); ?>
 				if ( empty( $max_width ) || $max_width > 640 )
 					$max_width = 640;
 
+				$content_width = $max_width;
+
 				$attachment_size = apply_filters( 'photo_addict_attachment_size', array( $max_width, $max_width ) ); // Filterable image size.
 				$attachment_image = wp_get_attachment_image_src( $post->ID, $attachment_size );
 
