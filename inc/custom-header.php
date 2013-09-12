@@ -18,7 +18,7 @@
 function photo_addict_custom_header_setup() {
 	$args = array(
 		'default-image'          => '',
-		'width'                  => 618,
+		'width'                  => 648,
 		'height'                 => 150,
 		'flex-height'            => true,
 		'wp-head-callback'       => 'photo_addict_header_style',
@@ -89,11 +89,6 @@ function photo_addict_header_style() {
 			clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
 			clip: rect(1px, 1px, 1px, 1px);
 		}
-	<?php else: ?>
-		#wrapper > header a img {
-		margin-top: 1em;
-		border-radius: 3px;
-	}
 	<?php endif; ?>
 	</style>
 	<?php
