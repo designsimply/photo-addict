@@ -28,7 +28,7 @@ get_header(); ?>
 					<?php if ( has_post_thumbnail() ) : ?>
 						<a href="<?php the_permalink() ?>"><?php the_post_thumbnail( 'thumbnail' ); ?></a>
 					<?php else : ?>
-						<a href="<?php the_permalink() ?>"><img src="<?php echo photo_addict_first_post_image_url( $post->ID, 'thumbnail' ); ?>" /></a>
+						<a href="<?php the_permalink() ?>"><img src="<?php echo photo_addict_first_post_image_url( $post->ID, 'thumbnail' ); ?>" alt="<?php echo $post->post_title; ?>" /></a>
 					<?php endif;
 				endwhile; ?>
 			</div>
