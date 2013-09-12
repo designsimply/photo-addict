@@ -104,6 +104,6 @@ get_header(); ?>
 	</section> <!-- .side -->
 
 <?php
-	photo_addict_tonesque_css();
+	echo photo_addict_tonesque_css();
 	get_footer();
 ?>

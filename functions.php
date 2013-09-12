@@ -109,8 +109,6 @@ function photo_addict_scripts() {
 	}
 	add_action( 'init', 'photo_addict_add_editor_styles' );
 
-	//wp_enqueue_script( 'small-menu', get_template_directory_uri() . '/js/small-menu.js', array( 'jquery' ), '20120206', true );
-
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
@@ -123,31 +121,47 @@ function photo_addict_scripts() {
 	//wp_localize_script( 'keyboard-image-navigation', 'keyboard_navigation_args', $keyboard_navigation_args );
 	wp_enqueue_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20130721' );
 
-	/* translators: If there are characters in your language that are not supported
-	   by Open Sans, translate this to 'off'. Do not translate into your own language. */
-	if ( 'off' !== _x( 'on', 'Open Sans font: on or off', 'photo-addict' ) ) {
-		$subsets = 'latin,latin-ext';
+	// Add fonts used in the main stylesheet
+	wp_enqueue_style( 'photo-addict-fonts', photo_addict_fonts_url(), array(), null );
 
-		/* translators: To add an additional Open Sans character subset specific to your language, translate
-		   this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your own language. */
-		$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)', 'photo-addict' );
-
-		if ( 'cyrillic' == $subset )
-			$subsets .= ',cyrillic,cyrillic-ext';
-		elseif ( 'greek' == $subset )
-			$subsets .= ',greek,greek-ext';
-		elseif ( 'vietnamese' == $subset )
-			$subsets .= ',vietnamese';
-
-		$protocol = is_ssl() ? 'https' : 'http';
-		$query_args = array(
-			'family' => 'Open+Sans:400italic,700italic,400,700',
-			'subset' => $subsets,
-		);
-		wp_enqueue_style( 'photo-addict-fonts', add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" ), array(), null );
-	}
+	// Add Genericons font
+	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/fonts/genericons.css', array(), '3.0' );
 }
 add_action( 'wp_enqueue_scripts', 'photo_addict_scripts' );
+
+function photo_addict_fonts_url() {
+	$fonts_url = '';
+
+	/* Translators: If there are characters in your language that are not
+	 * supported by Lato, translate this to 'off'. Do not translate
+	 * into your own language.
+	 */
+	$lato = _x( 'on', 'Lato font: on or off', 'photo-addict' );
+
+	/* Translators: If there are characters in your language that are not
+	 * supported by Overlock, translate this to 'off'. Do not translate into your
+	 * own language.
+	 */
+	$Overlock = _x( 'on', 'Overlock font: on or off', 'photo-addict' );
+
+	if ( 'off' !== $lato || 'off' !== $overlock ) {
+		$font_families = array();
+
+		if ( 'off' !== $lato )
+			$font_families[] = 'Lato:100,300,400,700,300italic,400italic,700italic';
+
+		if ( 'off' !== $bitter )
+			$font_families[] = 'Overlock:400,700';
+
+		$query_args = array(
+			'family' => urlencode( implode( '|', $font_families ) ),
+			'subset' => urlencode( 'latin,latin-ext' ),
+		);
+		$fonts_url = add_query_arg( $query_args, "//fonts.googleapis.com/css" );
+	}
+
+	return $fonts_url;
+}
 
 /**
  * Implement the Custom Header feature
@@ -244,7 +258,7 @@ function get_random_image_src( $size = 'thumbnail' ) {
 if ( ! function_exists( 'photo_addict_first_post_image_url' ) ) :
 /**
  * Find a representative image for the post in this order:
- * attachment page image, featured image, post format image, first attached image, inline image
+ * attachment page image, featured image, first gallery shortcode image, first inline image, first attached image
  */
 function photo_addict_first_post_image_url( $size = 'thumbnail' ) {
 	global $post;
@@ -259,30 +273,35 @@ function photo_addict_first_post_image_url( $size = 'thumbnail' ) {
 	// Attachment page image
 	case is_attachment() :
 		$attachment_image = wp_get_attachment_image_src( $id, $size );
-		$my_image = $attachment_image[0];
+		$my_image_url = $attachment_image[0];
 		break;
 	// Featured image
 	case has_post_thumbnail() :
 		$attachment_image = wp_get_attachment_image_src( get_post_thumbnail_id(), $size );
-		$my_image = $attachment_image[0];
+		$my_image_url = $attachment_image[0];
+		break;
+	// Scan content for the gallery shortcode
+	case $parsed_shortcode_content = preg_match_all( '/\[gallery\s(.*)\]/i', get_the_content(), $matches ) :
+		$matched_shortcode = isset( $matches[1][0] ) ? $matches[1][0] : '';
+		$matched_shortcode_atts = shortcode_parse_atts( $matched_shortcode );
+		$matched_id = is_array( $matched_shortcode_atts ) ? strstr( $matched_shortcode_atts['ids'], ',', true) : '';
+		$attachment_image = wp_get_attachment_image_src( $matched_id, $size );
+		$my_image_url = $attachment_image[0];
 		break;
 	// First attached image
 	case $attachment_images = get_posts( array('post_parent' => $id, 'post_type' => 'attachment', 'posts_per_page' => 1, 'post_mime_type' => 'image') ) :
 		$attachment_image_obj = array_shift( $attachment_images );
-		//echo '$attachment_image is an ' . gettype( $attachment_image->ID );
-		//echo '<pre>'; var_dump($attachment_image); echo '</pre>';
 		$attachment_image = wp_get_attachment_image_src( $attachment_image_obj->ID, $size );
-		$my_image = $attachment_image[0];
+		$my_image_url = $attachment_image[0];
 		break;
 	// Scan content for images
-	default:
-		$image_content = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', get_the_content(), $matches );
-		$my_image = isset( $matches[1][0] ) ? $matches[1][0] : '';
+	case $parsed_image_content = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', get_the_content(), $matches ) :
+		$my_image_url = isset( $matches[1][0] ) ? $matches[1][0] : '';
 		break;
 	}
-
-	if ( ! empty( $my_image ) )
-		return $my_image;
+	
+	if ( ! empty( $my_image_url ) )
+		return $my_image_url;
 }
 endif; // end photo_addict_first_post_image_url()
 
@@ -293,52 +312,26 @@ if ( ! function_exists( 'photo_addict_tonesque_css' ) ) :
 function photo_addict_tonesque_css( $my_color = '' ) {
 	global $post;
 
-	// Find a representative image to use for the background in this order:
-	// attachment page image, featured image, post format image, first attached image,
-	// inline image, or use a random image if no other image is found
-	switch (true) {
-	// Attachment page image
-	case is_attachment() :
-		$attachment_image = wp_get_attachment_image_src( $post->ID, 'large' );
-		$my_image = $attachment_image[0];
-		break;
-	// Featured image
-	case has_post_thumbnail() :
-		$attachment_image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' );
-		$my_image = $attachment_image[0];
-		break;
-	// First attached image
-	case $attachment_images = get_children( array('post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image') ) :
-		shuffle( $attachment_images );
-		$attachment_image = array_shift( $attachment_images );
-		$my_image = $attachment_image->guid;
-		break;
-	// Scan content for images
-	default:
-		$image_content = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', get_the_content(), $matches );
-		$my_image = isset( $matches[1][0] ) ? $matches[1][0] : '';
-		break;
-	}
-	// If there's no image, use a random attachment image
-	if ( ! $my_image || is_home() )
-		$my_image = get_random_image_src( 'medium' );
+	$my_image_url = photo_addict_first_post_image_url( 'medium' );
+
+	// If no image is found, use a random attachment image
+	if ( empty( $my_image_url ) || is_home() )
+		$my_image_url = get_random_image_src( 'medium' );
 
 	// Let me override the image with a color code if I want
 	if ( substr( $my_color, 0, 4 ) == 'http' )
-		$my_image = $my_color;
-
-	//echo '<img src="'.$my_image.'" style="width:75px;height:auto;" /> my_image = '.$my_image.';<br>'; // debug
+		$my_image_url = $my_color;
 
 	// Fallback to local copy of tonesque if the plugin is not active
 	if ( ! class_exists( 'Tonesque' ) )
 		get_template_part( 'inc/tonesque/tonesque', '' );
 
-	$tonesque = new Tonesque( $my_image );
+	$tonesque = new Tonesque( $my_image_url );
 	$color = $tonesque->color();
 	$contrast = $tonesque->contrast();
 	$id = get_the_ID();
 	$postid = '.postid-' . $id;
-	echo '<style>
+	$tonesque_css = '<style>
 		#bg-container {
 			position: fixed;
 			display: block;
@@ -347,12 +340,12 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 			top: 0;
 			left: 0;
 			z-index: -99;
-			background: url(' . $my_image . ') center / 2000%;
+			background: url(' . $my_image_url . ') center / 1600%;
 			opacity: .2;
 			-webkit-filter: blur(50px);
 			filter: blur(50px);
 		}
-		.home #bg-container { background-size: 1000%; opacity: .3; }
+		.home #bg-container { background-size: 1200%; opacity: .3; }
 		.attachment #bg-container { background-size: 800%; opacity: .4; }
 		#bg-container { filter:url(#blur50); } /* SVG blur for Firefox */
 		body #random-images a { border: 2px solid rgba(' . $contrast . ', 0.1); }
@@ -375,5 +368,8 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 		::-moz-placeholder { color: rgba(' . $contrast . ', 0.7); }
 		:-ms-input-placeholder { color: rgba(' . $contrast . ', 0.7); }
 	</style>';
+	
+	return $tonesque_css;
 }
+
 endif; // end check for photo_addict_tonesque_css()

@@ -14,11 +14,11 @@ min req v 2.5
 /* =Fonts
 ----------------------------------------------- */
 body, h1, h2 {
-  font-family: 'latolight','Open Sans', Helvetica, sans-serif;
+  font-family: "Lato", "Open Sans", Helvetica, sans-serif;
   font-weight: 300;
 }
 h3, h4, h5, h6 {
-  font-family: 'Overlock','Open Sans','Lato','Open Sans', Helvetica, sans-serif;
+  font-family: "Overlock", Helvetica, sans-serif;
   font-weight: 400;
   letter-spacing: 1px;
 }
@@ -120,7 +120,7 @@ article .meta {
   -ms-transform: rotate(90deg);
   -o-transform: rotate(90deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  right: -245px;
+  right: -240px;
   top: 240px;
   width: 420px;
 }
@@ -133,14 +133,19 @@ article .meta {
   position: absolute;
   top: 0px;
   padding: 6px;
+  top: -22px;
 }
 
 .hentry > nav .previous {
-  left: -50px;
+  left: -72px;
+}
+
+.hentry > nav .genericon {
+  padding: 22px;
 }
 
 .hentry > nav .next {
-  right: -50px;
+  right: -67px;
 }
 
 article.attachment #wrapper {
@@ -274,6 +279,13 @@ body {
 }
 }
 
+/* =Post formats
+----------------------------------------------- */
+.blog .format-aside .entry-title,
+.archive .format-aside .entry-title {
+    display: none;
+}
+
 /* =Random Images
 ----------------------------------------------- */
 .hidden {
@@ -369,6 +381,9 @@ body.random-images #wrapper {
 
 /* =Images
 ----------------------------------------------- */
+#wrapper > header a img {
+  border-radius: 3px;
+}
 .wp-caption {
   margin-bottom: 1em;
   max-width: 96%;
@@ -640,6 +655,12 @@ pre {
   display: block;
   margin: 0 auto;
 }
+/* Make sure embeds and iframes fit their containers */
+embed,
+iframe,
+object {
+    max-width: 100%;
+}
 /* Rotation */
 .rotate90 {
   -webkit-transform: rotate(90deg);
@@ -709,7 +730,7 @@ pre {
 .home #wrapper > section article ul li:before {
   content: "&";
   padding-right: 1em;
-  /*font-family: 'latobold';*/
+  font-weight: 100;
 }
 .home section dli {
   height: 1.4em;
@@ -737,33 +758,56 @@ blockquote {
   padding-left: 0.5em;
   margin: 0;
 }
+.the-content div {
+  margin: 1em 0;
+}
 
 /* =Galleries
 ----------------------------------------------- */
-/* Ignore columns for gallery shortcodes and tighten the spacing */
-.gallery br {
-  display: none;
+/* Tighten spacing for galleries with 5+ columns */
+.gallery-columns-5 .gallery-item,
+.gallery-columns-6 .gallery-item,
+.gallery-columns-7 .gallery-item,
+.gallery-columns-8 .gallery-item,
+.gallery-columns-9 .gallery-item {
+  margin: 0 !important;
 }
-
-.gallery br:last-child {
+.gallery-columns-5 .gallery-item img,
+.gallery-columns-6 .gallery-item img,
+.gallery-columns-7 .gallery-item img,
+.gallery-columns-8 .gallery-item img,
+.gallery-columns-9 .gallery-item img {
+  border: 0 !important;
+  border-radius: 0;
+}
+.gallery-columns-5 .gallery-item a,
+.gallery-columns-6 .gallery-item a,
+.gallery-columns-7 .gallery-item a,
+.gallery-columns-8 .gallery-item a,
+.gallery-columns-9 .gallery-item a {
   display: block;
+  line-height: .8;
 }
-
-.gallery-item img {
-  margin: 0 4px;
+/* Don't display captions on galleries with 4+ columns */
+.gallery-columns-4 .gallery-caption,
+.gallery-columns-5 .gallery-caption,
+.gallery-columns-6 .gallery-caption,
+.gallery-columns-7 .gallery-caption,
+.gallery-columns-8 .gallery-caption,
+.gallery-columns-9 .gallery-caption {
+    display: none;
 }
-
-.gallery-item {
+/* Adjust spacing for 4 column galleries */
+.gallery-columns-4 .gallery-item {
   margin: 0 !important;
   width: auto !important;
   display: table-cell;
 }
-
+.gallery-columns-4 .gallery-item img {
+  margin: 0 .1em;
+}
+/* Border adjustment */
 #wrapper .gallery-item img {
-  border: 2px solid rgba(0,0,0,.2);
+  border: 2px solid rgba( 0, 0, 0, 0.1 );
 }
 
-/* Don't display captions on galleries */
-.gallery-caption {
-    display: none;
-}
