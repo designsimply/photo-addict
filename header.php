@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html> 
 <html <?php language_attributes(); ?>>
 <head>
 <title><?php
@@ -16,10 +16,6 @@
 <meta name="description" content="<?php echo $site_description; ?>" />
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/genericons.css">
-<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/open-sans.css">
-<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/lato.css">
-<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/fonts/overlock.css">
 </head>
 
 <!--[if lt IE 9]>
