@@ -7,9 +7,11 @@ The Photo Addict theme works best if there is at least one attached image presen
 
 Attachment page background colors use a zoomed and blurred version of the image combined with color sampling and opacity to achieve the gradient background.
 
-If the Random Images plugin is present, it will be used on attachment pages automatically. Highly recommened.
+If the Random Images plugin is present, it will be used on attachment pages automatically (recommended).
 
 Tagline is used in the HTML header bug not displayed on the blog.
+
+Galleries do not allow columns so they can always adjust to fit the space provided in the flexbox layout on the home page.
 
 Menu styling supports one level of links.
 
@@ -29,8 +31,6 @@ Tonesque by Matías Ventura : https://github.com/mtias/tonesque
 Genericons font license : GPLv2 http://genericons.com/
 
 Lato font license : SIL Open Font License, 1.1 http://scripts.sil.org/OFL
-
-Open Sans font license : Apache License, version 2.0 http://www.apache.org/licenses/LICENSE-2.0.html
 
 Overlock font license : SIL Open Font License, 1.1 http://scripts.sil.org/OFL
 
