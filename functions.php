@@ -142,7 +142,7 @@ function photo_addict_fonts_url() {
 	 * supported by Overlock, translate this to 'off'. Do not translate into your
 	 * own language.
 	 */
-	$Overlock = _x( 'on', 'Overlock font: on or off', 'photo-addict' );
+	$overlock = _x( 'on', 'Overlock font: on or off', 'photo-addict' );
 
 	if ( 'off' !== $lato || 'off' !== $overlock ) {
 		$font_families = array();
