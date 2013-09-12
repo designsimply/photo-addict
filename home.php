@@ -28,7 +28,7 @@ get_header(); ?>
 					<?php if ( has_post_thumbnail() ) : ?>
 						<a href="<?php the_permalink() ?>"><?php the_post_thumbnail( 'thumbnail' ); ?></a>
 					<?php else : ?>
-						<?php // @todo check to see if a gallery is present and get first gallery image, fallback to any image after that ?>
+						<a href="<?php the_permalink() ?>"><img src="<?php echo photo_addict_first_post_image_url( $post->ID, 'thumbnail' ); ?>" /></a>
 					<?php endif;
 				endwhile; ?>
 			</div>
