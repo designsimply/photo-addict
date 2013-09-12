@@ -150,7 +150,7 @@ function photo_addict_fonts_url() {
 		if ( 'off' !== $lato )
 			$font_families[] = 'Lato:100,300,400,700,300italic,400italic,700italic';
 
-		if ( 'off' !== $bitter )
+		if ( 'off' !== $overlock )
 			$font_families[] = 'Overlock:400,700';
 
 		$query_args = array(
