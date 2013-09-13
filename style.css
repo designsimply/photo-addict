@@ -774,23 +774,6 @@ blockquote {
 .gallery-columns-9 .gallery-caption {
     display: none;
 }
-/* Tighten spacing for galleries with 5+ columns */
-.gallery-columns-5 .gallery-item img,
-.gallery-columns-6 .gallery-item img,
-.gallery-columns-7 .gallery-item img,
-.gallery-columns-8 .gallery-item img,
-.gallery-columns-9 .gallery-item img {
-  border: 0 !important;
-  border-radius: 0;
-}
-.gallery-columns-5 .gallery-item a,
-.gallery-columns-6 .gallery-item a,
-.gallery-columns-7 .gallery-item a,
-.gallery-columns-8 .gallery-item a,
-.gallery-columns-9 .gallery-item a {
-  display: block;
-  line-height: .8;
-}
 .gallery-item {
   margin: 0 !important;
   display: table-cell;

@@ -88,10 +88,11 @@ get_header(); ?>
 			<?php while ($query->have_posts()) : $query->the_post();
 					// Look for an image associated with the post, fallback to the excerpt
 					$first_image = photo_addict_first_post_image_url( 'medium' );
+					$status_post_title = get_the_title();
 					if ( isset( $first_image ) ) : ?>
-						<a href="<?php the_permalink() ?>" class="post-format-status"><img src="<?php echo $first_image; ?>" /><br><?php the_title(); ?></a>
+						<a href="<?php the_permalink() ?>" class="post-format-status"><img src="<?php echo $first_image; ?>" alt="<?php echo $status_post_title; ?>" /><br><?php echo $status_post_title; ?></a>
 					<?php else : ?>
-						<a href="<?php the_permalink() ?>" class="post-format-status"><?php the_title(); ?></a>
+						<a href="<?php the_permalink() ?>" class="post-format-status"><?php echo $status_post_title; ?></a>
 						<p><?php the_excerpt(); ?></p>
 					<?php endif;
 				endwhile; ?>
