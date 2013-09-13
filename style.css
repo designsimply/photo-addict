@@ -108,9 +108,12 @@ article .site-title {
   -o-transform: rotate(-90deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   left: -250px;
-  top: 245px;
+  top: 220px;
   width: 420px;
   text-align: right;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 1.2em;
 }
 
 article .meta {
@@ -120,9 +123,12 @@ article .meta {
   -ms-transform: rotate(90deg);
   -o-transform: rotate(90deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  right: -240px;
-  top: 240px;
+  right: -247px;
+  top: 220px;
   width: 420px;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 1.2em;
 }
 
 .hentry > nav {
@@ -145,7 +151,7 @@ article .meta {
 }
 
 .hentry > nav .next {
-  right: -67px;
+  right: -12px;
 }
 
 article.attachment #wrapper {
@@ -757,9 +763,6 @@ blockquote {
   border-left: 2em solid rgba(255, 255, 255, 0.1);
   padding-left: 0.5em;
   margin: 0;
-}
-.the-content div {
-  margin: 1em 0;
 }
 
 /* =Galleries

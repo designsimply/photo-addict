@@ -18,8 +18,8 @@ $logged_in_user_id = get_current_user_id();
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
     <nav>
-    <span class="next"><?php previous_post_link( '%link', __( '<div class="genericon genericon-expand"></div>', 'photo-addict' ) ); ?></span>
-    <span class="previous"><?php next_post_link( '%link', __( '<div class="genericon genericon-collapse"></div>', 'photo-addict' ) ); ?></span>
+    <span class="next"><?php previous_post_link( '%link', __( '<span class="genericon genericon-expand"></span>', 'photo-addict' ) ); ?></span>
+    <span class="previous"><?php next_post_link( '%link', __( '<span class="genericon genericon-collapse"></span>', 'photo-addict' ) ); ?></span>
     </nav>
 
     <div class="the-content">
@@ -43,7 +43,7 @@ $logged_in_user_id = get_current_user_id();
 
     <div class="meta">
         <?php if ( $current_user->ID === $logged_in_user_id )
-            echo '<a href="' . admin_url( 'profile.php' ) . '"><div class="genericon-22 genericon-edit rotate270"></div></a>';
+            echo '<a href="' . admin_url( 'profile.php' ) . '"><span class="genericon-22 genericon-edit rotate270"></span></a>';
 
         ?>
     </div><!-- .meta -->

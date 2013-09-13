@@ -24,8 +24,8 @@ get_header(); ?>
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<nav>
-				<span class="previous"><?php next_post_link( '%link', __( '<div class="genericon genericon-collapse"></div>', 'photo-addict' ) ); ?></span>
-				<span class="next"><?php previous_post_link( '%link', __( '<div class="genericon genericon-expand"></div>', 'photo-addict' ) ); ?></span>
+				<span class="previous"><?php next_post_link( '%link', __( '<span class="genericon genericon-collapse"></span>', 'photo-addict' ) ); ?></span>
+				<span class="next"><?php previous_post_link( '%link', __( '<span class="genericon genericon-expand"></span>', 'photo-addict' ) ); ?></span>
 			</nav>
 
 			<?php if ( is_search() || is_archive() ) : // Only display excerpts for search and archives ?>
@@ -44,7 +44,7 @@ get_header(); ?>
 				<?php photo_addict_posted_by(); ?>
 				<span class="sep"> // </span>
 				<?php photo_addict_posted_on(); ?>
-				<?php edit_post_link( __( '<div class="genericon-22 genericon-edit rotate270"></div>', 'photo-addict' ), '', '' ); ?>
+				<?php edit_post_link( __( '<span class="genericon-22 genericon-edit rotate270"></span>', 'photo-addict' ), '', '' ); ?>
 			</div><!-- .meta -->
 			<?php endif; ?>
 

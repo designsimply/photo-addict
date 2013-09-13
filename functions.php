@@ -206,10 +206,10 @@ add_filter('next_post_link', 'photo_addict_previous_link',10,3);
  **/
 function photo_addict_previous_link( $val, $attr, $content = null ) {
 	global $post;
-	$parent_link = '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="navigation"><div class="genericon genericon-expand rotate90"></div></a>';
+	$parent_link = '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="navigation"><span class="genericon genericon-expand rotate90"></span></a>';
 
 	if ( empty( $post->post_parent ) )
-		$parent_link = '<a class="post-parent" href="' . home_url() . '" title="' . esc_attr( get_bloginfo( 'name') ) . '" rel="home"><div class="genericon genericon-expand rotate90"></div></a>';
+		$parent_link = '<a class="post-parent" href="' . home_url() . '" title="' . esc_attr( get_bloginfo( 'name') ) . '" rel="home"><span class="genericon genericon-expand rotate90"></span></a>';
 
 	return ( empty( $val ) ) ? $parent_link : $val ;
 }
@@ -221,10 +221,10 @@ add_filter('previous_post_link', 'photo_addict_next_link',10,3);
  **/
 function photo_addict_next_link( $val, $attr, $content = null ) {
 	global $post;
-	$parent_link = '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="navigation"><div class="genericon genericon-expand rotate270"></div></a>';
+	$parent_link = '<a class="post-parent" href="' . get_permalink( $post->post_parent ) . '" title="' . get_the_title( $post->post_parent ) . '" rel="navigation"><span class="genericon genericon-expand rotate270"></span></a>';
 
 	if ( empty( $post->post_parent ) )
-		$parent_link = '<a class="post-parent" href="' . home_url() . '" title="' . esc_attr( get_bloginfo( 'name') ) . '" rel="home"><div class="genericon genericon-expand rotate270"></div></a>';
+		$parent_link = '<a class="post-parent" href="' . home_url() . '" title="' . esc_attr( get_bloginfo( 'name') ) . '" rel="home"><span class="genericon genericon-expand rotate270"></span></a>';
 
 	return ( empty( $val ) ) ? $parent_link : $val ;
 }
@@ -248,7 +248,7 @@ function get_random_image_src( $size = 'thumbnail' ) {
 
 	if ( isset( $query_images->post->ID ) ) {
 		$random_image = wp_get_attachment_image_src ( $query_images->post->ID, $size);
-		echo '<a href="' . get_permalink( $query_images->post->ID ) . '" class="random-image" />';
+		echo '<a href="' . get_permalink( $query_images->post->ID ) . '" class="random-image"></a>';
 	}
 
 	if ( isset( $random_image[0] ) )
@@ -284,7 +284,7 @@ function photo_addict_first_post_image_url( $size = 'thumbnail' ) {
 	case $parsed_shortcode_content = preg_match_all( '/\[gallery\s(.*)\]/i', get_the_content(), $matches ) :
 		$matched_shortcode = isset( $matches[1][0] ) ? $matches[1][0] : '';
 		$matched_shortcode_atts = shortcode_parse_atts( $matched_shortcode );
-		$matched_id = is_array( $matched_shortcode_atts ) ? strstr( $matched_shortcode_atts['ids'], ',', true) : '';
+		$matched_id = is_array( $matched_shortcode_atts ) ? substr( $matched_shortcode_atts['ids'], 0, strpos( $matched_shortcode_atts['ids'], ',' ) ) : '';
 		$attachment_image = wp_get_attachment_image_src( $matched_id, $size );
 		$my_image_url = $attachment_image[0];
 		break;

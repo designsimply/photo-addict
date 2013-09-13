@@ -43,10 +43,10 @@ function photo_addict_content_nav( $nav_id ) {
 		<?php previous_post_link( '<div class="nav-previous">%link</div>', '<span class="meta-nav">' . _x( '%title', 'Up', 'photo-addict' ) . '</span>' ); ?>
 	<?php elseif ( $wp_query->max_num_pages > 1 && ( is_home() || is_archive() || is_search() ) ) : // navigation links for home, archive, and search pages ?>
 		<span class="next">
-			<?php next_posts_link( __( '<div class="genericon genericon-expand"></div>', 'photo-addict' ) ); ?>
+			<?php next_posts_link( __( '<span class="genericon genericon-expand"></span>', 'photo-addict' ) ); ?>
 		</span>
 		<span class="previous">
-			<?php previous_posts_link( __( '<div class="genericon genericon-collapse"></div>', 'photo-addict' ) ); ?>
+			<?php previous_posts_link( __( '<span class="genericon genericon-collapse"></span>', 'photo-addict' ) ); ?>
 		</span>
 	<?php endif; ?>
 
@@ -104,7 +104,7 @@ if ( ! function_exists( 'photo_addict_posted_on' ) ) :
  * @since photo-addict 1.0
  */
 function photo_addict_posted_on() {
-	printf( __( '<a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s" pubdate>%4$s</time></a>', 'photo-addict' ),
+	printf( __( '<a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s">%4$s</time></a>', 'photo-addict' ),
 		esc_url( get_permalink() ),
 		esc_attr( get_the_time() ),
 		esc_attr( get_the_date( 'c' ) ),
