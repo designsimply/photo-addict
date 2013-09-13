@@ -204,7 +204,7 @@ html,
 body,
 #wrapper > header,
 #wrapper > section {
-  display: -webkit-box;
+  /*display: -webkit-box; too slow, see http://css-tricks.com/does-flexbox-have-a-performance-problem/#comment-490956 */
   display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -764,14 +764,17 @@ blockquote {
 
 /* =Galleries
 ----------------------------------------------- */
-/* Tighten spacing for galleries with 5+ columns */
-.gallery-columns-5 .gallery-item,
-.gallery-columns-6 .gallery-item,
-.gallery-columns-7 .gallery-item,
-.gallery-columns-8 .gallery-item,
-.gallery-columns-9 .gallery-item {
-  margin: 0 !important;
+
+/* Don't display captions in galleries with 4+ columns */
+.gallery-columns-4 .gallery-caption,
+.gallery-columns-5 .gallery-caption,
+.gallery-columns-6 .gallery-caption,
+.gallery-columns-7 .gallery-caption,
+.gallery-columns-8 .gallery-caption,
+.gallery-columns-9 .gallery-caption {
+    display: none;
 }
+/* Tighten spacing for galleries with 5+ columns */
 .gallery-columns-5 .gallery-item img,
 .gallery-columns-6 .gallery-item img,
 .gallery-columns-7 .gallery-item img,
@@ -788,26 +791,10 @@ blockquote {
   display: block;
   line-height: .8;
 }
-/* Don't display captions on galleries with 4+ columns */
-.gallery-columns-4 .gallery-caption,
-.gallery-columns-5 .gallery-caption,
-.gallery-columns-6 .gallery-caption,
-.gallery-columns-7 .gallery-caption,
-.gallery-columns-8 .gallery-caption,
-.gallery-columns-9 .gallery-caption {
-    display: none;
-}
-/* Adjust spacing for 4 column galleries */
-.gallery-columns-4 .gallery-item {
+.gallery-item {
   margin: 0 !important;
-  width: auto !important;
   display: table-cell;
 }
-.gallery-columns-4 .gallery-item img {
-  margin: 0 .1em;
-}
-/* Border adjustment */
 #wrapper .gallery-item img {
   border: 2px solid rgba( 0, 0, 0, 0.1 );
 }
-
