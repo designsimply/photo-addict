@@ -768,6 +768,9 @@ blockquote {
   padding-left: 0.5em;
   margin: 0;
 }
+.the-content {
+  margin-bottom: 1em;
+}
 
 /* =Galleries
 ----------------------------------------------- */
