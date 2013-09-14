@@ -232,7 +232,7 @@ function photo_addict_next_link( $val, $attr, $content = null ) {
 /**
  * Get a random image
  */
-function get_random_image_src( $size = 'thumbnail' ) {
+function photo_addict_random_image_src( $size = 'thumbnail' ) {
 	$random_image = array();
 	$args = array(
 		'post_type' => 'attachment',
@@ -316,7 +316,7 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 
 	// If no image is found, use a random attachment image
 	if ( empty( $my_image_url ) || is_home() )
-		$my_image_url = get_random_image_src( 'medium' );
+		$my_image_url = photo_addict_random_image_src( 'medium' );
 
 	// Let me override the image with a color code if I want
 	if ( substr( $my_color, 0, 4 ) == 'http' )
