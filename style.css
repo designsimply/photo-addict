@@ -91,7 +91,6 @@ article img {
   max-width: 100%;
 }
 
-
 @media screen and (min-width: 64em) {
 body {
   width: 64%;
@@ -165,6 +164,11 @@ article.attachment #wrapper {
 
 /* =Menu
 ----------------------------------------------- */
+/* No submenus allowed (@todo add menu dropdowns) */
+nav[role="navigation"] ul ul {
+  display: none;
+}
+
 #wrapper > nav[role="navigation"] {
   text-align: center;
 }
@@ -738,7 +742,7 @@ object {
   padding-right: 1em;
   font-weight: 100;
 }
-.home section dli {
+.home section li {
   height: 1.4em;
   overflow: hidden;
 }
