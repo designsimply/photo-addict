@@ -18,7 +18,7 @@
 
 	<input type="checkbox" id="read_more" role="button">
 	<label for="read_more" onclick="">
-	<span class="comments-link"><span class="genericon-22 genericon-chat"></span>
+	<span class="comments-link"><div class="genericon-22 genericon-chat"></div>
 		<?php if ( 0 == $comments_total ) {
 			echo 'Leave a Comment';
 		} elseif ( 1 == $comments_total ) {
@@ -26,7 +26,7 @@
 		} else {
 			echo $comments_total . ' Comments';
 		} ?></span>
-	<span class="comments-link"><span class="genericon-22 genericon-chat"></span>
+	<span class="comments-link"><div class="genericon-22 genericon-chat"></div>
 		<?php if ( 0 == $comments_total ) {
 			echo 'Hide Comment Form';
 		} else {
@@ -36,7 +36,7 @@
 
 	<?php if ( have_comments() ) :
 		//if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
-		<!--<span class="comments-link"><a href="#respond"><span class="genericon-22 genericon-reply"></span></a></span>-->
+		<!--<span class="comments-link"><a href="#respond"><div class="genericon-22 genericon-reply"></div></a></span>-->
 		<?php //endif; ?>
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
