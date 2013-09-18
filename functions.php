@@ -368,7 +368,7 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 		body blockquote { border-left: 2em solid rgba(' . $contrast . ', 0.1); }
 		body .bypostauthor { background: rgba(#' . $contrast . ',.2);  color: rgba(' . $contrast . ',.8); }
 		body input[type="text"]:focus, body input[type="email"]:focus, body input[type="password"]:focus, body textarea:focus { color: rgba(' . $contrast . ', 0.7); }
-		body input[type="text"], body input[type="email"], body input[type="password"], body textarea { color: rgba(' . $contrast . ', 0.5); border-color: rgba(' . $contrast . ', 0.8); }
+		body input[type="text"], body input[type="email"], body input[type="password"], body input[type="submit"], body textarea { color: rgba(' . $contrast . ', 0.5); border-color: rgba(' . $contrast . ', 0.8); }
 		body button, html body input[type="button"], body input[type="reset"], body input[type="submit"] { border: 1px solid rgba(' . $contrast . ', 0.8); border-color: rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.8), rgba(' . $contrast . ', 0.6), rgba(' . $contrast . ', 0.8); }
 		::-webkit-input-placeholder { color: rgba(' . $contrast . ', 0.5); }
 		:-moz-placeholder { color: rgba(' . $contrast . ', 0.7); }
