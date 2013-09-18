@@ -308,6 +308,7 @@ endif; // end photo_addict_first_post_image_url()
 if ( ! function_exists( 'photo_addict_tonesque_css' ) ) :
 /**
  * Print Tonesque css for image posts
+ * Note: allow_url_fopen must be enabled in PHP to allow colors to be sampled from images
  */
 function photo_addict_tonesque_css( $my_color = '' ) {
 	global $post;
@@ -322,15 +323,21 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 	if ( substr( $my_color, 0, 4 ) == 'http' )
 		$my_image_url = $my_color;
 
-	// Fallback to local copy of tonesque if the plugin is not active
-	if ( ! class_exists( 'Tonesque' ) )
-		get_template_part( 'inc/tonesque/tonesque', '' );
+	// Account for cases where allow_url_fopen is disabled
+	if ( true == ini_get('allow_url_fopen') ) :
+		// Fallback to local copy of Tonesque if it's not an active plugin
+		if ( ! class_exists( 'Tonesque' ) )
+			require( 'inc/tonesque/tonesque.php' );
 
-	$tonesque = new Tonesque( $my_image_url );
-	$color = $tonesque->color();
-	$contrast = $tonesque->contrast();
-	$id = get_the_ID();
-	$postid = '.postid-' . $id;
+		$tonesque = new Tonesque( $my_image_url );
+		$color = $tonesque->color();
+		$contrast = $tonesque->contrast();
+	else :
+		// Fallback color and contrast if allow_url_fopen is disabled
+		$color = '#002b37';
+		$contrast = '34, 34, 34';
+	endif;
+
 	$tonesque_css = '<style>
 		#bg-container {
 			position: fixed;
