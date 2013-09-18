@@ -17,7 +17,7 @@ class Tonesque {
 
 	function __construct( $image ) {
 		if ( ! class_exists( 'Color' ) )
-			require_once dirname( __FILE__ ) . '/class.color.php';
+			require_once __DIR__ . '/class.color.php';
 		$this->image = esc_url_raw( $image );
 	}
 
@@ -158,9 +158,6 @@ class Tonesque {
 	 *
  	 */
 	function contrast() {
-		if ( ! $this->color )
-			return false;
-
 		$c = $this->color->getMaxContrastColor();
 		return implode( $c->toRgbInt(), ',' );
 	}
