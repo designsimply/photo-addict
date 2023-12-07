@@ -766,9 +766,19 @@ object {
 }
 blockquote {
   position: relative;
-  border-left: 2em solid rgba(255, 255, 255, 0.1);
-  padding-left: 0.5em;
+  padding-left: 2.5em;
   margin: 0;
+}
+blockquote:before {
+    font-family: Baskerville,Georgia,serif;
+    font-size: 3em;
+    font-weight: 700;
+    content: "\201D";
+    display: block;
+    position: absolute;
+    top: 16px;
+    left: 0;
+    transform: scaleX(-1);
 }
 .the-content {
   margin-bottom: 1em;
