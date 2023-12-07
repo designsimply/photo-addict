@@ -106,7 +106,7 @@ article .site-title {
   -ms-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  left: -250px;
+  left: -260px;
   top: 220px;
   width: 420px;
   text-align: right;
@@ -142,7 +142,7 @@ article .meta {
 }
 
 .hentry > nav .previous {
-  left: -72px;
+  left: -82px;
 }
 
 .hentry > nav .genericon {
@@ -247,8 +247,6 @@ body {
   -ms-flex-pack: justify;
   -ms-flex-line-pack: justify;
   -webkit-justify-content: space-between;
-  box-back: justify;
-  flex-pack: justify;
   justify-content: space-between;
 }
 
@@ -382,7 +380,7 @@ a#rollthedice img:hover {
 }
 
 body.random-images #wrapper {
-	padding-top: 100px;
+	/* padding-top: 100px; */
   text-align: left;
 }
 
@@ -613,8 +611,9 @@ input[type=checkbox]:checked ~ [for="read_more"] span:last-of-type {
 
 /* =Error page
 ----------------------------------------------- */
+.error404 h2 { text-align: center; }
 .error404 #searchform input[type=text] { width: 70% }
-.error404 #searchform input[type=submit] { width: 21.5% }
+.error404 #searchform input[type=submit] { width: 22% }
 
 /* =Search
 ----------------------------------------------- */
@@ -675,6 +674,7 @@ object {
 }
 /* Rotation */
 .rotate90 {
+  transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
@@ -682,6 +682,7 @@ object {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 .rotate270 {
+  transform: rotate(270deg);
   -webkit-transform: rotate(270deg);
   -moz-transform: rotate(270deg);
   -ms-transform: rotate(270deg);
@@ -782,6 +783,11 @@ blockquote:before {
 }
 .the-content {
   margin-bottom: 1em;
+}
+#wpstats {
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 
 /* =Galleries
