@@ -5,8 +5,7 @@
  * @package photo-addict
  * @since photo-addict 1.0
  */
-get_header();
-echo photo_addict_tonesque_css(); ?>
+get_header(); ?>
 
 		<h2><?php _e( 'Sad bunny! That page can&rsquo;t be found.', 'photo-addict' ); ?></h2>
 
