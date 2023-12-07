@@ -13,12 +13,13 @@ jQuery( document ).ready( function( $ ) {
 		else if ( e.which == 74 ) {  // 74 j
 			url = $( '.next a' ).attr( 'href' );
 		}
-		else if ( e.which == 40 ) {  // Down arrow key code
-			if ( e.altKey ) { // Alt modifier key
-				if ( e.ctrlKey ) { // Control modifier key
-					url = $( '.random-images a' ).attr( 'href' );
-					if (!url) { url = $( '.random-image' ).attr( 'href' ); }
+		else if ( e.which == 69 ) {  // 69 e
+			if (document.getElementById('wp-admin-bar-edit') != null) {
+				if ( e.metaKey ) { // command modifier key
+					window.location.assign(document.getElementById('wp-admin-bar-edit').firstChild.href);
 				}
+			} 
+		}
 		else if ( e.which == 72 ) {  // 72 h
 				url = '/';
 		}
