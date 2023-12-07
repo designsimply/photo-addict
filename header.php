@@ -1,6 +1,7 @@
 <!DOCTYPE html> 
 <html <?php language_attributes(); ?>>
 <head>
+<?php echo photo_addict_tonesque_css(); ?>
 <title><?php
 	global $page, $paged;
 	wp_title( '-', true, 'right' );
