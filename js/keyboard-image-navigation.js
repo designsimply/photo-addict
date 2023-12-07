@@ -32,7 +32,8 @@ jQuery( document ).ready( function( $ ) {
 		if ( url && ( !$( 'textarea, input' ).is( ':focus' ) ) ) {
 			window.location = url;
 		}
-		// Find key codes at http://www.scripttheweb.com/js/ref/javascript-key-codes/
+		// Find keycodes at https://gcctech.org/csc/javascript/javascript_keycodes.htm
+		// Keycode checker https://gcctech.org/csc/javascript/keycodeExample.html
 	} );
 } );
 
