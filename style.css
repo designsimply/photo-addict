@@ -339,12 +339,14 @@ body {
   line-height: 1;
 }
 
-.random-images a img {
+.random-images a img,
+a#rollthedice img {
   -webkit-filter: grayscale(1) contrast(1.8);
   filter: grayscale(1) contrast(1.8);
 }
 
-.random-images a img:hover {
+.random-images a img:hover,
+a#rollthedice img:hover {
   -webkit-filter: grayscale(0) contrast(1.2);
   filter: grayscale(0) contrast(1.2);
 }
