@@ -306,12 +306,12 @@ if ( ! function_exists( 'photo_addict_tonesque_css' ) ) :
 function photo_addict_tonesque_css( $my_color = '' ) {
 	global $post;
 
-	$my_image_url = photo_addict_first_post_image_url( 'medium' );
+	$my_image_url = photo_addict_first_post_image_url();
 
 	// If no image is found, use a random attachment image
 	if ( empty( $my_image_url ) || is_home() )
-		$my_image_url = photo_addict_random_image_src( 'medium' );
-
+		$my_image_url = photo_addict_random_image_src();
+		
 	// Let me override the image with a color code if I want
 	if ( substr( $my_color, 0, 4 ) == 'http' )
 		$my_image_url = $my_color;
