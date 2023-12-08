@@ -233,26 +233,12 @@ function photo_addict_next_link( $val, $attr, $content = null ) {
  * Get a random image
  */
 function photo_addict_random_image_src( $size = 'thumbnail' ) {
-	$random_image = array();
-	$args = array(
-		'post_type' => 'attachment',
-		'post_mime_type' =>'image',
-		'post_status' => 'inherit',
-		'posts_per_page' => 1,
-        'orderby' => 'rand'
-	);
-	$query_images = new WP_Query( $args );
+	$posts = get_posts('post_type=attachment&orderby=rand&numberposts=1');
+	$random_image = wp_get_attachment_image_url( $posts[0]->ID, 'medium' );
+	return $random_image;
+}
 
-	if ( ! in_array( $size, array( 'thumbnail', 'medium', 'large', 'full' ) ) )
-		$size = 'thumbnail';
-
-	if ( isset( $query_images->post->ID ) ) {
-		$random_image = wp_get_attachment_image_src ( $query_images->post->ID, $size);
-		echo '<a href="' . get_permalink( $query_images->post->ID ) . '" class="random-image"></a>';
-	}
-
-	if ( isset( $random_image[0] ) )
-		return $random_image[0];
+function photo_addict_random_image_url( $size = 'thumbnail' ) {
 }
 
 if ( ! function_exists( 'photo_addict_first_post_image_url' ) ) :
