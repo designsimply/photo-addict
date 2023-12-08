@@ -254,45 +254,47 @@ if ( ! function_exists( 'photo_addict_first_post_image_url' ) ) :
 function photo_addict_first_post_image_url( $size = 'thumbnail' ) {
 	global $post;
 
-	if ( empty( $id ) )
-		$id = $post->ID;
+	if ( ! empty( $post ) ) {
+		if ( empty( $id ) )
+			$id = $post->ID;
 
-	if ( ! in_array( $size, array( 'thumbnail', 'medium', 'large', 'full' ) ) )
-		$size = 'thumbnail';
+		if ( ! in_array( $size, array( 'thumbnail', 'medium', 'large', 'full' ) ) )
+			$size = 'thumbnail';
 
-	switch (true) {
-	// Attachment page image
-	case is_attachment() :
-		$attachment_image = wp_get_attachment_image_src( $id, $size );
-		$my_image_url = $attachment_image[0];
-		break;
-	// Featured image
-	case has_post_thumbnail() :
-		$attachment_image = wp_get_attachment_image_src( get_post_thumbnail_id(), $size );
-		$my_image_url = $attachment_image[0];
-		break;
-	// Scan content for the gallery shortcode
-	case $parsed_shortcode_content = preg_match_all( '/\[gallery\s(.*)\]/i', get_the_content(), $matches ) :
-		$matched_shortcode = isset( $matches[1][0] ) ? $matches[1][0] : '';
-		$matched_shortcode_atts = shortcode_parse_atts( $matched_shortcode );
-		$matched_id = is_array( $matched_shortcode_atts ) ? substr( $matched_shortcode_atts['ids'], 0, strpos( $matched_shortcode_atts['ids'], ',' ) ) : '';
-		$attachment_image = wp_get_attachment_image_src( $matched_id, $size );
-		$my_image_url = $attachment_image[0];
-		break;
-	// First attached image
-	case $attachment_images = get_posts( array('post_parent' => $id, 'post_type' => 'attachment', 'posts_per_page' => 1, 'post_mime_type' => 'image') ) :
-		$attachment_image_obj = array_shift( $attachment_images );
-		$attachment_image = wp_get_attachment_image_src( $attachment_image_obj->ID, $size );
-		$my_image_url = $attachment_image[0];
-		break;
-	// Scan content for images
-	case $parsed_image_content = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', get_the_content(), $matches ) :
-		$my_image_url = isset( $matches[1][0] ) ? $matches[1][0] : '';
-		break;
+		switch (true) {
+			// Attachment page image
+			case is_attachment() :
+				$attachment_image = wp_get_attachment_image_src( $id, $size );
+				$my_image_url = $attachment_image[0];
+				break;
+			// Featured image
+			case has_post_thumbnail() :
+				$attachment_image = wp_get_attachment_image_src( get_post_thumbnail_id(), $size );
+				$my_image_url = $attachment_image[0];
+				break;
+			// Scan content for the gallery shortcode
+			case $parsed_shortcode_content = preg_match_all( '/\[gallery\s(.*)\]/i', get_the_content(), $matches ) :
+				$matched_shortcode = isset( $matches[1][0] ) ? $matches[1][0] : '';
+				$matched_shortcode_atts = shortcode_parse_atts( $matched_shortcode );
+				$matched_id = is_array( $matched_shortcode_atts ) ? substr( $matched_shortcode_atts['ids'], 0, strpos( $matched_shortcode_atts['ids'], ',' ) ) : '';
+				$attachment_image = wp_get_attachment_image_src( $matched_id, $size );
+				$my_image_url = $attachment_image[0];
+				break;
+			// First attached image
+			case $attachment_images = get_posts( array('post_parent' => $id, 'post_type' => 'attachment', 'posts_per_page' => 1, 'post_mime_type' => 'image') ) :
+				$attachment_image_obj = array_shift( $attachment_images );
+				$attachment_image = wp_get_attachment_image_src( $attachment_image_obj->ID, $size );
+				$my_image_url = $attachment_image[0];
+				break;
+			// Scan content for images
+			case $parsed_image_content = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', get_the_content(), $matches ) :
+				$my_image_url = isset( $matches[1][0] ) ? $matches[1][0] : '';
+				break;
+		}
+		
+		if ( ! empty( $my_image_url ) )
+			return $my_image_url;
 	}
-	
-	if ( ! empty( $my_image_url ) )
-		return $my_image_url;
 }
 endif; // end photo_addict_first_post_image_url()
 
