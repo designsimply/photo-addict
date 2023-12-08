@@ -239,6 +239,11 @@ function photo_addict_random_image_src( $size = 'thumbnail' ) {
 }
 
 function photo_addict_random_image_url( $size = 'thumbnail' ) {
+	$random_image_url = '';
+	if ( method_exists( 'Random_Images_Plugin', 'random_images' ) )
+		$random_image_url = Random_Images_Plugin::random_images( array( 'type' => 'url' ) );
+
+	return $random_image_url;
 }
 
 if ( ! function_exists( 'photo_addict_first_post_image_url' ) ) :
