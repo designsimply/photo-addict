@@ -358,7 +358,6 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 		body .the-content a:hover, [for="read_more"]:hover { border-color: rgba(' . $contrast . ', .9); color: rgba(' . $contrast . ', .9); }
 		body .the-content .gallery-item a,
 		body .the-content .gallery-item a:hover { border: none; }
-		body blockquote { border-left: 2em solid rgba(' . $contrast . ', 0.1); }
 		body .bypostauthor { background: rgba(#' . $contrast . ',.2);  color: rgba(' . $contrast . ',.8); }
 		body input[type="text"]:focus, body input[type="email"]:focus, body input[type="password"]:focus, body textarea:focus { color: rgba(' . $contrast . ', 0.7); }
 		body input[type="text"], body input[type="email"], body input[type="password"], body input[type="submit"], body textarea { color: rgba(' . $contrast . ', 0.5); border-color: rgba(' . $contrast . ', 0.8); }
