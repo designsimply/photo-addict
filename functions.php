@@ -341,11 +341,11 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 			left: 0;
 			z-index: -99;
 			background: url(' . $my_image_url . ') center / 1600%;
-			opacity: .2;
+			opacity: .4;
 			-webkit-filter: blur(50px);
 			filter: blur(50px);
 		}
-		.home #bg-container { background-size: 1200%; opacity: .3; }
+		.home #bg-container { background-size: 1200%; opacity: .4; }
 		.attachment #bg-container { background-size: 800%; opacity: .4; }
 		#bg-container { filter:url(#blur50); } /* SVG blur for Firefox */
 		body #random-images a { border: 2px solid rgba(' . $contrast . ', 0.1); }
