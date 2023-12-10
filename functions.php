@@ -336,7 +336,7 @@ function photo_addict_color_css( $my_color = '' ) {
 		$my_image_url = $my_color;
 
     $color_hex = getAverageColor($my_image_url);
-    $contrast_hex = getContrastColor($color);
+    $contrast_hex = getContrastColor($color_hex);
 
 	list($red, $green, $blue) = sscanf($color_hex, "#%02x%02x%02x");
 	$color = "$red,$blue,$green";
