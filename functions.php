@@ -323,7 +323,6 @@ function getAverageColor($imageUrl){
 	return ($yiq >= 128) ? '#000000' : '#ffffff';
 }
 
-if ( ! function_exists( 'photo_addict_tonesque_css' ) ) :
 /**
  * Print color css 
  * Note: allow_url_fopen must be enabled in PHP to allow colors to be sampled from images
