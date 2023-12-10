@@ -9,8 +9,7 @@
 get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
-	<?php while ( have_posts() ) : the_post(); 
-		echo photo_addict_tonesque_css(); ?>
+	<?php while ( have_posts() ) : the_post(); ?>
 		<h2><a class="the-title" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" rel="bookmark"><?php the_title(); ?></a>
 			<?php if ( is_attachment() ) : ?>
 				<span class="sep"> // </span>

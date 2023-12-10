@@ -325,10 +325,10 @@ function getAverageColor($imageUrl){
 
 if ( ! function_exists( 'photo_addict_tonesque_css' ) ) :
 /**
- * Print Tonesque css for image posts
+ * Print color css 
  * Note: allow_url_fopen must be enabled in PHP to allow colors to be sampled from images
  */
-function photo_addict_tonesque_css( $my_color = '' ) {
+function photo_addict_color_css( $my_color = '' ) {
 	global $post;
 
 	$my_image_url = photo_addict_first_post_image_url();
@@ -341,22 +341,18 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 	if ( substr( $my_color, 0, 4 ) == 'http' )
 		$my_image_url = $my_color;
 
-	// Account for cases where allow_url_fopen is disabled
-	if ( true == ini_get('allow_url_fopen') ) :
-		// Fallback to local copy of Tonesque if it's not an active plugin
-		if ( ! class_exists( 'Tonesque' ) )
-			require( 'inc/tonesque/tonesque.php' );
+    $color_hex = getAverageColor($my_image_url);
+    $contrast_hex = getContrastColor($color);
 
-		$tonesque = new Tonesque( $my_image_url );
-		$color = $tonesque->color();
-		$contrast = $tonesque->contrast();
-	else :
-		// Fallback color and contrast if allow_url_fopen is disabled
-		$color = '#002b37';
-		$contrast = '34, 34, 34';
-	endif;
+	list($red, $green, $blue) = sscanf($color_hex, "#%02x%02x%02x");
+	$color = "$red,$blue,$green";
 
-	$tonesque_css = '<style>
+	list($r, $g, $b) = sscanf($contrast_hex, "#%02x%02x%02x");
+	$contrast = "$r,$b,$g";
+	
+	$contrasty = ( $contrast = '0,0,0' ) ? $contrasty = '255,255,255' : $contrasty = '0,0,0';
+
+	$color_css = '<style>
 		#bg-container {
 			position: fixed;
 			display: block;
@@ -374,8 +370,8 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 		.attachment #bg-container { background-size: 800%; opacity: .4; }
 		#bg-container { filter:url(#blur50); } /* SVG blur for Firefox */
 		body #random-images a { border: 2px solid rgba(' . $contrast . ', 0.1); }
-		body {background: #' . $color . ';}
-		body, body a, body a:visited { color: rgba(' . $contrast . ', 0.7); }
+		body {background: rgba(' . $contrasty . ', .5);}
+		body, body a, body a:visited { color: rgba(' . $contrast . ', .7); }
 		body a:hover, .home a.sticky:hover { color: rgba(' . $contrast . ', 1); }
 		body.home a.sticky { color: rgba(' . $contrast . ', 0.8); border-bottom: 1px dotted rgba(' . $contrast . ', 0.4); }
 		body div.sharedaddy div.sd-block {border-color: rgba(' . $contrast . ', 0.1); }
@@ -393,7 +389,5 @@ function photo_addict_tonesque_css( $my_color = '' ) {
 		:-ms-input-placeholder { color: rgba(' . $contrast . ', 0.7); }
 	</style>';
 	
-	return $tonesque_css;
+	return $color_css;
 }
-
-endif; // end check for photo_addict_tonesque_css()

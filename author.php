@@ -7,7 +7,7 @@
  * @since photo-addict 1.0
  */
 get_header();
-echo photo_addict_tonesque_css();
+echo photo_addict_color_css();
 
 $current_user = (isset($_GET['author_name'])) ? get_user_by('slug', $author_name) : get_userdata(intval($author));
 $logged_in_user_id = get_current_user_id();

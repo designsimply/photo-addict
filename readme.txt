@@ -26,8 +26,6 @@ Install Steps:
 
 ------------------------------------------
 
-Tonesque by Matías Ventura : https://github.com/mtias/tonesque
-
 Genericons font license : GPLv2 http://genericons.com/
 
 Lato font license : SIL Open Font License, 1.1 http://scripts.sil.org/OFL
