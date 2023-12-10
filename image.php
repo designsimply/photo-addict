@@ -9,7 +9,7 @@ get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
 	<?php while ( have_posts() ) : the_post(); 
-		echo photo_addict__css(); ?>
+		echo photo_addict_color_css(); ?>
 
 		<h2 class="entry-header"><?php the_title(); ?>
 			<span class="sep"> // </span>
