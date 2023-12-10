@@ -347,42 +347,19 @@ function photo_addict_color_css( $my_color = '' ) {
 	$contrasty = ( $contrast = '0,0,0' ) ? $contrasty = '255,255,255' : $contrasty = '0,0,0';
 
 	$color_css = '<style>
-		// #bg-container {
-		// 	position: fixed;
-		// 	display: block;
-		// 	width: 100%;
-		// 	height: 100%;
-		// 	top: 0;
-		// 	left: 0;
-		// 	z-index: -99;
-		// 	background: url(' . $my_image_url . ') center / 1600%;
-		// 	opacity: .5;
-		// 	filter: blur(50px);
-		// 	-webkit-filter: blur(50px);
-		// }
-		html {
-			position: relative;
-		  }
-			
-		 html:before {
-			content: " ";
-			display: block;
+		#bg-container {
 			position: fixed;
-			left: 0;
-			top: 0;
+			display: block;
 			width: 100%;
 			height: 100%;
-			opacity: 0.5;
-			background-image: url(' . $my_image_url . ');
-			background-repeat: no-repeat;
-			background-position: 50% 0;
-			background-size: cover;
-			filter: blur(40px);
-			-webkit-filter: blur(40px);
-			}
-		  body {
-			position: relative;
-		  }
+			top: 0;
+			left: 0;
+			z-index: -99;
+			background: url(' . $my_image_url . ') center / 1600%;
+			opacity: .5;
+			filter: blur(50px);
+			-webkit-filter: blur(50px);
+		}
 		.home #bg-container { background-size: 1200%; opacity: .4; }
 		.attachment #bg-container { background-size: 800%; opacity: .4; }
 		#bg-container { filter:url(#blur50); } /* SVG blur for Firefox */
