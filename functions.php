@@ -113,12 +113,7 @@ function photo_addict_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
-	// This was an attempt to pass in a var to the javascript file so I could use the home URL there,
-	// but it must not be loaded in the right order because it results in this error if I uncomment
-	// the next 3 lines: "Uncaught ReferenceError: jQuery is not defined"
-	//$keyboard_navigation_args = array( 'home_url' => home_url() );
-	//wp_register_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', __FILE__ );
-	//wp_localize_script( 'keyboard-image-navigation', 'keyboard_navigation_args', $keyboard_navigation_args );
+	// Add keyboard shortcuts for navigating images
 	wp_enqueue_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20130721' );
 
 	// Add fonts used in the main stylesheet
