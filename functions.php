@@ -298,6 +298,31 @@ function photo_addict_first_post_image_url( $size = 'thumbnail' ) {
 }
 endif; // end photo_addict_first_post_image_url()
 
+function getAverageColor($imageUrl){
+	$im_fullpath = realpath($_SERVER['DOCUMENT_ROOT']) . parse_url( $imageUrl, PHP_URL_PATH );
+	$image = @imagecreatefromstring(file_get_contents($im_fullpath));
+	$scaled = imagescale($image, 1, 1, IMG_BICUBIC); 
+	$index = imagecolorat($scaled, 0, 0);
+	$rgb = imagecolorsforindex($scaled, $index); 
+	$red = round(round(($rgb['red'] / 0x33)) * 0x33); 
+	$green = round(round(($rgb['green'] / 0x33)) * 0x33); 
+	$blue = round(round(($rgb['blue'] / 0x33)) * 0x33); 
+	return sprintf('#%02X%02X%02X', $red, $green, $blue); 
+ }
+
+ function getContrastColor($hexColor) {
+	// Convert hex to RGB
+	$r = hexdec(substr($hexColor, 1, 2));
+	$g = hexdec(substr($hexColor, 3, 2));
+	$b = hexdec(substr($hexColor, 5, 2));
+
+	// Calculate YIQ (luminance)
+	$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+
+	// Return black or white based on YIQ value
+	return ($yiq >= 128) ? '#000000' : '#ffffff';
+}
+
 if ( ! function_exists( 'photo_addict_tonesque_css' ) ) :
 /**
  * Print Tonesque css for image posts
