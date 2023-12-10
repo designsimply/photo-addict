@@ -356,9 +356,9 @@ function photo_addict_color_css( $my_color = '' ) {
 			left: 0;
 			z-index: -99;
 			background: url(' . $my_image_url . ') center / 1600%;
-			opacity: .4;
-			-webkit-filter: blur(50px);
+			opacity: .5;
 			filter: blur(50px);
+			-webkit-filter: blur(50px);
 		}
 		.home #bg-container { background-size: 1200%; opacity: .4; }
 		.attachment #bg-container { background-size: 800%; opacity: .4; }
