@@ -6,6 +6,9 @@
  * @since photo-addict 1.0
  */
 
+//  require_once 'vendor/autoload.php';
+// use ColorThief\ColorThief;
+
 /**
  * Set the content width based on the theme's design and stylesheet.
  *
@@ -344,6 +347,15 @@ function photo_addict_color_css( $my_color = '' ) {
 	list($r, $g, $b) = sscanf($contrast_hex, "#%02x%02x%02x");
 	$contrast = "$r,$b,$g";
 	
+    // $im_fullpath = realpath($_SERVER['DOCUMENT_ROOT']) . parse_url( $my_image_url, PHP_URL_PATH );
+    // $dominantColor = ColorThief::getColor($im_fullpath);
+    // $dominantColorHex = sprintf("#%02x%02x%02x", $dominantColor[0], $dominantColor[1], $dominantColor[2]);
+	
+    // $color = $dominantColorHex; $contrast_hex = getContrastColor($color);
+
+	// echo "<p style='background: $dom_color; padding: 1em;'>dom_color = $dom_color<br>contrast = $dom_contrast</p>";
+	// echo "<p style='background: $color; padding: 1em;'>color = $color<br>contrast = $contrast</p>";
+
 	$contrasty = ( $contrast = '0,0,0' ) ? $contrasty = '255,255,255' : $contrasty = '0,0,0';
 
 	$color_css = '<style>
