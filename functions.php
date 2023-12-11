@@ -228,17 +228,16 @@ function photo_addict_next_link( $val, $attr, $content = null ) {
  * Get a random image
  */
 function photo_addict_random_image_src( $size = 'thumbnail' ) {
-	$posts = get_posts('post_type=attachment&orderby=rand&numberposts=1');
-	$random_image = wp_get_attachment_image_url( $posts[0]->ID, 'medium' );
+	$posts = get_posts('post_type=attachment&numberposts=250');
+	$random_image = wp_get_attachment_image_url( $posts[rand(1,250)]->ID, 'medium' );
 	return $random_image;
 }
 
-function photo_addict_random_image_url( $size = 'thumbnail' ) {
-	$random_image_url = '';
-	if ( method_exists( 'Random_Images_Plugin', 'random_images' ) )
-		$random_image_url = Random_Images_Plugin::random_images( array( 'type' => 'url' ) );
-
-	return $random_image_url;
+function photo_addict_random_image_permalink() {
+	$posts = get_posts('post_type=attachment&numberposts=250');
+	$random_image_permalink = get_post_permalink( $posts[rand(1,250)]->ID );
+	return $random_image_permalink;
+}
 }
 
 if ( ! function_exists( 'photo_addict_first_post_image_url' ) ) :
