@@ -28,7 +28,7 @@
 </div><!-- #wrapper -->
 <?php wp_footer(); ?>
 <?php 
-	$random_image_permalink = Random_Images_Plugin::random_image_permalink();
+  $random_image_permalink = photo_addict_random_image_permalink();
   echo '<a href="' . $random_image_permalink . '" style="position:fixed; right:0; bottom:0; padding:.5rem 1rem;" id="rollthedice">🎲</a>';
 ?>
 </body>
