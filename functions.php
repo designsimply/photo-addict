@@ -238,6 +238,54 @@ function photo_addict_random_image_permalink() {
 	$random_image_permalink = get_post_permalink( $posts[rand(1,250)]->ID );
 	return $random_image_permalink;
 }
+
+function photo_addict_random_images( $attr ) {
+	$attr = shortcode_atts( array(
+			'size' => 'thumbnail',
+			'link' => '',
+			'total' => 9,
+	), $attr );
+
+	// Query the database for just the image ids.
+	// TODO add escaped limit input
+	global $wpdb;
+
+	$sql = "
+	SELECT
+			ID
+	FROM
+			$wpdb->posts
+	WHERE
+			post_type='attachment'
+			AND post_mime_type LIKE 'image%'
+			AND post_status='inherit'
+	ORDER BY RAND() LIMIT " . $attr['total'];
+
+	$image_ids = $wpdb->get_results( $sql );
+
+	foreach ( $image_ids as $image ) {
+			$my_images[] = array(
+					'title' => get_the_title( $image->ID ),
+					'url' => wp_get_attachment_url( $image->ID ),
+					'image' => wp_get_attachment_image( $image->ID, $attr['size'] ),
+					'permalink' => get_post_permalink( $image->ID )
+			);
+	}
+
+	if ( ! empty( $my_images ) ) {
+			$output = '<div class="random-images">';
+			foreach ($my_images as $my_image) {
+					// TODO sanitize the output
+					$output .= ' <a href="' . $my_image['permalink'] . '" title="' . $my_image['title'] . '">' . $my_image['image'] . '</a>';
+					// $output .= $my_image['link'];
+			}
+			$output .= '</div><!-- #random-images -->';
+			return $output;
+	} else {
+			if ( is_user_logged_in() ) {
+					return "Error: no images found. Add some images to posts.";
+			}
+	}
 }
 
 if ( ! function_exists( 'photo_addict_first_post_image_url' ) ) :
