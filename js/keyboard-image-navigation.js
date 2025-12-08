@@ -1,5 +1,5 @@
 jQuery( document ).ready( function( $ ) {
-	$( document ).keydown( function( e ) {
+	$(document).on('keydown', function(e) {
 		var url = false;
 		if ( e.which == 37 ) {  // 37 left arrow
 			url = $( '.previous a' ).attr( 'href' );
@@ -23,11 +23,11 @@ jQuery( document ).ready( function( $ ) {
 		else if ( e.which == 72 ) {  // 72 h
 				url = '/';
 		}
-		else if ( e.which == 82 ) {  // 82 r
-			if ( e.altKey ) { // alt modifier key
-					url = $( 'a#rollthedice' ).attr( 'href' );
-			}
-		}
+        // alt + r
+        else if (e.altKey && e.key.toLowerCase() === 'r') {
+            const $link = $('a#rollthedice');
+            const url = $link.attr('href');
+        }
 		else if ( e.which == 80 ) {  // 80 p
 			if ( e.altKey ) { // alt modifier key
 				if ( e.ctrlKey ) { // control modifier key
