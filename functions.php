@@ -295,14 +295,31 @@ function photo_addict_random_images( $attr ) {
 
 	$image_ids = $wpdb->get_results( $sql );
 
-	foreach ( $image_ids as $image ) {
-			$my_images[] = array(
-					'title' => get_the_title( $image->ID ),
-					'url' => wp_get_attachment_url( $image->ID ),
-					'image' => wp_get_attachment_image( $image->ID, $attr['size'] ),
-					'permalink' => get_post_permalink( $image->ID )
-			);
-	}
+$my_images = [];
+
+foreach ( $image_ids as $image ) {
+    $url = wp_get_attachment_url( $image->ID );
+
+    // Load the image into a GD resource
+    $image_resource = false;
+    if ( $url ) {
+        $image_path = get_attached_file( $image->ID ); // get the filesystem path
+        if ( file_exists( $image_path ) ) {
+            $image_resource = @imagecreatefromstring( file_get_contents( $image_path ) );
+        }
+    }
+
+    // Only call imagescale / getAverageColor if we have a valid GD image
+    $average_color = $image_resource ? getAverageColor( $image_resource ) : null;
+
+    $my_images[] = [
+        'title'     => get_the_title( $image->ID ),
+        'url'       => $url,
+        'image'     => wp_get_attachment_image( $image->ID, $attr['size'] ),
+        'permalink' => get_post_permalink( $image->ID ),
+        'avg_color' => $average_color,
+    ];
+}
 
 	if ( ! empty( $my_images ) ) {
 			$output = '<div class="random-images">';
@@ -372,17 +389,48 @@ function photo_addict_first_post_image_url( $size = 'thumbnail' ) {
 }
 endif; // end photo_addict_first_post_image_url()
 
-function getAverageColor($imageUrl){
-	$im_fullpath = realpath($_SERVER['DOCUMENT_ROOT']) . parse_url( $imageUrl, PHP_URL_PATH );
-	$image = @imagecreatefromstring(file_get_contents($im_fullpath));
-	$scaled = imagescale($image, 1, 1, IMG_BICUBIC); 
-	$index = imagecolorat($scaled, 0, 0);
-	$rgb = imagecolorsforindex($scaled, $index); 
-	$red = round(round(($rgb['red'] / 0x33)) * 0x33); 
-	$green = round(round(($rgb['green'] / 0x33)) * 0x33); 
-	$blue = round(round(($rgb['blue'] / 0x33)) * 0x33); 
-	return sprintf('#%02X%02X%02X', $red, $green, $blue); 
- }
+function getAverageColor($imageUrl) {
+    if (empty($imageUrl)) {
+        return null; // no URL provided
+    }
+
+    $imagePath = realpath($_SERVER['DOCUMENT_ROOT']) . parse_url($imageUrl, PHP_URL_PATH);
+    if (!file_exists($imagePath)) {
+        return null; // file does not exist
+    }
+
+    $imageData = @file_get_contents($imagePath);
+    if ($imageData === false) {
+        return null; // failed to read file
+    }
+
+    $image = @imagecreatefromstring($imageData);
+    if (!$image instanceof GdImage) {
+        return null; // not a valid GD image
+    }
+
+    $scaled = @imagescale($image, 1, 1, IMG_BICUBIC);
+    if (!$scaled instanceof GdImage) {
+        return null; // scaling failed
+    }
+
+    $index = @imagecolorat($scaled, 0, 0);
+    $rgb = @imagecolorsforindex($scaled, $index);
+
+    if (!is_array($rgb) || !isset($rgb['red'], $rgb['green'], $rgb['blue'])) {
+        return null; // color extraction failed
+    }
+
+    $red   = round(round($rgb['red'] / 0x33) * 0x33);
+    $green = round(round($rgb['green'] / 0x33) * 0x33);
+    $blue  = round(round($rgb['blue'] / 0x33) * 0x33);
+
+    // Clean up GD resources
+    imagedestroy($image);
+    imagedestroy($scaled);
+
+    return sprintf('#%02X%02X%02X', $red, $green, $blue);
+}
 
  function getContrastColor($hexColor) {
 	// Convert hex to RGB
