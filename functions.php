@@ -227,16 +227,48 @@ function photo_addict_next_link( $val, $attr, $content = null ) {
 /**
  * Get a random image
  */
-function photo_addict_random_image_src( $size = 'thumbnail' ) {
-	$posts = get_posts('post_type=attachment&numberposts=250');
-	$random_image = wp_get_attachment_image_url( $posts[rand(1,250)]->ID, 'medium' );
-	return $random_image;
+function photo_addict_random_image_src($size = 'thumbnail') {
+    $total = wp_count_posts('attachment')->inherit;
+
+    if ($total === 0) {
+        return null;
+    }
+
+    $random_offset = rand(0, $total - 1);
+    $posts = get_posts([
+        'post_type'      => 'attachment',
+        'posts_per_page' => 1,
+        'offset'         => $random_offset,
+        'post_status'    => 'inherit',
+    ]);
+
+    if (empty($posts)) {
+        return null;
+    }
+
+    return wp_get_attachment_image_url($posts[0]->ID, $size);
 }
 
 function photo_addict_random_image_permalink() {
-	$posts = get_posts('post_type=attachment&numberposts=250');
-	$random_image_permalink = get_post_permalink( $posts[rand(1,250)]->ID );
-	return $random_image_permalink;
+    $total = wp_count_posts('attachment')->inherit;
+
+    if ($total === 0) {
+        return null;
+    }
+
+    $random_offset = rand(0, $total - 1);
+    $posts = get_posts([
+        'post_type'      => 'attachment',
+        'posts_per_page' => 1,
+        'offset'         => $random_offset,
+        'post_status'    => 'inherit',
+    ]);
+
+    if (empty($posts)) {
+        return null;
+    }
+
+    return get_permalink($posts[0]->ID);
 }
 
 function photo_addict_random_images( $attr ) {
