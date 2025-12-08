@@ -23,8 +23,8 @@ jQuery( document ).ready( function( $ ) {
 		else if ( e.which == 72 ) {  // 72 h
 				url = '/';
 		}
-        // alt + r
-        else if (e.altKey && e.key.toLowerCase() === 'r') {
+        // ctrl + r
+        else if (e.ctrkKey && e.key.toLowerCase() === 'r') {
             const $link = $('a#rollthedice');
             const url = $link.attr('href');
         }
