@@ -14,11 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
     switch (key) {
       case 'arrowleft':
       case 'k':
-        url = href('.previous a');
+        if (!e.ctrlKey && !e.metaKey) {
+          url = href('.previous a');
+        }
         break;
       case 'arrowright':
       case 'j':
-        url = href('.next a');
+        if (!e.ctrlKey && !e.metaKey) {
+          url = href('.next a');
+        }
         break;
       case 'h':
         url = '/';
