@@ -114,7 +114,7 @@ function photo_addict_scripts() {
 	}
 
 	// Add keyboard shortcuts for navigating images
-	wp_enqueue_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20130721' );
+	wp_enqueue_script( 'keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20251207' );
 
 	// Add fonts used in the main stylesheet
 	wp_enqueue_style( 'photo-addict-fonts', photo_addict_fonts_url(), array(), null );
