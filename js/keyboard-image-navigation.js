@@ -1,52 +1,55 @@
-jQuery( document ).ready( function( $ ) {
-	$(document).on('keydown', function(e) {
-		var url = false;
-		if ( e.which == 37 ) {  // 37 left arrow
-			url = $( '.previous a' ).attr( 'href' );
-		}
-		else if ( e.which == 39 ) {  // 39 right arrow
-			url = $( '.next a' ).attr( 'href' );
-		}
-		else if ( e.which == 75 ) {  // 75 k
-			url = $( '.previous a' ).attr( 'href' );
-		}
-		else if ( e.which == 74 ) {  // 74 j
-			url = $( '.next a' ).attr( 'href' );
-		}
-		else if ( e.which == 69 ) {  // 69 e
-			if (document.getElementById('wp-admin-bar-edit') != null) {
-				if ( e.metaKey ) { // command modifier key
-					window.location.assign(document.getElementById('wp-admin-bar-edit').firstChild.href);
-				}
-			} 
-		}
-		else if ( e.which == 72 ) {  // 72 h
-				url = '/';
-		}
-        // ctrl + r
-        else if (e.ctrkKey && e.key.toLowerCase() === 'r') {
-            const $link = $('a#rollthedice');
-            const url = $link.attr('href');
-        }
-		else if ( e.which == 80 ) {  // 80 p
-			if ( e.altKey ) { // alt modifier key
-				if ( e.ctrlKey ) { // control modifier key
-					url = $( 'a.post-parent' ).attr( 'href' );
-				}
-			}
-		}
-		else if ( e.which == 76 ) {  // 76 l
-			if ( e.shiftKey ) { // shift modifier key
-				if ( e.ctrlKey ) { // control modifier key
-					window.location = keyboard_navigation_args.home_url + '/wp-login.php?redirect_to='+document.URL;
-				}
-			}
-		}
-		if ( url && ( !$( 'textarea, input' ).is( ':focus' ) ) ) {
-			window.location = url;
-		}
-		// Find keycodes at https://gcctech.org/csc/javascript/javascript_keycodes.htm
-		// Keycode checker https://gcctech.org/csc/javascript/keycodeExample.html
-	} );
-} );
+document.addEventListener('DOMContentLoaded', () => {
+  const href = (selector) => {
+    const el = document.querySelector(selector);
+    return el ? el.getAttribute('href') : null;
+  };
 
+  document.addEventListener('keydown', (e) => {
+    const active = document.activeElement;
+    if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) return;
+
+    let url = null;
+    const key = e.key.toLowerCase();
+
+    switch (key) {
+      case 'arrowleft':
+      case 'k':
+        url = href('.previous a');
+        break;
+      case 'arrowright':
+      case 'j':
+        url = href('.next a');
+        break;
+      case 'h':
+        url = '/';
+        break;
+      case 'e':
+        if (e.metaKey) {
+          const editNode = document.getElementById('wp-admin-bar-edit');
+          if (editNode) window.location.assign(editNode.firstChild.href);
+          return;
+        }
+        break;
+      case 'p':
+        if (e.altKey && e.ctrlKey) url = href('a.post-parent');
+        break;
+      case 'r':
+        if (!e.ctrlKey && !e.metaKey) { // avoid interfering with Cmd/Ctrl+R
+          const link = document.getElementById('rollthedice');
+          if (link) {
+            e.preventDefault();
+            url = link.getAttribute('href');
+          }
+        }
+        break;
+      case 'l':
+        if (e.shiftKey && e.ctrlKey) {
+          window.location = `${keyboard_navigation_args.home_url}/wp-login.php?redirect_to=${document.URL}`;
+          return;
+        }
+        break;
+    }
+
+    if (url) window.location.href = url;
+  });
+});
