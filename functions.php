@@ -102,7 +102,10 @@ add_action( 'widgets_init', 'photo_addict_widgets_init' );
  * Enqueue scripts and styles
  */
 function photo_addict_scripts() {
-	wp_enqueue_style( 'style', get_stylesheet_uri() );
+	// always-on cache busting
+	// replaces wp_enqueue_style( 'style', get_stylesheet_uri() );
+	$versiontime = filemtime( get_stylesheet_directory() . '/style.css' );
+	wp_enqueue_style( 'style', get_stylesheet_uri(), array(), $versiontime );
 
 	function photo_addict_add_editor_styles() {
 		add_editor_style( 'editor-style.css' );
